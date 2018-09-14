@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_product" name="Product" sequence="10"/>
+    <menuitem id="menu_stores" name="Product" sequence="20"/>
+
+
+</odoo>

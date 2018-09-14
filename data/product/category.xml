@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Product Category-->
+    <record id="medicine_category" model="product.category">
+        <field name="name">Medicine</field>
+        <field name="code">MED</field>
+    </record>
+
+    <record id="equipment_category" model="product.category">
+        <field name="name">Equipment</field>
+        <field name="code">EQU</field>
+    </record>
+
+    <record id="treatment_category" model="product.category">
+        <field name="name">Treatment</field>
+        <field name="code">TMT</field>
+    </record>
+
+    <record id="laboratory_category" model="product.category">
+        <field name="name">Laboratory</field>
+        <field name="code">LAB</field>
+    </record>
+
+    <record id="service_category" model="product.category">
+        <field name="name">Service</field>
+        <field name="code">SER</field>
+    </record>
+
+    <record id="freight_category" model="product.category">
+        <field name="name">Freight</field>
+        <field name="code">FRE</field>
+    </record>
+
+    <record id="miscellaneous_category" model="product.category">
+        <field name="name">miscellaneous</field>
+        <field name="code">MISC</field>
+    </record>
+
+</odoo>

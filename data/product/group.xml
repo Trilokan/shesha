@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Product Group-->
+    <record id="general_group" model="product.group">
+        <field name="name">General</field>
+        <field name="code">GENERAL</field>
+    </record>
+
+
+</odoo>

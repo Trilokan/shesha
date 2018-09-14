@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Stock Location-->
+    <record id="hospital_location" model="product.location">
+        <field name="name">Hospital</field>
+        <field name="location_left">1</field>
+        <field name="location_right">100</field>
+    </record>
+
+    <record id="virtual_purchase_location" model="product.location">
+        <field name="name">Virtual Purchase</field>
+        <field name="location_left">1</field>
+        <field name="location_right">5</field>
+    </record>
+
+    <record id="virtual_pharmacy_location" model="product.location">
+        <field name="name">Virtual Pharmacy</field>
+        <field name="location_left">6</field>
+        <field name="location_right">10</field>
+    </record>
+
+    <record id="store_location" model="product.location">
+        <field name="name">Store</field>
+        <field name="location_left">11</field>
+        <field name="location_right">70</field>
+    </record>
+
+    <record id="pharmacy_location" model="product.location">
+        <field name="name">Pharmacy</field>
+        <field name="location_left">21</field>
+        <field name="location_right">30</field>
+    </record>
+
+    <record id="assert_location" model="product.location">
+        <field name="name">Assert</field>
+        <field name="location_left">31</field>
+        <field name="location_right">40</field>
+    </record>
+
+    <record id="scrap_location" model="product.location">
+        <field name="name">Scrap</field>
+        <field name="location_left">91</field>
+        <field name="location_right">100</field>
+    </record>
+
+
+</odoo>

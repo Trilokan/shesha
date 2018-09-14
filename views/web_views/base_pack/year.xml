@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_year_year_tree" model="ir.ui.view">
+        <field name="name">year.year.tree</field>
+        <field name="model">year.year</field>
+        <field name="arch" type="xml">
+            <tree string="Year">
+                <field name="name"/>
+                <field name="financial_year"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_year_year_form" model="ir.ui.view">
+        <field name="name">year.year.form</field>
+        <field name="model">year.year</field>
+        <field name="arch" type="xml">
+            <form string="Year">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Year</h1>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="financial_year"/>
+                    </group>
+                    <notebook>
+                        <page string="Month Detail">
+                            <field name="period_detail"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_year_year" model="ir.actions.act_window">
+        <field name="name">Year</field>
+        <field name="res_model">year.year</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

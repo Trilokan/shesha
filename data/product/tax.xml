@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Product Tax-->
+    <record id="gst_0_tax" model="product.tax">
+        <field name="name">GST</field>
+        <field name="code">GST 0%</field>
+        <field name="rate">0</field>
+    </record>
+
+    <record id="gst_5_tax" model="product.tax">
+        <field name="name">GST</field>
+        <field name="code">GST 5%</field>
+        <field name="rate">5</field>
+    </record>
+
+    <record id="gst_12_tax" model="product.tax">
+        <field name="name">GST</field>
+        <field name="code">GST 12%</field>
+        <field name="rate">12</field>
+    </record>
+
+    <record id="gst_18_tax" model="product.tax">
+        <field name="name">GST</field>
+        <field name="code">GST 18%</field>
+        <field name="rate">18</field>
+    </record>
+
+    <record id="gst_28_tax" model="product.tax">
+        <field name="name">GST</field>
+        <field name="code">GST 28%</field>
+        <field name="rate">28</field>
+    </record>
+
+
+</odoo>

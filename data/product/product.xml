@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Stock Location-->
+    <record id="freight_product" model="hos.product">
+        <field name="name">Freight</field>
+        <field name="code">FREIGHT</field>
+        <field name="group_id" ref="shesha.general_group"/>
+        <field name="sub_group_id" ref="shesha.general_sub_group"/>
+        <field name="uom_id" ref="shesha.number_uom"/>
+        <field name="category_id" ref="shesha.freight_category"/>
+    </record>
+
+
+</odoo>

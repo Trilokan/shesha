@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- Update user form !-->
+        <record id="view_users_form_yazhi" model="ir.ui.view">
+            <field name="name">res.users.form.mail</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//notebook/page[1]" position="after">
+                        <page string="Partner Details">
+                            <group>
+                                <field name="person_id"/>
+                                <field name="mobile"/>
+                            </group>
+                        </page>
+                        <page string="Location detail">
+                            <group>
+                                <field name="location_id"/>
+                            </group>
+                        </page>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

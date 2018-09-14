@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_res_country_tree" model="ir.ui.view">
+        <field name="name">res.country.tree</field>
+        <field name="model">res.country</field>
+        <field name="arch" type="xml">
+            <tree string="Country">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_res_country_form" model="ir.ui.view">
+        <field name="name">res.country.form</field>
+        <field name="model">res.country</field>
+        <field name="arch" type="xml">
+            <form string="Country">
+                <sheet>
+                <group>
+                    <field name="name"/>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_res_country" model="ir.actions.act_window">
+        <field name="name">Country</field>
+        <field name="res_model">res.country</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
