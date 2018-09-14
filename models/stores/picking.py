@@ -161,10 +161,23 @@ class Picking(models.Model):
             data["picking_category"] = self.picking_category
             data["back_order_id"] = self.id
 
-            if self.po_id:
-                data["po_id"] = self.po_id.id
-            if self.so_id:
-                data["so_id"] = self.so_id.id
+            if self.purchase_order_id:
+                data["purchase_order_id"] = self.purchase_order_id.id
+
+            if self.purchase_return_id:
+                data["purchase_return_id"] = self.purchase_return_id.id
+
+            if self.sale_order_id:
+                data["sale_order_id"] = self.sale_order_id.id
+
+            if self.sale_return_id:
+                data["sale_return_id"] = self.sale_return_id.id
+
+            if self.store_request_id:
+                data["store_request_id"] = self.store_request_id.id
+
+            if self.store_return_id:
+                data["store_return_id"] = self.store_return_id.id
 
             self.env["hos.picking"].create(data)
 

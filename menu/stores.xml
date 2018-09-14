@@ -14,11 +14,11 @@
               parent="menu_stores"
               sequence="20"/>
 
-    <!--<menuitem id="stores_store_issue"-->
-              <!--name="Store Issue"-->
-              <!--action="action_store_request"-->
-              <!--parent="menu_stores"-->
-              <!--sequence="10"/>-->
+    <menuitem id="stores_store_issue"
+              name="Store Issue"
+              action="action_hos_picking_store_issue"
+              parent="menu_stores"
+              sequence="30"/>
 
     <menuitem id="stores_store_return"
               name="Store Return"
@@ -26,11 +26,11 @@
               parent="menu_stores"
               sequence="40"/>
 
-    <!--<menuitem id="stores_store_intake"-->
-              <!--name="Store Intake"-->
-              <!--action="action_store_request"-->
-              <!--parent="menu_stores"-->
-              <!--sequence="10"/>-->
+    <menuitem id="stores_store_intake"
+              name="Store Intake"
+              action="action_hos_picking_store_intake"
+              parent="menu_stores"
+              sequence="50"/>
 
     <menuitem id="stores_hos_move"
               name="Stock Move"

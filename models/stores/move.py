@@ -164,7 +164,7 @@ class StockMove(models.Model):
         self.write({"progress": "moved", "writter": writter})
 
     def generate_warehouse(self):
-        warehouse = self.env["hos.warehouse"]
+        warehouse = self.env["product.warehouse"]
         source = warehouse.search([("product_id", "=", self.product_id.id),
                                    ("location_id", "=", self.source_location_id.id)])
 

@@ -63,7 +63,9 @@
             # Stores
             'views/web_views/stores/stock_adjustment.xml',
             'views/web_views/stores/store_request.xml',
+            'views/web_views/stores/store_issue.xml',
             'views/web_views/stores/store_return.xml',
+            'views/web_views/stores/store_intake.xml',
             'views/web_views/stores/stock_move.xml',
 
             # Base Pack

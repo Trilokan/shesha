@@ -109,6 +109,7 @@ class StoreRequest(models.Model):
                 "picking_detail": picking_detail,
                 "source_location_id": self.env.user.company_id.location_store_id.id,
                 "destination_location_id": self.env.user.location_id.id,
+                "store_request_id": self.id,
                 "writter": writter}
 
         self.env["hos.picking"].create(data)

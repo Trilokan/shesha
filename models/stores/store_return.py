@@ -105,10 +105,11 @@ class StoreReturn(models.Model):
 
         data = {"reference": self.name,
                 "picking_type": "internal",
-                "picking_category": "sr",
+                "picking_category": "store_intake",
                 "picking_detail": picking_detail,
                 "source_location_id": self.env.user.location_id.id,
                 "destination_location_id": self.env.user.company_id.location_store_id.id,
+                "store_return_id": self.id,
                 "writter": writter}
 
         self.env["hos.picking"].create(data)
