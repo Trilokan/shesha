@@ -96,22 +96,18 @@ class StoreRequest(models.Model):
 
         for rec in recs:
             if rec.quantity > 0:
-                picking_detail.append((0, 0, {"date": datetime.now().strftime("%Y-%m-%d"),
-                                              "name": self.env["ir.sequence"].next_by_code("hos.move.internal"),
-                                              "reference": self.name,
+                picking_detail.append((0, 0, {"reference": self.name,
                                               "product_id": rec.product_id.id,
                                               "requested_quantity": rec.quantity,
                                               "picking_type": "internal",
-                                              "source_location_id": self.env.user.company_id.store_location_id.id,
+                                              "source_location_id": self.env.user.company_id.location_store_id.id,
                                               "destination_location_id": self.env.user.location_id.id}))
 
-        data = {"date": datetime.now().strftime("%Y-%m-%d"),
-                "name": self.env['ir.sequence'].next_by_code("store.issue"),
-                "reference": self.name,
+        data = {"reference": self.name,
                 "picking_type": "internal",
-                "picking_category": "si",
+                "picking_category": "store_issue",
                 "picking_detail": picking_detail,
-                "source_location_id": self.env.user.company_id.store_location_id.id,
+                "source_location_id": self.env.user.company_id.location_store_id.id,
                 "destination_location_id": self.env.user.location_id.id,
                 "writter": writter}
 

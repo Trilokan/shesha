@@ -10,7 +10,6 @@
                 <xpath expr="//notebook/page[1]" position="after">
                     <page string="Partner Details">
                         <group>
-                            <field name="person_id"/>
                             <field name="contact_no"/>
                         </group>
                     </page>

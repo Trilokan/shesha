@@ -7,7 +7,7 @@ class HospitalUsers(models.Model):
     _name = "res.users"
     _inherit = "res.users"
 
-    location_id = fields.Many2one(comodel_name="hos.location", string="Location")
+    location_id = fields.Many2one(comodel_name="product.location", string="Location")
     name = fields.Char(string="Name", required=True)
     email = fields.Char(string="E-mail", readonly=True)
     contact_no = fields.Char(string="Contact No", readonly=True)

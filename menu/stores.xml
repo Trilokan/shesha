@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Product-->
+    <menuitem id="stores_stock_adjustment"
+              name="Stock Adjustment"
+              action="action_hos_picking_stock_adjustment"
+              parent="menu_stores"
+              sequence="10"/>
+
+    <menuitem id="stores_store_request"
+              name="Store Request"
+              action="action_store_request"
+              parent="menu_stores"
+              sequence="20"/>
+
+    <!--<menuitem id="stores_store_issue"-->
+              <!--name="Store Issue"-->
+              <!--action="action_store_request"-->
+              <!--parent="menu_stores"-->
+              <!--sequence="10"/>-->
+
+    <menuitem id="stores_store_return"
+              name="Store Return"
+              action="action_store_return"
+              parent="menu_stores"
+              sequence="40"/>
+
+    <!--<menuitem id="stores_store_intake"-->
+              <!--name="Store Intake"-->
+              <!--action="action_store_request"-->
+              <!--parent="menu_stores"-->
+              <!--sequence="10"/>-->
+
+    <menuitem id="stores_hos_move"
+              name="Stock Move"
+              action="action_hos_move"
+              parent="menu_stores"
+              sequence="60"/>
+
+</odoo>

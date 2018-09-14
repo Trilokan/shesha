@@ -3,6 +3,15 @@
 
     <data noupdate="1">
 
+        <record id="stock_adjust_sequence" model="ir.sequence">
+            <field name="name">Store Adjust</field>
+            <field name="code">picking.store_adjust</field>
+            <field name="prefix">SA/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
         <record id="store_request_sequence" model="ir.sequence">
             <field name="name">Store Request</field>
             <field name="code">store.request</field>
@@ -12,10 +21,55 @@
             <field name="number_increment">1</field>
         </record>
 
+        <record id="store_issue_sequence" model="ir.sequence">
+            <field name="name">Store Issue</field>
+            <field name="code">picking.store_issue</field>
+            <field name="prefix">SI/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
         <record id="store_return_sequence" model="ir.sequence">
             <field name="name">Store Return</field>
             <field name="code">store.return</field>
             <field name="prefix">SRN/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="store_intake_sequence" model="ir.sequence">
+            <field name="name">Store Intake</field>
+            <field name="code">picking.store_intake</field>
+            <field name="prefix">SIN/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="move_in_sequence" model="ir.sequence">
+            <field name="name">Move In</field>
+            <field name="code">move.in</field>
+            <field name="prefix">IN/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="move_internal_sequence" model="ir.sequence">
+            <field name="name">Move Internal</field>
+            <field name="code">move.internal</field>
+            <field name="prefix">INT/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="move_out_sequence" model="ir.sequence">
+            <field name="name">Move Out</field>
+            <field name="code">move.out</field>
+            <field name="prefix">OUT/</field>
             <field name="padding">6</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>

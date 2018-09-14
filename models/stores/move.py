@@ -38,7 +38,7 @@ class StockMove(models.Model):
                                  default=lambda self: self.env.context.get("product_id", False),
                                  required=True)
 
-    uom_id = fields.Many2one(comodel_name="hos.uom",
+    uom_id = fields.Many2one(comodel_name="product.uom",
                              string="UOM",
                              related="product_id.uom_id")
 
@@ -50,12 +50,12 @@ class StockMove(models.Model):
                             default=0,
                             required=True)
 
-    source_location_id = fields.Many2one(comodel_name="hos.location",
+    source_location_id = fields.Many2one(comodel_name="product.location",
                                          string="Source Location",
                                          default=lambda self: self.env.context.get("source_location_id", False),
                                          required=True)
 
-    destination_location_id = fields.Many2one(comodel_name="hos.location",
+    destination_location_id = fields.Many2one(comodel_name="product.location",
                                               string="Destination location",
                                               default=lambda self: self.env.context.get("destination_location_id", False),
                                               required=True)
@@ -188,8 +188,7 @@ class StockMove(models.Model):
 
     @api.model
     def create(self, vals):
-        print vals
-        code = "{0}.{1}".format(self._name, vals["picking_type"])
+        code = "move.{0}".format(vals["picking_type"])
         vals["name"] = self.env['ir.sequence'].next_by_code(code)
         vals["writter"] = "Created by {0}".format(self.env.user.name)
 

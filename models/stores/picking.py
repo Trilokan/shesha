@@ -48,12 +48,14 @@ class Picking(models.Model):
     picking_category = fields.Selection(selection=PICKING_CATEGORY,
                                         string="Picking Category")
 
-    source_location_id = fields.Many2one(comodel_name="hos.location",
+    source_location_id = fields.Many2one(comodel_name="product.location",
                                          string="Source Location",
+                                         default=lambda self: self._get_source_location_id(),
                                          required=True)
 
-    destination_location_id = fields.Many2one(comodel_name="hos.location",
+    destination_location_id = fields.Many2one(comodel_name="product.location",
                                               string="Destination location",
+                                              default=lambda self: self._get_destination_location_id(),
                                               required=True)
 
     store_request_id = fields.Many2one(comodel_name="store.request", string="Store Request")
@@ -223,6 +225,19 @@ class Picking(models.Model):
             rec.trigger_revert()
 
         self.write({"progress": "draft", "writter": writter})
+
+    def _get_source_location_id(self):
+        picking_category = self.env.context.get("default_picking_category", False)
+
+        if picking_category == 'stock_adjust':
+            return self.env.user.company_id.location_purchase_id.id
+
+    def _get_destination_location_id(self):
+        picking_category = self.env.context.get("default_picking_category", False)
+
+        if picking_category == 'stock_adjust':
+            return self.env.user.company_id.location_store_id.id
+
 
     @api.model
     def create(self, vals):

@@ -29,6 +29,7 @@
         'sequence/base_pack.xml',
         'sequence/account.xml',
         'sequence/product.xml',
+        'sequence/stores.xml',
 
         # Data
 
@@ -59,8 +60,20 @@
             'views/web_views/product/location.xml',
             'views/web_views/product/warehouse.xml',
 
+            # Stores
+            'views/web_views/stores/stock_adjustment.xml',
+            'views/web_views/stores/store_request.xml',
+            'views/web_views/stores/store_return.xml',
+            'views/web_views/stores/stock_move.xml',
+
+            # Base Pack
+            'views/web_views/base_pack/company.xml',
+            'views/web_views/base_pack/users.xml',
+
+
         # Menu
         'menu/product.xml',
+        'menu/stores.xml',
     ],
     "demo": [
 
