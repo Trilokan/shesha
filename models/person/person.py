@@ -40,8 +40,17 @@ class HospitalPerson(models.Model):
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True)
 
+    state_id = fields.Many2one(comodel_name="res.country.state",
+                               string="State",
+                               default=lambda self: self._get_state(),
+                               required=True)
+
     payable_id = fields.Many2one(comodel_name="hos.account", string="Accounts Payable")
     receivable_id = fields.Many2one(comodel_name="hos.account", string="Accounts Receivable")
+
+    def _get_state(self):
+        state_id = self.env["res.country.state"].search([("name", "=", "Tamil Nadu")])
+        return state_id.id
 
     @api.model
     def create(self, vals):

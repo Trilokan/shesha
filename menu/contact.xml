@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Contact-->
+    <menuitem id="hospital_hos_person_patient"
+              name="Patient"
+              action="action_hos_person_patient"
+              parent="menu_contact"
+              sequence="10"/>
+
+    <menuitem id="hospital_hos_person_doctor"
+              name="Doctor"
+              action="action_hos_person_doctor"
+              parent="menu_contact"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_staff"
+              name="Staff"
+              action="action_hos_person_staff"
+              parent="menu_contact"
+              sequence="30"/>
+
+    <menuitem id="hospital_hos_person_supplier"
+              name="Supplier"
+              action="action_hos_person_supplier"
+              parent="menu_contact"
+              sequence="40"/>
+
+    <menuitem id="hospital_hos_person_service"
+              name="Service"
+              action="action_hos_person_service"
+              parent="menu_contact"
+              sequence="50"/>
+
+    <menuitem id="hospital_hos_person_others"
+              name="Others"
+              action="action_hos_person_others"
+              parent="menu_contact"
+              sequence="60"/>
+
+
+</odoo>

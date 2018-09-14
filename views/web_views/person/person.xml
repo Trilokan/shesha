@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_person_tree" model="ir.ui.view">
+        <field name="name">hos.person.tree</field>
+        <field name="model">hos.person</field>
+        <field name="arch" type="xml">
+            <tree string="Person Detail">
+                <field name="name"/>
+                <field name="person_uid"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_person_form" model="ir.ui.view">
+        <field name="name">hos.person.form</field>
+        <field name="model">hos.person</field>
+        <field name="arch" type="xml">
+            <form string="Person Detail">
+                <sheet>
+                    <div>
+                        <field name="image" widget="image" class="oe_avatar oe_left" modifiers="{}"/>
+                    </div>
+                    <div style="margin-left: 100px;">
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline" modifiers="{'required': true}"/>
+                            </h1>
+                            <h2><field name="person_uid"/></h2>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="Person Detail">
+                            <group col="4">
+                                <field name="gst_no"/>
+                                <field name="license_no"/>
+                                <field name="tin_no"/>
+                                <field name="pan_no"/>
+                                <field name="contact_person"/>
+                                <field name="state_id"/>
+                                <field name="email"/>
+                                <field name="contact_no"/>
+                                <field name="alternate_contact"/>
+                            </group>
+                        </page>
+                        <page string="Filter Details">
+                            <group>
+                                <field name="is_company"/>
+                                <field name="is_user"/>
+                            </group>
+                        </page>
+                        <page string="Account Details">
+                            <group>
+                                <field name="payable_id"/>
+                                <field name="receivable_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_person" model="ir.actions.act_window">
+        <field name="name">Partner Detail</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+    <!-- Action Patient -->
+    <record id="action_hos_person_patient" model="ir.actions.act_window">
+        <field name="name">Patient</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('person_type', '=', 'patient')]</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+    <!-- Action Doctor -->
+    <record id="action_hos_person_doctor" model="ir.actions.act_window">
+        <field name="name">Doctor</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('person_type', '=', 'doctor')]</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+    <!-- Action Staff -->
+    <record id="action_hos_person_staff" model="ir.actions.act_window">
+        <field name="name">Staff</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('person_type', '=', 'staff')]</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+    <!-- Action Driver -->
+    <record id="action_hos_person_driver" model="ir.actions.act_window">
+        <field name="name">Driver</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('person_type', '=', 'driver')]</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+    <!-- Action supplier -->
+    <record id="action_hos_person_supplier" model="ir.actions.act_window">
+        <field name="name">Supplier</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('person_type', '=', 'supplier')]</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+    <!-- Action Customer -->
+    <record id="action_hos_person_customer" model="ir.actions.act_window">
+        <field name="name">Customer</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('person_type', '=', 'customer')]</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+    <!-- Action Service -->
+    <record id="action_hos_person_service" model="ir.actions.act_window">
+        <field name="name">Service</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('person_type', '=', 'service')]</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+    <!-- Action Others -->
+    <record id="action_hos_person_others" model="ir.actions.act_window">
+        <field name="name">Others</field>
+        <field name="res_model">hos.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('person_type', '=', False), ('is_company', '=', False)]</field>
+        <field name="view_id" ref="view_hos_person_tree"/>
+    </record>
+
+</odoo>

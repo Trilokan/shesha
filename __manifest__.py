@@ -72,8 +72,12 @@
             'views/web_views/base_pack/company.xml',
             'views/web_views/base_pack/users.xml',
 
+            # Person
+            'views/web_views/person/person.xml',
+
 
         # Menu
+        'menu/contact.xml',
         'menu/product.xml',
         'menu/stores.xml',
     ],

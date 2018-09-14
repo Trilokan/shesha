@@ -37,12 +37,5 @@ class HospitalCompany(models.Model):
     template_attendance = fields.Html(string="Monthly Attendance Report")
 
     def _get_state(self):
-        state_id = self.env["recs.country.state"].search([("code", "=", "TN")])
+        state_id = self.env["res.country.state"].search([("name", "=", "Tamil Nadu")])
         return state_id.id
-
-    def res_company_function(self):
-        company_id = self.env["res.company"].search([("id", "=", 1)])
-        company_id.location_store_id = ""
-
-
-
