@@ -33,7 +33,7 @@ class HospitalPerson(models.Model):
 
     contact_person = fields.Char(sring="Contact Person")
     email = fields.Char(string="Email")
-    mobile = fields.Char(string="Mobile", required=True)
+    contact_no = fields.Char(string="Contact No", required=True)
     alternate_contact = fields.Char(string="Alternate Contact")
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
@@ -58,7 +58,7 @@ class HospitalPerson(models.Model):
         payable_id = self.env["hos.account"].create(account)
 
         # Sundry Debtor
-        account["parent_id"] = self.env.user.company_id.sundry_debitor_id.id
+        account["parent_id"] = self.env.user.company_id.sundry_debtor_id.id
         receivable_id = self.env["hos.account"].create(account)
 
         vals["payable_id"] = payable_id.id

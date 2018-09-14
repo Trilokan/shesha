@@ -2,11 +2,11 @@
 <odoo>
 
     <!--Product-->
-    <!--<menuitem id="product_hos_product"-->
-              <!--name="Product"-->
-              <!--action="action_hos_product"-->
-              <!--parent="menu_product"-->
-              <!--sequence="10"/>-->
+    <menuitem id="product_hos_product"
+              name="Product"
+              action="action_hos_product"
+              parent="menu_product"
+              sequence="10"/>
 
     <menuitem id="product_product_group"
               name="Group"

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--W Company-->
+    <record id="base.main_company" model="res.company">
+        <field name="name">W Company</field>
+        <field name="partner_id" ref="base.main_partner"/>
+        <field name="rml_header1">Your New Company Tagline</field>
+        <field name="currency_id" ref="base.INR"/>
+        <field name="tax_id" ref="shesha.gst_0_tax"/>
+
+        <!--<field name="leave_lop_id" ref="base.INR"/>-->
+        <!--<field name="leave_credit_id" ref="base.INR"/>-->
+        <!--<field name="leave_debit_id" ref="base.INR"/>-->
+
+        <field name="location_store_id" ref="shesha.store_location"/>
+        <field name="location_pharmacy_id" ref="shesha.virtual_pharmacy_location"/>
+        <field name="location_purchase_id" ref="shesha.virtual_purchase_location"/>
+        <field name="location_left">1</field>
+        <field name="location_right">10</field>
+        <field name="sundry_creditor_id" ref="shesha.sundry_creditor_hos_account"/>
+        <field name="sundry_debtor_id" ref="shesha.sundry_debtor_hos_account"/>
+        <!--<field name="template_appointment_order" ref="base.INR"/>-->
+        <!--<field name="template_attendance" ref="base.INR"/>-->
+    </record>
+
+
+    <!--<function id="res_company_function"-->
+              <!--model="res.company"-->
+              <!--name="update_company_data"/>-->
+
+
+</odoo>

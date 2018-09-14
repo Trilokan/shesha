@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Sundry Creditor-->
+    <record id="sundry_creditor_hos_account" model="hos.account">
+        <field name="name">Sundry Creditor</field>
+        <field name="code">SCR</field>
+    </record>
+
+    <!--Sundry Debtor-->
+    <record id="sundry_debtor_hos_account" model="hos.account">
+        <field name="name">Sundry Debtor</field>
+        <field name="code">SDR</field>
+    </record>
+
+
+</odoo>

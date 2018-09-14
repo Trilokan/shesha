@@ -1,0 +1,3 @@
+Installation Command line
+
+./odoo-bin -c /home/ramesh/Documents/odoo.conf -u base -i shesha -d maxer_3 --without-demo=True

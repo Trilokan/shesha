@@ -11,7 +11,7 @@
                     <page string="Partner Details">
                         <group>
                             <field name="person_id"/>
-                            <field name="mobile"/>
+                            <field name="contact_no"/>
                         </group>
                     </page>
                     <page string="Location Detail">
@@ -27,7 +27,7 @@
                         <group>
                             <field name="tax_id"/>
                             <field name="sundry_creditor_id"/>
-                            <field name="sundry_debitor_id"/>
+                            <field name="sundry_debtor_id"/>
                         </group>
                     </page>
                     <page string="Appointment Order">

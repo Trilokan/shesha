@@ -71,7 +71,7 @@ class Product(models.Model):
         if not location_store_id:
             raise exceptions.ValidationError("Default Product Location is not set")
 
-        self.env["hos.warehouse"].create({"product_id": rec.id,
+        self.env["product.warehouse"].create({"product_id": rec.id,
                                           "location_id": location_store_id.id})
 
     @api.model

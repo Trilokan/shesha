@@ -25,8 +25,8 @@ class HospitalCompany(models.Model):
     location_store_id = fields.Many2one(comodel_name="product.location", string="Store Location")
     location_pharmacy_id = fields.Many2one(comodel_name="product.location", string="Pharmacy Location")
     location_purchase_id = fields.Many2one(comodel_name="product.location", string="Purchase Location")
-    location_left = fields.Many2one(comodel_name="product.location", string="Location Left")
-    location_right = fields.Many2one(comodel_name="product.location", string="Location Right")
+    location_left = fields.Integer(string="Location Left")
+    location_right = fields.Integer(string="Location Right")
 
     # Account
     sundry_creditor_id = fields.Many2one(comodel_name="hos.account", string="Sundry Creditor")
@@ -39,3 +39,10 @@ class HospitalCompany(models.Model):
     def _get_state(self):
         state_id = self.env["recs.country.state"].search([("code", "=", "TN")])
         return state_id.id
+
+    def res_company_function(self):
+        company_id = self.env["res.company"].search([("id", "=", 1)])
+        company_id.location_store_id = ""
+
+
+
