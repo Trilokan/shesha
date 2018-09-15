@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_asserts_tree" model="ir.ui.view">
+        <field name="name">hos.asserts.tree</field>
+        <field name="model">hos.asserts</field>
+        <field name="arch" type="xml">
+            <tree string="Assert">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="is_working"/>
+                <field name="is_condem"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_asserts_form" model="ir.ui.view">
+        <field name="name">hos.asserts.form</field>
+        <field name="model">hos.asserts</field>
+        <field name="arch" type="xml">
+            <form string="Assert">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Assert</h1>
+                    </div>
+                    <div id="p_header">
+                        <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    </div>
+                    <h2><field name="name"/></h2>
+                    <group col="4">
+                        <field name="date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="responsible_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="is_working"/>
+                        <field name="is_condem" string="Scrapped"/>
+                    </group>
+                    <notebook>
+                        <page string="Manufacturing Details">
+                            <group col="4">
+                                <field name="product_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                <field name="manufacturer" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                <field name="manufactured_date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                <field name="expiry_date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                <field name="serial_no" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                <field name="model_no" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                <field name="warranty_date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                            </group>
+                        </page>
+                        <page string="Vendor Details">
+                            <group>
+                                <field name="vendor_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                <field name="purchase_date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                            </group>
+                        </page>
+                        <page string="Service Details">
+                            <group>
+                                <field name="service_id"/>
+                            </group>
+                            <field name="service_details">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="person_id"/>
+                                    <field name="description"/>
+                                    <field name="assert_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Reminder">
+                            <field name="reminder_details">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="person_id"/>
+                                    <field name="description"/>
+                                    <field name="assert_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Accounting">
+                            <group>
+                                <field name="account_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                <field name="depreciation_percentage" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_asserts" model="ir.actions.act_window">
+        <field name="name">Assert</field>
+        <field name="res_model">hos.asserts</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

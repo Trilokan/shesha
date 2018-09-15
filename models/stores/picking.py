@@ -14,7 +14,8 @@ PICKING_CATEGORY = [("stock_adjust", "Stock Adjustment"),
                     ("direct_material_receipt", "Direct Material Receipt"),
                     ("material_return", "Material Return"),
                     ("material_delivery", "Material Delivery"),
-                    ("delivery_return", "Delivery Return")]
+                    ("delivery_return", "Delivery Return"),
+                    ("assert_capitalisation", "Assert Capitalisation")]
 
 
 # Stock Picking
@@ -244,13 +245,16 @@ class Picking(models.Model):
 
         if picking_category == 'stock_adjust':
             return self.env.user.company_id.location_purchase_id.id
+        elif picking_category == 'assert_capitalisation':
+            return self.env.user.company_id.location_store_id.id
 
     def _get_destination_location_id(self):
         picking_category = self.env.context.get("default_picking_category", False)
 
         if picking_category == 'stock_adjust':
             return self.env.user.company_id.location_store_id.id
-
+        elif picking_category == 'assert_capitalisation':
+            return self.env.user.company_id.location_assert_id.id
 
     @api.model
     def create(self, vals):

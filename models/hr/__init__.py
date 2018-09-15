@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import employee
 from . import hr_category
 from . import hr_department
 from . import hr_designation

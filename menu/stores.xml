@@ -32,10 +32,17 @@
               parent="menu_stores"
               sequence="50"/>
 
+    <menuitem id="stores_asserts_capitalisation"
+              name="Assert Capitalisation"
+              action="action_hos_picking_assert_capitalisation"
+              parent="menu_stores"
+              sequence="60"/>
+
     <menuitem id="stores_hos_move"
               name="Stock Move"
               action="action_hos_move"
               parent="menu_stores"
-              sequence="60"/>
+              sequence="70"/>
+
 
 </odoo>

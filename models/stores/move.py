@@ -85,7 +85,7 @@ class StockMove(models.Model):
                                   inverse_name="move_id",
                                   string="Batch Split")
 
-    assert_ids = fields.One2many(comodel_name="hos.assert",
+    assert_ids = fields.One2many(comodel_name="hos.asserts",
                                  inverse_name="move_id",
                                  string="Assert")
 
@@ -132,6 +132,13 @@ class StockMove(models.Model):
 
             self.env["hos.move"].create(move)
 
+    def generate_assert(self):
+        if self.picking_id.picking_category == 'assert_capitalisation':
+            for qty in range(1, self.quantity + 1):
+                data = {"product_id": self.product_id.id,
+                        "date": self.date}
+                self.env["hos.asserts"].create(data)
+
     @api.multi
     def trigger_move(self):
         self.generate_warehouse()
@@ -161,6 +168,7 @@ class StockMove(models.Model):
             if not self.batch_split:
                 raise exceptions.ValidationError("Error! Product needs batch")
 
+        self.generate_assert()
         self.write({"progress": "moved", "writter": writter})
 
     def generate_warehouse(self):

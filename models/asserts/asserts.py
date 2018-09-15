@@ -1,18 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from datetime import datetime
 
 PROGRESS_INFO = [('draft', 'Draft'), ('confirmed', 'Confirmed')]
 
 
 # Assert
 class Assert(models.Model):
-    _name = "hos.assert"
+    _name = "hos.asserts"
     _inherit = "mail.thread"
 
-    date = fields.Date(string="Date")
+    date = fields.Date(string="Date", default=datetime.now().strftime("%Y-%m-%d"))
     name = fields.Char(string="Name", readonly=True)
-    company_id = fields.Many2one(comodel_name="res.company", string="Company", readonly=True)
+    company_id = fields.Many2one(comodel_name="res.company",
+                                 string="Company",
+                                 default=lambda self: self.env.user.company_id.id,
+                                 readonly=True)
     move_id = fields.Many2one(comodel_name="hos.move", string="Move")
 
     # Manufacturing Details
@@ -34,12 +38,12 @@ class Assert(models.Model):
     service_id = fields.Many2one(comodel_name="hos.person", string="Service")
     # service_contact = ""
     # service_address = ""
-    service_details = fields.One2many(comodel_name="assert.service",
+    service_details = fields.One2many(comodel_name="asserts.service",
                                       inverse_name="assert_id",
                                       string="Service Details")
-    notification_details = fields.One2many(comodel_name="assert.reminder",
-                                           inverse_name="assert_id",
-                                           string="Notification Details")
+    reminder_details = fields.One2many(comodel_name="asserts.reminder",
+                                       inverse_name="assert_id",
+                                       string="Reminder Details")
 
     # Accounting Details
     account_id = fields.Many2one(comodel_name="hos.account", string="Account")
@@ -47,7 +51,7 @@ class Assert(models.Model):
     responsible_id = fields.Many2one(comodel_name="hos.person", string="Responsible Person")
     is_working = fields.Boolean(string="Is Working")
     is_condem = fields.Boolean(string="Is Condemed")
-    # attachment = fields.Many2many(comodel_name="ir.attachment", string="Attachment")
+    attachment = fields.Many2many(comodel_name="ir.attachment", string="Attachment")
 
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     writter = fields.Text(string="Writter", track_visibility="always")
@@ -57,43 +61,5 @@ class Assert(models.Model):
     @api.model
     def create(self, vals):
         vals["name"] = self.env["ir.sequence"].next_by_code(self._name)
-        vals["company_id"] = self.env.user.company_id.id
         vals["writter"] = "Assert Created by {0}".format(self.env.user.name)
         return super(Assert, self).create(vals)
-
-
-class AssertService(models.Model):
-    _name = "assert.service"
-    _inherit = "mail.thread"
-
-    date = fields.Date(string="Date")
-    assert_id = fields.Many2one(comodel_name="hos.assert", string="Assert")
-    person_id = fields.Many2one(comodel_name="hos.person", string="Service")
-    description = fields.Text(string="Description")
-    attachment = fields.Many2many(comodel_name="ir.attachment", string="Attachment")
-
-    progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
-    writter = fields.Text(string="Writter", track_visibility="always")
-
-    @api.model
-    def create(self, vals):
-        vals["writter"] = "Assert Service Created by {0}".format(self.env.user.name)
-        return super(AssertService, self).create(vals)
-
-
-class AssertNotification(models.Model):
-    _name = "assert.reminder"
-    _inherit = "mail.thread"
-
-    date = fields.Date(string="Date")
-    assert_id = fields.Many2one(comodel_name="hos.assert", string="Assert")
-    person_id = fields.Many2one(comodel_name="hos.person", string="Notify")
-    description = fields.Text(string="Description")
-
-    progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
-    writter = fields.Text(string="Writter", track_visibility="always")
-
-    @api.model
-    def create(self, vals):
-        vals["writter"] = "Assert reminder Created by {0}".format(self.env.user.name)
-        return super(AssertNotification, self).create(vals)

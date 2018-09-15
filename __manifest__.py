@@ -45,8 +45,7 @@
             'data/account/account.xml',
 
             # Base Pack
-            'data/base_pack/company.xml',
-            'data/base_pack/users.xml',
+            'data/base_pack/base_pack.xml',
 
         # Views
 
@@ -67,12 +66,16 @@
             'views/web_views/stores/store_return.xml',
             'views/web_views/stores/store_intake.xml',
             'views/web_views/stores/stock_move.xml',
+            'views/web_views/stores/asserts_capitalisation.xml',
+
+            # Asserts
+            'views/web_views/asserts/asserts.xml',
+            'views/web_views/asserts/service.xml',
+            'views/web_views/asserts/reminder.xml',
 
             # Base Pack
             'views/web_views/base_pack/company.xml',
             'views/web_views/base_pack/users.xml',
-
-            # Person
             'views/web_views/person/person.xml',
 
 
