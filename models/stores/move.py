@@ -134,9 +134,12 @@ class StockMove(models.Model):
 
     def generate_assert(self):
         if self.picking_id.picking_category == 'assert_capitalisation':
+
             for qty in range(1, self.quantity + 1):
-                data = {"product_id": self.product_id.id,
-                        "date": self.date}
+                data = {"date": self.date,
+                        "product_id": self.product_id.id,
+                        "move_id": self.id}
+
                 self.env["hos.asserts"].create(data)
 
     @api.multi

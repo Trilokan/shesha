@@ -39,6 +39,15 @@
             <field name="number_increment">1</field>
         </record>
 
+        <record id="asserts_capitalisation_sequence" model="ir.sequence">
+            <field name="name">Assert Capitalisation</field>
+            <field name="code">picking.asserts_capitalisation</field>
+            <field name="prefix">AST/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
         <record id="store_intake_sequence" model="ir.sequence">
             <field name="name">Store Intake</field>
             <field name="code">picking.store_intake</field>
