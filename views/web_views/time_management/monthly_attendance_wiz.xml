@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form -->
+    <record id="view_month_attendance_wiz_form" model="ir.ui.view">
+        <field name="name">month.attendance.wiz.form</field>
+        <field name="model">month.attendance.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Monthly Attendance">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Monthly Attendance</h1>
+                    </div>
+                    <field name="report"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_time_configuration_tree" model="ir.ui.view">
+        <field name="name">time.configuration.tree</field>
+        <field name="model">time.configuration</field>
+        <field name="arch" type="xml">
+            <tree string="Time Configuration">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="value"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_time_configuration_form" model="ir.ui.view">
+        <field name="name">time.configuration.form</field>
+        <field name="model">time.configuration</field>
+        <field name="arch" type="xml">
+            <form string="Time Configuration">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Time Configuration</h1>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="value"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_time_configuration" model="ir.actions.act_window">
+        <field name="name">Time Configuration</field>
+        <field name="res_model">time.configuration</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

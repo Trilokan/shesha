@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Product-->
+    <menuitem id="employee_hr_employee"
+              name="Employee"
+              action="action_hr_employee"
+              parent="menu_hr"
+              sequence="10"/>
+    
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_month_attendance_tree" model="ir.ui.view">
+        <field name="name">month.attendance.tree</field>
+        <field name="model">month.attendance</field>
+        <field name="arch" type="xml">
+            <tree string="Monthly Attendance">
+                <field name="period_id"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_month_attendance_form" model="ir.ui.view">
+        <field name="name">month.attendance.form</field>
+        <field name="model">month.attendance</field>
+        <field name="arch" type="xml">
+            <form string="Monthly Attendance">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Monthly Attendance</h1>
+                    </div>
+                    <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    <group>
+                        <field name="period_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Month Details">
+                            <field name="month_detail" readonly="1">
+                                <tree editable="bottom" create="false">
+                                    <field name="date"/>
+                                    <field name="progress"/>
+                                    <field name="month_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="trigger_closed" string="Closed" type="object"
+                                groups="nagi.group_time_hr,nagi.group_employee_admin"
+                                attrs="{'invisible': [('progress', '!=', 'open')]}"/>
+                        <button name="trigger_open" string="Open" type="object"
+                                groups="nagi.group_time_hr,nagi.group_employee_admin"
+                                attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                        <button name="trigger_preview" string="Preview" type="object"
+                                groups="nagi.group_time_hr,nagi.group_employee_admin"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_month_attendance" model="ir.actions.act_window">
+        <field name="name">Monthly Attendance</field>
+        <field name="res_model">month.attendance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -49,6 +49,9 @@
 
         # Views
 
+            # Account
+            'views/web_views/account/period.xml',
+
             # Product
             'views/web_views/product/group.xml',
             'views/web_views/product/sub_group.xml',
@@ -78,11 +81,32 @@
             'views/web_views/base_pack/users.xml',
             'views/web_views/person/person.xml',
 
+            # Time Management
+            'views/web_views/time_management/shift.xml',
+            'views/web_views/time_management/time_configuration.xml',
+            'views/web_views/time_management/monthly_attendance.xml',
+            'views/web_views/time_management/monthly_attendance_wiz.xml',
+            'views/web_views/time_management/week_schedule.xml',
+            'views/web_views/time_management/attendance.xml',
+
+            # Employee
+            'views/web_views/base_pack/employee.xml',
+
+            # Hr
+            'views/web_views/hr/hr_category.xml',
+            'views/web_views/hr/hr_contact.xml',
+            'views/web_views/hr/hr_department.xml',
+            'views/web_views/hr/hr_designation.xml',
+            'views/web_views/hr/hr_experience.xml',
+            'views/web_views/hr/hr_qualification.xml',
+
 
         # Menu
+        'menu/hr.xml',
         'menu/contact.xml',
         'menu/product.xml',
         'menu/stores.xml',
+        'menu/time_management.xml',
     ],
     "demo": [
 

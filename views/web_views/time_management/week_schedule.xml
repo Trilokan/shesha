@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_week_schedule_tree" model="ir.ui.view">
+        <field name="name">week.schedule.tree</field>
+        <field name="model">week.schedule</field>
+        <field name="arch" type="xml">
+            <tree string="Week Schedule">
+                <field name="from_date"/>
+                <field name="till_date"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_week_schedule_form" model="ir.ui.view">
+        <field name="name">week.schedule.form</field>
+        <field name="model">week.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Week Schedule">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Week Schedule</h1>
+                    </div>
+                    <div id="p_header">
+                        <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    </div>
+                    <group col="4">
+                        <field name="from_date" attrs="{'readonly': [('progress', '=', 'scheduled')]}"/>
+                        <field name="till_date" attrs="{'readonly': [('progress', '=', 'scheduled')]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Schedule Details">
+                            <field name="schedule_detail" attrs="{'readonly': [('progress', '=', 'scheduled')]}">
+                                <tree>
+                                    <field name="shift_id"/>
+                                    <field name="person_ids" widget="many2many_tags"/>
+                                    <field name="progress" invisible="1"/>
+                                    <field name="schedule_id" invisible="1"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="shift_id"/>
+                                        <field name="progress" invisible="1"/>
+                                        <field name="schedule_id" invisible="1"/>
+                                    </group>
+                                    <field name="person_ids"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Week-Off Details">
+                            <field name="off_detail" attrs="{'readonly': [('progress', '=', 'scheduled')]}">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="person_ids" widget="many2many_tags"/>
+                                    <field name="progress" invisible="1"/>
+                                    <field name="schedule_id" invisible="1"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="date"/>
+                                        <field name="progress" invisible="1"/>
+                                        <field name="schedule_id" invisible="1"/>
+                                    </group>
+                                    <field name="person_ids"/>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="trigger_schedule" string="Schedule" type="object"
+                                attrs="{'invisible': [('progress', '=', 'scheduled')]}"/>
+                    </footer>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_week_schedule" model="ir.actions.act_window">
+        <field name="name">Week Schedule</field>
+        <field name="res_model">week.schedule</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

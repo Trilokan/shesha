@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hr_qualification_tree" model="ir.ui.view">
+        <field name="name">hr.qualification.tree</field>
+        <field name="model">hr.qualification</field>
+        <field name="arch" type="xml">
+            <tree string="Qualification">
+                <field name="employee_id"/>
+                <field name="name"/>
+                <field name="institution"/>
+                <field name="enrollment_year"/>
+                <field name="completed_year"/>
+                <field name="result"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hr_qualification_form" model="ir.ui.view">
+        <field name="name">hr.qualification.form</field>
+        <field name="model">hr.qualification</field>
+        <field name="arch" type="xml">
+            <form string="Qualification">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Employee Qualification</h1>
+                    </div>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="name"/>
+                        <field name="institution"/>
+                        <field name="enrollment_year"/>
+                        <field name="completed_year"/>
+                        <field name="result"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hr_qualification" model="ir.actions.act_window">
+        <field name="name">Qualification</field>
+        <field name="res_model">hr.qualification</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

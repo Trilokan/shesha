@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_time_attendance_tree" model="ir.ui.view">
+        <field name="name">time.attendance.tree</field>
+        <field name="model">time.attendance</field>
+        <field name="arch" type="xml">
+            <tree string="Daily Attendance">
+                <field name="date"/>
+                <field name="month_id"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_time_attendance_form" model="ir.ui.view">
+        <field name="name">time.attendance.form</field>
+        <field name="model">time.attendance</field>
+        <field name="arch" type="xml">
+            <form string="Daily Attendance">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Daily Attendance</h1>
+                    </div>
+                    <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    <group>
+                        <field name="date"/>
+                        <field name="month_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Attendance Details">
+                            <field name="attendance_detail" attrs="{'readonly': [('progress', '=', 'verified')]}">
+                                <tree editable="bottom" create="false">
+                                    <field name="shift_id"/>
+                                    <field name="person_id"/>
+                                    <field name="actual_from_time"/>
+                                    <field name="actual_till_time"/>
+                                    <field name="actual_hours" widget="float_time"/>
+                                    <field name="day_progress"/>
+                                    <field name="availability_progress"/>
+                                    <field name="expected_from_time" invisible="1"/>
+                                    <field name="expected_till_time" invisible="1"/>
+                                    <field name="expected_hours" invisible="1"/>
+                                    <field name="progress" invisible="1"/>
+                                    <field name="attendance_id" invisible="1"/>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <group col="4">
+                                            <field name="shift_id"/>
+                                            <field name="person_id"/>
+                                            <field name="expected_from_time"/>
+                                            <field name="actual_from_time"/>
+                                            <field name="expected_till_time"/>
+                                            <field name="actual_till_time"/>
+                                            <field name="expected_hours" widget="float_time"/>
+                                            <field name="actual_hours" widget="float_time"/>
+                                            <field name="day_progress"/>
+                                            <field name="availability_progress"/>
+                                            <field name="progress" invisible="1"/>
+                                            <field name="attendance_id" invisible="1"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Report">
+                            <group>
+                                <field name="employee_count" string="Total Employees"/>
+                                <field name="week_off_count" invisible="1"/>
+                                <field name="working_count" invisible="1"/>
+                                <field name="present" string="Full Day Present"/>
+                                <field name="half_day_present" string="Half Day Present"/>
+                                <field name="absent"/>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <button name="trigger_progress" string="Update" type="object"
+                            groups="nagi.group_time_hr,nagi.group_employee_admin"
+                            attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                    <button name="trigger_verify" string="Verify" type="object"
+                            groups="nagi.group_time_hr,nagi.group_employee_admin"
+                            attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_time_attendance" model="ir.actions.act_window">
+        <field name="name">Daily Attendance</field>
+        <field name="res_model">time.attendance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

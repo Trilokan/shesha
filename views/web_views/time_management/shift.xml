@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_time_shift_tree" model="ir.ui.view">
+        <field name="name">time.shift.tree</field>
+        <field name="model">time.shift</field>
+        <field name="arch" type="xml">
+            <tree string="Shift">
+                <field name="name"/>
+                <field name="total_hours" widget="float_time"/>
+                <field name="end_day"/>
+                <field name="from_hours"/>
+                <field name="from_minutes"/>
+                <field name="till_hours"/>
+                <field name="till_minutes"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_time_shift_form" model="ir.ui.view">
+        <field name="name">time.shift.form</field>
+        <field name="model">time.shift</field>
+        <field name="arch" type="xml">
+            <form string="Shift">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Shift Details</h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="total_hours" readonly="1" widget="float_time"/>
+                            <field name="end_day"/>
+                            <field name="from_total_hours" widget="float_time" invisible="0"/>
+                            <field name="till_total_hours" widget="float_time" invisible="0"/>
+                        </group>
+
+                        <group>
+                            <div style="width:70%;">
+                                <table id="time_bar">
+                                    <tr>
+                                        <th>Shift Time</th>
+                                        <th class="o_column_sortable">Hours</th>
+                                        <th class="o_column_sortable">Minutes</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Start Time</th>
+                                        <td><field name="from_hours" nolabel="1"/></td>
+                                        <td><field name="from_minutes" nolabel="1"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>End Time</th>
+                                        <td><field name="till_hours" nolabel="1"/></td>
+                                        <td><field name="till_minutes" nolabel="1"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </group>
+                    </group>
+                    <button name="trigger_calculate" string="Check" type="object"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_time_shift" model="ir.actions.act_window">
+        <field name="name">Shift</field>
+        <field name="res_model">time.shift</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

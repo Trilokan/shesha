@@ -7,3 +7,5 @@ from . import hr
 from . import product
 from . import stores
 from . import asserts
+from . import time_management
+from . import leave_management

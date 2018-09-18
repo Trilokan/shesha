@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Product-->
+    <menuitem id="employee_hr_employee"
+              name="Employee"
+              action="action_hr_employee"
+              parent="menu_hr"
+              sequence="10"/>
+
+    <menuitem id="hr_hr_category"
+              name="Category"
+              action="action_hr_category"
+              parent="menu_hr"
+              sequence="20"/>
+
+    <menuitem id="hr_hr_department"
+              name="Department"
+              action="action_hr_department"
+              parent="menu_hr"
+              sequence="30"/>
+
+    <menuitem id="hr_hr_designation"
+              name="Designation"
+              action="action_hr_designation"
+              parent="menu_hr"
+              sequence="40"/>
+
+    <menuitem id="hr_hr_experience"
+              name="Experience"
+              action="action_hr_experience"
+              parent="menu_hr"
+              sequence="50"/>
+
+    <menuitem id="hr_hr_qualification"
+              name="Qualification"
+              action="action_hr_qualification"
+              parent="menu_hr"
+              sequence="60"/>
+
+</odoo>

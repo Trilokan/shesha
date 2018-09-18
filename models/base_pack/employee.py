@@ -88,10 +88,9 @@ class Employee(models.Model):
         employee_category_id = self.env["hr.category"].search([("id", "=", vals["employee_category_id"])])
 
         data = {"name": vals["name"],
-                "mobile": vals["mobile"],
+                "contact_no": vals["contact_no"],
                 "email": vals.get("email", None),
                 "alternate_contact": vals.get("alternate_contact", None),
-                "company_id": vals["company_id"],
                 "person_uid": vals["employee_uid"],
                 "is_employee": True,
                 "person_type": employee_category_id.name.lower()}

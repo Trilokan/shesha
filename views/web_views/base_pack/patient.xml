@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_patient_tree" model="ir.ui.view">
+        <field name="name">hos.patient.tree</field>
+        <field name="model">hos.patient</field>
+        <field name="arch" type="xml">
+            <tree string="Employee">
+                <field name="name"/>
+                <field name="patient_uid"/>
+                <field name="email"/>
+                <field name="mobile"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_patient_form" model="ir.ui.view">
+        <field name="name">hos.patient.form</field>
+        <field name="model">hos.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Patient</h1>
+                    </div>
+                    <div>
+                        <field name="image" widget="image" class="oe_avatar oe_left" modifiers="{}"/>
+                    </div>
+                    <div class="oe_right oe_button_box" name="button_box">
+                        <field name="date"/>
+                    </div>
+                    <div style="margin-left: 100px;">
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline" modifiers="{'required': true}"/>
+                            </h1>
+                            <h2><field name="patient_uid"/></h2>
+                        </div>
+                    </div>
+                    <group>
+                        <field name="email"/>
+                        <field name="mobile"/>
+                    </group>
+                    <notebook>
+                        <page string="Contact Details">
+                            <group>
+                                <group>
+                                    <label for="street" string="Address"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="door_no" style="width: 30%" placeholder="Door No..."/>
+                                            <field name="building_name" style="width: 70%" placeholder="Building name..."/>
+                                        </div>
+                                        <field name="street_1" placeholder="Street 1..."/>
+                                        <field name="street_2" placeholder="Street 2..."/>
+                                        <field name="locality" placeholder="Locality..."/>
+                                        <field name="city" placeholder="City..."/>
+                                        <field name="landmark" placeholder="Landmark..."/>
+                                        <div class="address_format">
+                                            <field name="country_id" style="width: 45%" placeholder="Country" options="{'create': false, 'create_edit': false}" modifiers="{}"/>
+                                            <field name="state_id" style="width: 55%" options="{'create': false, 'create_edit': false}" placeholder="State" modifiers="{}"/>
+                                        </div>
+                                        <field name="pin_code" placeholder="ZIP" style="width: 55%"/>
+                                    </div>
+                                </group>
+                                <group>
+                                    <field name="work_position"/>
+                                    <field name="work_description"/>
+                                    <field name="permanent_address"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Address Proof(s)">
+                            <group>
+                                <field name="aadhar_card"/>
+                                <field name="driving_license"/>
+                                <field name="passport"/>
+                            </group>
+                        </page>
+                        <page string="Personnel Details">
+                            <group col="4">
+                                <field name="dob"/>
+                                <field name="age"/>
+                                <field name="blood_group"/>
+                                <field name="marital_status"/>
+                                <field name="gender"/>
+                                <field name="caste"/>
+                                <field name="religion_id"/>
+                                <field name="physically_challenged"/>
+                                <field name="nationality_id"/>
+                                <field name="language_known_ids" widget="many2many_tags"/>
+                            </group>
+                            <div><h3>Relatives Details</h3></div>
+                            <field name="family_member_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="relation"/>
+                                    <field name="mobile"/>
+                                    <field name="email"/>
+                                    <field name="door_no"/>
+                                    <field name="building_name"/>
+                                    <field name="street_1"/>
+                                    <field name="street_2"/>
+                                    <field name="locality"/>
+                                    <field name="city"/>
+                                    <field name="landmark"/>
+                                    <field name="pin_code"/>
+                                    <field name="state_id"/>
+                                    <field name="country_id"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Attachments">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_patient" model="ir.actions.act_window">
+        <field name="name">Patient</field>
+        <field name="res_model">hos.patient</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_hos_patient_form" model="ir.actions.act_window.view">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hos_patient_form" />
+        <field name="act_window_id" ref="action_hos_patient"/>
+    </record>
+
+    <record id="action_hos_patient_tree" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_hos_patient_tree"/>
+        <field name="act_window_id" ref="action_hos_patient"/>
+    </record>
+
+</odoo>
