@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_interview_schedule_tree" model="ir.ui.view">
+        <field name="name">interview.schedule.tree</field>
+        <field name="model">interview.schedule</field>
+        <field name="arch" type="xml">
+            <tree string="Interview Schedule">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="vacancy_id"/>
+                <field name="designation_id"/>
+                <field name="previous_interview"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_interview_schedule_form" model="ir.ui.view">
+        <field name="name">interview.schedule.form</field>
+        <field name="model">interview.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Interview Schedule">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Interview Schedule</h1>
+                    </div>
+                    <div id="p_header">
+                        <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    </div>
+                    <group col="4">
+                        <field name="date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="name" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="vacancy_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="designation_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="previous_interview" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Scheduled Details">
+                            <field name="scheduled_detail" attrs="{'readonly': [('progress', 'in', ['cancelled', 'completed'])]}">
+                                <tree editable="bottom">
+                                    <field name="resume_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                    <field name="candidate_uid"/>
+                                    <field name="status" attrs="{'readonly': [('progress', '!=', 'on_process')]}"/>
+                                    <field name="progress" invisible="1"/>
+                                    <field name="scheduled_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="trigger_cancel" string="Cancel" type="object"
+                                attrs="{'invisible': [('progress', '!=', 'on_process')]}"/>
+                        <button name="trigger_confirm" string="Confirm" type="object"
+                                 attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                        <button name="trigger_completed" string="Completed" type="object"
+                                attrs="{'invisible': [('progress', '!=', 'on_process')]}"/>
+                    </footer>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action Interview Schedule-->
+    <record id="action_interview_schedule" model="ir.actions.act_window">
+        <field name="name">Interview Schedule</field>
+        <field name="res_model">interview.schedule</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

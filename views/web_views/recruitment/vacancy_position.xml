@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_vacancy_position_tree" model="ir.ui.view">
+        <field name="name">vacancy.position.tree</field>
+        <field name="model">vacancy.position</field>
+        <field name="arch" type="xml">
+            <tree string="Vacancy Position">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="position_id"/>
+                <field name="department_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_vacancy_position_form" model="ir.ui.view">
+        <field name="name">vacancy.position.form</field>
+        <field name="model">vacancy.position</field>
+        <field name="arch" type="xml">
+            <form string="Vacancy Position">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Vacancy Position</h1>
+                    </div>
+                    <div id="p_header">
+                        <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    </div>
+                    <group col="4">
+                        <field name="name" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="position_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="department_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Qualification">
+                            <field name="qualification" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        </page>
+                        <page string="Experience">
+                            <field name="experience" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        </page>
+                        <page string="Roles Responsibility">
+                            <field name="roles" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        </page>
+                        <page string="Preference">
+                            <field name="preference" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        </page>
+                    </notebook>
+                    <field name="comment" placeholder="Comment..." attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                    <footer>
+                        <button name="trigger_open" string="Open" type="object"
+                                attrs="{'invisible': [('progress', 'in', ['opened', 'closed'])]}"/>
+                        <button name="trigger_closed" string="Close" type="object"
+                                attrs="{'invisible': [('progress', 'in', ['draft', 'opened'])]}"/>
+                    </footer>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_vacancy_position" model="ir.actions.act_window">
+        <field name="name">Vacancy Position</field>
+        <field name="res_model">vacancy.position</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

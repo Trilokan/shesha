@@ -71,7 +71,8 @@ class WeekSchedule(models.Model):
                                    "day_progress": self.get_day_progress(current_date,
                                                                          person_id.id),
                                    "expected_from_time": self.get_time(current_date_obj,
-                                                                       rec.shift_id.from_total_hours),
+                                                                       rec.shift_id.from_total_hours,
+                                                                       rec.shift_id.end_day),
                                    "expected_till_time": self.get_time(current_date_obj,
                                                                        rec.shift_id.till_total_hours,
                                                                        rec.shift_id.end_day)}

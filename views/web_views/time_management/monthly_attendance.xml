@@ -40,13 +40,10 @@
                     </notebook>
                     <footer>
                         <button name="trigger_closed" string="Closed" type="object"
-                                groups="nagi.group_time_hr,nagi.group_employee_admin"
                                 attrs="{'invisible': [('progress', '!=', 'open')]}"/>
                         <button name="trigger_open" string="Open" type="object"
-                                groups="nagi.group_time_hr,nagi.group_employee_admin"
                                 attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
-                        <button name="trigger_preview" string="Preview" type="object"
-                                groups="nagi.group_time_hr,nagi.group_employee_admin"/>
+                        <button name="trigger_preview" string="Preview" type="object"/>
                     </footer>
                 </sheet>
             </form>

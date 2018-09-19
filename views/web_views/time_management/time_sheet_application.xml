@@ -13,10 +13,8 @@
                     </div>
                     <group>
                         <field name="date" invisible="1"/>
-                        <button name="trigger_employee_in" string="IN" type="object"
-                                groups="nagi.group_employee_user,nagi.group_time_hr,nagi.group_employee_admin"/>
-                        <button name="trigger_employee_out" string="OUT" type="object"
-                                groups="nagi.group_employee_user,nagi.group_time_hr,nagi.group_employee_admin"/>
+                        <button name="trigger_employee_in" string="IN" type="object"/>
+                        <button name="trigger_employee_out" string="OUT" type="object"/>
                     </group>
                 </sheet>
             </form>

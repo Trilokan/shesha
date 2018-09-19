@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_resume_bank_tree" model="ir.ui.view">
+        <field name="name">resume.bank.tree</field>
+        <field name="model">resume.bank</field>
+        <field name="arch" type="xml">
+            <tree string="Resume Bank">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="candidate_uid"/>
+                <field name="position_id"/>
+                <field name="email"/>
+                <field name="mobile"/>
+                <field name="resume"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_resume_bank_form" model="ir.ui.view">
+        <field name="name">resume.bank.form</field>
+        <field name="model">resume.bank</field>
+        <field name="arch" type="xml">
+            <form string="Resume Bank">
+                <sheet>
+                    <field name="id" invisible="1"/>
+                    <div id="s_header">
+                        <h1>Resume Bank</h1>
+                    </div>
+                    <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image_medium'}"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h2>
+                            <field name="name"/>
+                        </h2>
+                        <label for="candidate_uid" class="oe_edit_only" string="Candidate ID"/>
+                        <h3>
+                            <field name="candidate_uid" on_change="1"/>
+                        </h3>
+                    </div>
+                    <group col="4">
+                        <field name="aadhar_card"/>
+                        <field name="position_id"/>
+                        <field name="small_image" invisible="1"/>
+                        <field name="very_small_image" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="resume"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Contact details">
+                            <group col="4">
+                                <field name="email"/>
+                                <field name="mobile"/>
+                                <field name="door_no"/>
+                                <field name="street_1"/>
+                                <field name="street_2"/>
+                                <field name="locality"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                                <field name="pin_code"/>
+                                <field name="aadhar_card"/>
+                            </group>
+                        </page>
+                        <page string="Qualification">
+                            <field name="qualification_ids">
+                                <tree string="Qualification" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="institution"/>
+                                    <field name="enrollment_year"/>
+                                    <field name="completed_year"/>
+                                    <field name="result"/>
+                                    <field name="resume_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Experience">
+                            <field name="experience_ids">
+                                <tree string="Experience" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="position"/>
+                                    <field name="total_years"/>
+                                    <field name="relieving_reason"/>
+                                    <field name="resume_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Attachment">
+                            <field name="attachment_ids"
+                                   widget="many2many_binary"
+                                   domain="[('res_id', '=', id), ('res_model', '=', 'resume.bank')]"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_resume_bank" model="ir.actions.act_window">
+        <field name="name">Resume Bank</field>
+        <field name="res_model">resume.bank</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

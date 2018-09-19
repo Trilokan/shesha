@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_appointment_order_tree" model="ir.ui.view">
+        <field name="name">appointment.order.tree</field>
+        <field name="model">appointment.order</field>
+        <field name="arch" type="xml">
+            <tree string="Appointment Order">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="candidate_uid"/>
+                <field name="position_id"/>
+                <field name="department_id"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_appointment_order_form" model="ir.ui.view">
+        <field name="name">appointment.order.form</field>
+        <field name="model">appointment.order</field>
+        <field name="arch" type="xml">
+            <form string="Appointment Order">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Appointment Order</h1>
+                    </div>
+                    <div id="p_header">
+                        <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    </div>
+                    <field name="id" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="view_resume_bank" icon="fa-folder-open" class="oe_stat_button" string="Resume" type="object"/>
+                    </div>
+
+                    <h2><field name="name"/></h2>
+                    <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image_medium'}"/>
+                    <div class="oe_title">
+                        <label for="resume_id" string="Name" class="oe_edit_only"/>
+                        <h2>
+                            <field name="resume_id" attrs="{'readonly': [('progress', '=', 'confirmed')]}"/>
+                        </h2>
+                        <label for="candidate_uid" class="oe_edit_only" string="Candidate ID"/>
+                        <h3>
+                            <field name="candidate_uid"/>
+                        </h3>
+                    </div>
+                    <group col="4">
+                        <field name="date" attrs="{'readonly': [('progress', '=', 'confirmed')]}"/>
+                        <field name="position_id" attrs="{'readonly': [('progress', '=', 'confirmed')]}"/>
+                        <field name="department_id" attrs="{'readonly': [('progress', '=', 'confirmed')]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Appointment Order">
+                            <field name="order_preview"/>
+                        </page>
+
+                        <page string="Salary Details">
+                            <field name="salary_detail" attrs="{'readonly': [('progress', '=', 'confirmed')]}">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Attachment">
+                            <field name="attachment_ids"
+                                   widget="many2many_binary"
+                                   attrs="{'readonly': [('progress', '=', 'confirmed')]}"
+                                   domain="[('res_id', '=', id), ('res_model', '=', 'resume.bank')]"/>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="trigger_confirmed" string="Confirmed" type="object"
+                                attrs="{'invisible': [('progress', '=', 'confirmed')]}"/>
+                    </footer>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+
+    <!-- Action-->
+    <record id="action_appointment_order" model="ir.actions.act_window">
+        <field name="name">Appointment Order</field>
+        <field name="res_model">appointment.order</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+   
+
+
+</odoo>

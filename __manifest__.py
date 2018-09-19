@@ -85,6 +85,20 @@
             'views/web_views/asserts/service.xml',
             'views/web_views/asserts/reminder.xml',
 
+            # Hr
+            'views/web_views/hr/hr_category.xml',
+            'views/web_views/hr/hr_contact.xml',
+            'views/web_views/hr/hr_department.xml',
+            'views/web_views/hr/hr_designation.xml',
+            'views/web_views/hr/hr_experience.xml',
+            'views/web_views/hr/hr_qualification.xml',
+
+            # Recruitment
+            'views/web_views/recruitment/resume_bank.xml',
+            'views/web_views/recruitment/vacancy_position.xml',
+            'views/web_views/recruitment/interview_schedule.xml',
+            'views/web_views/recruitment/appointment_order.xml',
+
             # Time Management
             'views/web_views/time_management/shift.xml',
             'views/web_views/time_management/time_configuration.xml',
@@ -104,14 +118,6 @@
             'views/web_views/leave_management/leave_type.xml',
             'views/web_views/leave_management/leave_configuration.xml',
 
-            # Hr
-            'views/web_views/hr/hr_category.xml',
-            'views/web_views/hr/hr_contact.xml',
-            'views/web_views/hr/hr_department.xml',
-            'views/web_views/hr/hr_designation.xml',
-            'views/web_views/hr/hr_experience.xml',
-            'views/web_views/hr/hr_qualification.xml',
-
 
         # Menu
         'menu/base_pack.xml',
@@ -122,6 +128,7 @@
         'menu/stores.xml',
         'menu/time_management.xml',
         'menu/leave_management.xml',
+        'menu/recruitment.xml',
     ],
     "demo": [
 

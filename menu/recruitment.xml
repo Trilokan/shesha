@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Recruitment-->
+    <menuitem id="recruitment_resume_bank"
+              name="Resume Bank"
+              action="action_resume_bank"
+              parent="menu_recruitment"
+              sequence="10"/>
+
+    <menuitem id="recruitment_vacancy_position"
+              name="Vacancy Position"
+              action="action_vacancy_position"
+              parent="menu_recruitment"
+              sequence="20"/>
+
+    <menuitem id="recruitment_interview_schedule"
+              name="Interview Schedule"
+              action="action_interview_schedule"
+              parent="menu_recruitment"
+              sequence="30"/>
+
+    <menuitem id="recruitment_appointment_order"
+              name="Appointment Order"
+              action="action_appointment_order"
+              parent="menu_recruitment"
+              sequence="40"/>
+
+
+</odoo>

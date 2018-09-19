@@ -179,10 +179,10 @@ class MonthAttendance(models.Model):
         header = self.generate_header(date_list)
         body = self.generate_body(date_list, person_list)
 
-        html = self.env.user.company_id.monthly_attendance_report
+        html = self.env.user.company_id.template_attendance
         report = html.format(header, body)
 
-        view = self.env.ref('nagi.view_month_attendance_wiz_form')
+        view = self.env.ref('shesha.view_month_attendance_wiz_form')
 
         return {
             'name': 'Monthly Attendance',

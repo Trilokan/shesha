@@ -79,10 +79,8 @@
                     </notebook>
 
                     <button name="trigger_progress" string="Update" type="object"
-                            groups="nagi.group_time_hr,nagi.group_employee_admin"
                             attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
                     <button name="trigger_verify" string="Verify" type="object"
-                            groups="nagi.group_time_hr,nagi.group_employee_admin"
                             attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
                 </sheet>
             </form>
