@@ -108,6 +108,9 @@
             'views/web_views/time_management/attendance.xml',
             'views/web_views/time_management/time_sheet.xml',
             'views/web_views/time_management/time_sheet_application.xml',
+            'views/web_views/time_management/shift_change.xml',
+            'views/web_views/time_management/holiday_change.xml',
+            'views/web_views/time_management/add_employee.xml',
 
             # Leave Management
             'views/web_views/leave_management/leave.xml',
@@ -117,6 +120,15 @@
             'views/web_views/leave_management/leave_level.xml',
             'views/web_views/leave_management/leave_type.xml',
             'views/web_views/leave_management/leave_configuration.xml',
+
+            # Payroll
+            'views/web_views/payroll/hr_pay_update_wiz.xml',
+            'views/web_views/payroll/hr_pay.xml',
+            'views/web_views/payroll/payroll_generation.xml',
+            'views/web_views/payroll/payslip.xml',
+            'views/web_views/payroll/salary_rule.xml',
+            'views/web_views/payroll/salary_rule_slab.xml',
+            'views/web_views/payroll/salary_structure.xml',
 
 
         # Menu
@@ -128,6 +140,7 @@
         'menu/stores.xml',
         'menu/time_management.xml',
         'menu/leave_management.xml',
+        'menu/payroll.xml',
         'menu/recruitment.xml',
     ],
     "demo": [

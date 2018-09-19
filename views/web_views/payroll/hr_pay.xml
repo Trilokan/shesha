@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hr_pay_tree" model="ir.ui.view">
+        <field name="name">hr.pay.tree</field>
+        <field name="model">hr.pay</field>
+        <field name="arch" type="xml">
+            <tree string="HR Pay">
+                <field name="employee_id"/>
+                <field name="basic"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hr_pay_form" model="ir.ui.view">
+        <field name="name">hr.pay.form</field>
+        <field name="model">hr.pay</field>
+        <field name="arch" type="xml">
+            <form string="HR Pay">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Employee Pay Details</h1>
+                    </div>
+                    <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    <group>
+                        <field name="employee_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="basic" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="structure_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                    </group>
+                    <footer>
+                        <button name="trigger_confirm" string="Confirm" type="object"
+                                groups="nagi.group_payroll_hr,nagi.group_employee_admin"
+                                attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                        <button class="oe_stat_button" name="%(action_hr_pay_wizard)d" type="action"
+                                context="{'employee_id': employee_id,
+                                          'structure_id': structure_id,
+                                          'basic': basic }"
+                                groups="nagi.group_payroll_hr,nagi.group_employee_admin"
+                                string="Salary Update"/>
+                    </footer>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hr_pay" model="ir.actions.act_window">
+        <field name="name">HR Pay</field>
+        <field name="res_model">hr.pay</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_pay_slip_tree" model="ir.ui.view">
+        <field name="name">pay.slip.tree</field>
+        <field name="model">pay.slip</field>
+        <field name="arch" type="xml">
+            <tree string="Payslip" create="false" edit="false" delete="false">
+                <field name="employee_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_pay_slip_form" model="ir.ui.view">
+        <field name="name">pay.slip.form</field>
+        <field name="model">pay.slip</field>
+        <field name="arch" type="xml">
+            <form string="Payslip" create="false" edit="false" delete="false">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Payslip</h1>
+                    </div>
+                    <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    <group>
+                        <field name="employee_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Payslip Detail">
+                            <field name="payslip_details" readonly="1">
+                                <tree>
+                                    <field name="code"/>
+                                    <field name="total_days"/>
+                                    <field name="schedule_days"/>
+                                    <field name="present_days"/>
+                                    <field name="lop_days"/>
+                                    <field name="amount"/>
+                                    <field name="payslip_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="generate_payslip" string="Generate Payslip" type="object"
+                                groups="nagi.group_payroll_hr,nagi.group_employee_admin"
+                                attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                    </footer>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_pay_slip" model="ir.actions.act_window">
+        <field name="name">Payslip</field>
+        <field name="res_model">pay.slip</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

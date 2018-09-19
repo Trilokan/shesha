@@ -44,4 +44,23 @@
               parent="menu_time_management"
               sequence="70"/>
 
+    <menuitem id="time_management_attendance_change_shift_change"
+              name="Shift Change"
+              action="action_attendance_change_shift_change"
+              parent="menu_time_management"
+              sequence="80"/>
+
+    <menuitem id="time_management_attendance_change_holiday_change"
+              name="Holiday Change"
+              action="action_attendance_change_holiday_change"
+              parent="menu_time_management"
+              sequence="90"/>
+
+    <menuitem id="time_management_attendance_change_add_employee_to_shift"
+              name="Add Employee To Shift"
+              action="action_attendance_change_add_employee_to_shift"
+              parent="menu_time_management"
+              sequence="100"/>
+
+
 </odoo>

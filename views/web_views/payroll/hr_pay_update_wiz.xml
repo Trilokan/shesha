@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form -->
+    <record id="view_hr_pay_wizard_form" model="ir.ui.view">
+        <field name="name">hr.pay.wizard.form</field>
+        <field name="model">hr.pay.wizard</field>
+        <field name="arch" type="xml">
+            <form string="HR Pay" create="false" edit="false" delete="false">
+                <sheet>
+                    <div id="s_header">
+                        <h1>HR Pay Update</h1>
+                    </div>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="basic"/>
+                        <field name="structure_id"/>
+                        <button name="trigger_pay_update"
+                                string="Update"
+                                groups="nagi.group_payroll_hr,nagi.group_employee_admin"
+                                type="object"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hr_pay_wizard" model="ir.actions.act_window">
+        <field name="name">HR Pay Update</field>
+        <field name="res_model">hr.pay.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hr_pay_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

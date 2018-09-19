@@ -8,4 +8,5 @@ from . import week_schedule
 from . import attendance
 from . import time_sheet
 from . import time_sheet_application
+from . import attendance_change
 

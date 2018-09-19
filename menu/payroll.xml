@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Payroll-->
+    <menuitem id="payroll_hr_pay"
+              name="Employee Pay"
+              action="action_hr_pay"
+              parent="menu_payroll"
+              sequence="10"/>
+
+    <menuitem id="payroll_hr_pay_wizard"
+              name="Employee Pay"
+              action="action_hr_pay_wizard"
+              parent="menu_payroll"
+              sequence="20"/>
+
+    <menuitem id="payroll_payroll_generation"
+              name="Payroll Generation"
+              action="action_payroll_generation"
+              parent="menu_payroll"
+              sequence="30"/>
+
+    <menuitem id="payroll_pay_slip"
+              name="Payslip"
+              action="action_pay_slip"
+              parent="menu_payroll"
+              sequence="40"/>
+
+    <menuitem id="payroll_salary_structure"
+              name="Salary Structure"
+              action="action_salary_structure"
+              parent="menu_payroll"
+              sequence="50"/>
+
+    <menuitem id="payroll_salary_rule"
+              name="Salary Rule"
+              action="action_salary_rule"
+              parent="menu_payroll"
+              sequence="60"/>
+
+    <menuitem id="payroll_salary_rule_slab"
+              name="Salary Rule Slab"
+              action="action_salary_rule_slab"
+              parent="menu_payroll"
+              sequence="70"/>
+
+
+</odoo>

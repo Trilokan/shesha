@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_salary_rule_slab_tree" model="ir.ui.view">
+        <field name="name">salary.rule.slab.tree</field>
+        <field name="model">salary.rule.slab</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="range_from"/>
+                <field name="range_till"/>
+                <field name="slab_input"/>
+                <field name="slab_type"/>
+                <field name="fixed"/>
+                <field name="formula"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_salary_rule_slab_form" model="ir.ui.view">
+        <field name="name">salary.rule.slab.form</field>
+        <field name="model">salary.rule.slab</field>
+        <field name="arch" type="xml">
+            <form string="Salary Slab">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Salary Slab</h1>
+                    </div>
+                    <group col="4">
+                        <field name="range_from"/>
+                        <field name="range_till"/>
+                        <field name="slab_input"/>
+                        <field name="slab_type"/>
+                        <field name="rule_id" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Fixed Details" attrs="{'invisible': [('slab_type', '!=', 'fixed')]}">
+                            <group>
+                                <field name="fixed" attrs="{'invisible': [('slab_type', '!=', 'fixed')]}"/>
+                            </group>
+                        </page>
+                        <page string="Formula Details" attrs="{'invisible': [('slab_type', '!=', 'formula')]}">
+                            <group>
+                                <field name="formula" attrs="{'invisible': [('slab_type', '!=', 'formula')]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_salary_rule_slab" model="ir.actions.act_window">
+        <field name="name">Salary Slab</field>
+        <field name="res_model">salary.rule.slab</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
