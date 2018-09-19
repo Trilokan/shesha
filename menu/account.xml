@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!--Product-->
-    <menuitem id="employee_hr_employee"
-              name="Employee"
-              action="action_hr_employee"
-              parent="menu_hr"
+    <!--Account-->
+    <menuitem id="account_hos_account"
+              name="Account"
+              action="action_hos_account"
+              parent="menu_account"
               sequence="10"/>
-    
+
+    <menuitem id="account_year_year"
+              name="Year"
+              action="action_year_year"
+              parent="menu_account"
+              sequence="20"/>
+
+    <menuitem id="account_period_period"
+              name="Period"
+              action="action_period_period"
+              parent="menu_account"
+              sequence="30"/>
+
+
 </odoo>

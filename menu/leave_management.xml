@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Contact-->
+    <menuitem id="leave_management_leave_application"
+              name="Leave"
+              action="action_leave_application"
+              parent="menu_leave_management"
+              sequence="10"/>
+
+    <menuitem id="leave_management_compoff_application"
+              name="Comp-Off"
+              action="action_compoff_application"
+              parent="menu_leave_management"
+              sequence="20"/>
+
+    <menuitem id="leave_management_permission_application"
+              name="Permission"
+              action="action_permission_application"
+              parent="menu_leave_management"
+              sequence="30"/>
+
+    <menuitem id="leave_management_leave_account"
+              name="Leave Account"
+              action="action_leave_account"
+              parent="menu_leave_management"
+              sequence="40"/>
+
+    <menuitem id="leave_management_leave_type"
+              name="Leave Type"
+              action="action_leave_type"
+              parent="menu_leave_management"
+              sequence="50"/>
+
+    <menuitem id="leave_management_leave_level"
+              name="Leave Level"
+              action="action_leave_level"
+              parent="menu_leave_management"
+              sequence="60"/>
+
+    <menuitem id="leave_management_leave_configuration"
+              name="Leave Configuration"
+              action="action_leave_configuration"
+              parent="menu_leave_management"
+              sequence="70"/>
+
+</odoo>

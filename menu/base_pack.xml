@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Base Pack-->
+    <menuitem id="base_res_company"
+              name="Company"
+              action="base.action_res_company_form"
+              parent="menu_base"
+              sequence="10"/>
+
+    <menuitem id="base_res_users"
+              name="Users"
+              action="base.action_res_users"
+              parent="menu_base"
+              sequence="20"/>
+
+    <menuitem id="base_hos_person"
+              name="Person"
+              action="action_hos_person"
+              parent="menu_base"
+              sequence="30"/>
+
+    <menuitem id="base_hr_employee"
+              name="Employee"
+              action="action_hr_employee"
+              parent="menu_base"
+              sequence="40"/>
+
+    <menuitem id="base_hos_patient"
+              name="Patient"
+              action="action_hos_patient"
+              parent="menu_base"
+              sequence="50"/>
+
+
+</odoo>

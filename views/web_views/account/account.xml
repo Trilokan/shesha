@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_account_tree" model="ir.ui.view">
+        <field name="name">hos.account.tree</field>
+        <field name="model">hos.account</field>
+        <field name="arch" type="xml">
+            <tree string="Account">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_account_form" model="ir.ui.view">
+        <field name="name">hos.account.form</field>
+        <field name="model">hos.account</field>
+        <field name="arch" type="xml">
+            <form string="Account">
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="parent_left"/>
+                        <field name="parent_right"/>
+                        <field name="company_id"/>
+                        <field name="is_company"/>
+                        <field name="parent_id"/>
+                        <field name="credit"/>
+                        <field name="debit"/>
+                        <field name="balance"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_account" model="ir.actions.act_window">
+        <field name="name">Account</field>
+        <field name="res_model">hos.account</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

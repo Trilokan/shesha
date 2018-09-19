@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_time_sheet_tree" model="ir.ui.view">
+        <field name="name">time.sheet.tree</field>
+        <field name="model">time.sheet</field>
+        <field name="arch" type="xml">
+            <tree string="Time Sheet" edit="false" delete="false" create="false">
+                <field name="date"/>
+                <field name="person_id"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_time_sheet_form" model="ir.ui.view">
+        <field name="name">time.sheet.form</field>
+        <field name="model">time.sheet</field>
+        <field name="arch" type="xml">
+            <form string="Time Sheet" edit="false" delete="false" create="false">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Time Sheet</h1>
+                    </div>
+                    <group col="4">
+                        <field name="date"/>
+                        <field name="person_id"/>
+                        <field name="process"/>
+                        <field name="progress" string="Arrival Status"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_time_sheet" model="ir.actions.act_window">
+        <field name="name">Time Sheet</field>
+        <field name="res_model">time.sheet</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--View create button for admin/time_hr-->
+    <!--<record id="view_time_sheet_tree_view_create" model="ir.ui.view">-->
+        <!--<field name="name">view.time.sheet.tree.view.create</field>-->
+        <!--<field name="model">time.sheet</field>-->
+        <!--<field name="inherit_id" ref="nagi.view_time_sheet_tree"/>-->
+        <!--<field name="groups_id" eval="[(6, 0, [ref('nagi.group_time_hr'), ref('nagi.group_time_hr')])]"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<xpath expr="//tree" position="attributes">-->
+                <!--<attribute name="create">true</attribute>-->
+            <!--</xpath>-->
+        <!--</field>-->
+    <!--</record>-->
+
+
+</odoo>

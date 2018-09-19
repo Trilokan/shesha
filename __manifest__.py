@@ -49,7 +49,16 @@
 
         # Views
 
+            # Base Pack
+            'views/web_views/base_pack/company.xml',
+            'views/web_views/base_pack/users.xml',
+            'views/web_views/base_pack/person.xml',
+            'views/web_views/base_pack/employee.xml',
+            'views/web_views/base_pack/patient.xml',
+
             # Account
+            'views/web_views/account/account.xml',
+            'views/web_views/account/year.xml',
             'views/web_views/account/period.xml',
 
             # Product
@@ -69,17 +78,12 @@
             'views/web_views/stores/store_return.xml',
             'views/web_views/stores/store_intake.xml',
             'views/web_views/stores/stock_move.xml',
-            'views/web_views/stores/asserts_capitalisation.xml',
 
             # Asserts
+            'views/web_views/asserts/asserts_capitalisation.xml',
             'views/web_views/asserts/asserts.xml',
             'views/web_views/asserts/service.xml',
             'views/web_views/asserts/reminder.xml',
-
-            # Base Pack
-            'views/web_views/base_pack/company.xml',
-            'views/web_views/base_pack/users.xml',
-            'views/web_views/person/person.xml',
 
             # Time Management
             'views/web_views/time_management/shift.xml',
@@ -88,9 +92,17 @@
             'views/web_views/time_management/monthly_attendance_wiz.xml',
             'views/web_views/time_management/week_schedule.xml',
             'views/web_views/time_management/attendance.xml',
+            'views/web_views/time_management/time_sheet.xml',
+            'views/web_views/time_management/time_sheet_application.xml',
 
-            # Employee
-            'views/web_views/base_pack/employee.xml',
+            # Leave Management
+            'views/web_views/leave_management/leave.xml',
+            'views/web_views/leave_management/comp_off.xml',
+            'views/web_views/leave_management/permission.xml',
+            'views/web_views/leave_management/leave_account.xml',
+            'views/web_views/leave_management/leave_level.xml',
+            'views/web_views/leave_management/leave_type.xml',
+            'views/web_views/leave_management/leave_configuration.xml',
 
             # Hr
             'views/web_views/hr/hr_category.xml',
@@ -102,11 +114,14 @@
 
 
         # Menu
+        'menu/base_pack.xml',
+        'menu/account.xml',
         'menu/hr.xml',
         'menu/contact.xml',
         'menu/product.xml',
         'menu/stores.xml',
         'menu/time_management.xml',
+        'menu/leave_management.xml',
     ],
     "demo": [
 

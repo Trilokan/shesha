@@ -80,9 +80,8 @@ class Employee(models.Model):
                          "code": self.env['ir.sequence'].next_by_code("leave.account")}
 
         leave_account_id = self.env["leave.account"].create(leave_account)
-        vals["leave_account_id"] = leave_account_id.id
 
-        return vals
+        return leave_account_id.id
 
     def generate_person(self, vals):
         employee_category_id = self.env["hr.category"].search([("id", "=", vals["employee_category_id"])])
@@ -98,13 +97,13 @@ class Employee(models.Model):
         person_id = self.env["hos.person"].create(data)
         vals["person_id"] = person_id.id
 
-        return vals
+        return person_id.id
 
     @api.model
     def create(self, vals):
         vals["employee_uid"] = self.env['ir.sequence'].next_by_code(self._name)
 
-        vals = self.generate_leave_account(vals)
-        vals = self.generate_person(vals)
+        vals["leave_account_id"] = self.generate_leave_account(vals)
+        vals["person_id"] = self.generate_person(vals)
 
         return super(Employee, self).create(vals)

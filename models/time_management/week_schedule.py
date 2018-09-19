@@ -4,8 +4,7 @@ from odoo import fields, models, api, exceptions
 from datetime import datetime, timedelta
 
 PROGRESS_INFO = [('draft', 'Draft'), ('scheduled', 'Scheduled')]
-TIME_DELAY_HRS = 5
-TIME_DELAY_MIN = 30
+TIME_DELAY_HRS = 5.50
 
 
 # Week Schedule
@@ -75,7 +74,7 @@ class WeekSchedule(models.Model):
                                                                        rec.shift_id.from_total_hours),
                                    "expected_till_time": self.get_time(current_date_obj,
                                                                        rec.shift_id.till_total_hours,
-                                                                       "next_day")}
+                                                                       rec.shift_id.end_day)}
 
                     attendance_detail.append((0, 0, record_data))
 
@@ -89,11 +88,11 @@ class WeekSchedule(models.Model):
                                                 "month_id": month_id.id,
                                                 "attendance_detail": attendance_detail})
 
-    def get_time(self, date_obj, hours, days="current_day"):
-        time_obj = date_obj + timedelta(hours=hours)
+    def get_time(self, date_obj, hours, day_type):
+        total_hours = hours - TIME_DELAY_HRS
 
-        if days == "next_day":
-            time_obj = time_obj + timedelta(days=1)
+        days = 1 if day_type == "next_day" else 0
+        time_obj = date_obj + timedelta(hours=total_hours, days=days)
 
         return time_obj.strftime("%Y-%m-%d %H:%M:%S")
 

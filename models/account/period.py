@@ -35,7 +35,8 @@ class Period(models.Model):
         if self.env["period.period"].search(data):
             raise exceptions.ValidationError("Error! Please close the existing period before open new period")
 
-    def default_vals_creation(self, vals):
+    @api.model
+    def create(self, vals):
         from_date = datetime.strptime(vals["from_date"], "%Y-%m-%d")
         till_date = datetime.strptime(vals["till_date"], "%Y-%m-%d")
 
@@ -60,7 +61,4 @@ class Period(models.Model):
         else:
             raise exceptions.ValidationError("Error! Please create year before period creation")
 
-        return vals
-
-
-
+        return super(Period, self).create(vals)

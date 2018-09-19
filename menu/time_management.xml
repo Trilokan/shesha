@@ -27,10 +27,21 @@
               sequence="40"/>
 
     <menuitem id="time_management_time_attendance"
-              name="Daily Attendance"
+              name="Attendance"
               action="action_time_attendance"
               parent="menu_time_management"
               sequence="50"/>
 
+    <menuitem id="time_management_time_sheet"
+              name="Time Sheet"
+              action="action_time_sheet"
+              parent="menu_time_management"
+              sequence="60"/>
+
+    <menuitem id="time_management_time_attendance_application"
+              name="Time Sheet Application"
+              action="action_time_sheet_application"
+              parent="menu_time_management"
+              sequence="70"/>
 
 </odoo>

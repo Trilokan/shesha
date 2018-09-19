@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form -->
+    <record id="view_time_sheet_application_form" model="ir.ui.view">
+        <field name="name">time.sheet.application.form</field>
+        <field name="model">time.sheet.application</field>
+        <field name="arch" type="xml">
+            <form string="Time Sheet Application">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Time Sheet Application</h1>
+                    </div>
+                    <group>
+                        <field name="date" invisible="1"/>
+                        <button name="trigger_employee_in" string="IN" type="object"
+                                groups="nagi.group_employee_user,nagi.group_time_hr,nagi.group_employee_admin"/>
+                        <button name="trigger_employee_out" string="OUT" type="object"
+                                groups="nagi.group_employee_user,nagi.group_time_hr,nagi.group_employee_admin"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_time_sheet_application" model="ir.actions.act_window">
+        <field name="name">Time Sheet Application</field>
+        <field name="res_model">time.sheet.application</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+    </record>
+
+</odoo>

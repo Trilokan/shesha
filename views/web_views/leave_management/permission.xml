@@ -2,12 +2,13 @@
 <odoo>
 
     <!-- Tree -->
-    <record id="view_compoff_application_tree" model="ir.ui.view">
-        <field name="name">compoff.application.tree</field>
-        <field name="model">compoff.application</field>
+    <record id="view_permission_application_tree" model="ir.ui.view">
+        <field name="name">permission.application.tree</field>
+        <field name="model">permission.application</field>
         <field name="arch" type="xml">
-            <tree string="Comp-Off Application">
-                <field name="date"/>
+            <tree string="Permission Application">
+                <field name="from_time"/>
+                <field name="till_time"/>
                 <field name="person_id"/>
                 <field name="reason"/>
                 <field name="progress"/>
@@ -16,21 +17,21 @@
     </record>
 
     <!-- Form -->
-    <record id="view_compoff_application_form" model="ir.ui.view">
-        <field name="name">compoff.application.form</field>
-        <field name="model">compoff.application</field>
+    <record id="view_permission_application_form" model="ir.ui.view">
+        <field name="name">permission.application.form</field>
+        <field name="model">permission.application</field>
         <field name="arch" type="xml">
-            <form string="Comp-Off Application">
+            <form string="Permission Application">
                 <sheet>
                     <div id="s_header">
-                        <h1>Comp-Off Application</h1>
+                        <h1>Permission Application</h1>
                     </div>
                     <div id="p_header">
                         <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
                     </div>
                     <group col="4">
-                        <field name="date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
-                        <field name="co_type" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="from_time" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="till_time" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
                         <field name="person_id"/>
                     </group>
                     <group>
@@ -53,9 +54,9 @@
     </record>
 
     <!-- Action -->
-    <record id="action_compoff_application" model="ir.actions.act_window">
-        <field name="name">Comp-Off Application</field>
-        <field name="res_model">compoff.application</field>
+    <record id="action_permission_application" model="ir.actions.act_window">
+        <field name="name">Permission Application</field>
+        <field name="res_model">permission.application</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>

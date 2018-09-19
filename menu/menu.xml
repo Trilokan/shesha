@@ -6,7 +6,12 @@
     <menuitem id="menu_stores" name="Stores" sequence="30"/>
     <menuitem id="menu_purchase" name="Purchase" sequence="40"/>
     <menuitem id="menu_time_management" name="Time Management" sequence="40"/>
-    <menuitem id="menu_hr" name="Human Resources" sequence="50"/>
+    <menuitem id="menu_leave_management" name="Leave Management" sequence="50"/>
+    <menuitem id="menu_payroll" name="Payroll" sequence="60"/>
+    <menuitem id="menu_hr" name="Human Resources" sequence="70"/>
+    <menuitem id="menu_recruitment" name="Recruitment" sequence="80"/>
+    <menuitem id="menu_account" name="Account" sequence="90"/>
+    <menuitem id="menu_base" name="Base" sequence="100"/>
 
 
 </odoo>
