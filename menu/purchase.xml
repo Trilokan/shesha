@@ -20,23 +20,29 @@
               parent="menu_purchase"
               sequence="30"/>
 
+    <menuitem id="purchase_purchase_return"
+              name="Purchase Return"
+              action="action_purchase_return"
+              parent="menu_purchase"
+              sequence="40"/>
+
     <menuitem id="purchase_hos_picking_material_receipt"
               name="Material Receipt"
               action="action_hos_picking_material_receipt"
               parent="menu_purchase"
-              sequence="40"/>
+              sequence="50"/>
 
     <menuitem id="purchase_hos_picking_direct_material_receipt"
               name="Direct Material Receipt"
               action="action_hos_picking_direct_material_receipt"
               parent="menu_purchase"
-              sequence="50"/>
+              sequence="60"/>
 
     <menuitem id="purchase_hos_invoice_purchase"
               name="Invoice"
               action="action_hos_invoice_purchase"
               parent="menu_purchase"
-              sequence="60"/>
+              sequence="70"/>
 
 
 </odoo>

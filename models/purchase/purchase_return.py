@@ -2,8 +2,9 @@
 
 from odoo import fields, models, api, exceptions, _
 from datetime import datetime
+from .. import calculation
 
-# Purchase Indent
+# Purchase Return
 PROGRESS_INFO = [('draft', 'Draft'),
                  ('approved', 'Approved'),
                  ('cancelled', 'Cancelled')]
@@ -17,54 +18,101 @@ class PurchaseReturn(models.Model):
     date = fields.Date(string="Date",
                        default=datetime.now().strftime("%Y-%m-%d"),
                        readonly=True)
-    vendor_id = fields.Many2one(comodel_name="hos.person", string="Vendor", readonly=True)
+    vendor_id = fields.Many2one(comodel_name="hos.person", string="Vendor", required=True)
     processed_by = fields.Many2one(comodel_name="hos.person", string="Processed By", readonly=True)
     processed_on = fields.Date(string='Processed On', readonly=True)
-    order_detail = fields.One2many(comodel_name='purchase.return.detail',
-                                   inverse_name='return_id',
-                                   string='Return Detail')
+    return_detail = fields.One2many(comodel_name='purchase.return.detail',
+                                    inverse_name='return_id',
+                                    string='return Detail')
     progress = fields.Selection(PROGRESS_INFO, default='draft', string='Progress')
     comment = fields.Text(string='Comment')
 
-    discount_amount = fields.Float(string='Discount Amount', readonly=True, help='Discount value')
     discounted_amount = fields.Float(string='Discounted Amount', readonly=True, help='Amount after discount')
-    tax_amount = fields.Float(string='Tax Amount', readonly=True, help='Tax value')
     taxed_amount = fields.Float(string='Taxed Amount', readonly=True, help='Tax after discounted amount')
     untaxed_amount = fields.Float(string='Untaxed Amount', readonly=True)
     sgst = fields.Float(string='SGST', readonly=True)
     cgst = fields.Float(string='CGST', readonly=True)
     igst = fields.Float(string='IGST', readonly=True)
-    gross_amount = fields.Float(string='Gross Amount', readonly=True)
+
+    sub_total_amount = fields.Float(string='Sub Total', readonly=True)
+    discount_amount = fields.Float(string='Discount Amount', readonly=True, help='Discount value')
+    total_amount = fields.Float(string='Total', readonly=True)
+    tax_amount = fields.Float(string='Tax Amount', readonly=True, help='Tax value')
     round_off_amount = fields.Float(string='Round-Off', readonly=True)
+    grand_total_amount = fields.Float(string='Grand Total', readonly=True)
+
+    expected_delivery = fields.Char(string='Expected Delivery')
+    freight = fields.Char(string='Freight')
+    payment = fields.Char(string='Payment')
+    insurance = fields.Char(string='Insurance')
+    certificate = fields.Char(string='Certificate')
+    warranty = fields.Char(string='Warranty')
+
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True)
     writter = fields.Text(string="Writter", track_visibility='always')
 
+    @api.multi
+    def total_calculation(self):
+        recs = self.return_detail
 
-class PurchaseReturnDetail(models.Model):
-    _name = 'purchase.return.detail'
-    _description = 'Purchase Return Detail'
+        if not recs:
+            raise exceptions.ValidationError("Error! Bill details not found")
 
-    vendor_id = fields.Many2one(comodel_name='hos.person', string='Vendor', readonly=True)
-    product_id = fields.Many2one(comodel_name='hos.product', string='Product')
-    uom_id = fields.Many2one(comodel_name='product.uom', string='UOM')
-    requested_quantity = fields.Float(string='Requested Quantity', default=0, readonly=True)
-    accepted_quantity = fields.Float(string='Accepted Quantity', default=0)
-    unit_price = fields.Float(string='Unit Price', default=0)
+        for rec in recs:
+            rec.detail_calculation()
 
-    discount = fields.Float(string='Discount', default=0)
-    discount_amount = fields.Float(string='Discount Amount', default=0, readonly=True)
-    discounted_amount = fields.Float(string='Discounted Amount', readonly=True, help='Amount after discount')
-    tax_id = fields.Many2one(comodel_name='product.tax', string='Tax', required=True)
-    igst = fields.Float(string='IGST', default=0, readonly=True)
-    cgst = fields.Float(string='CGST', default=0, readonly=True)
-    sgst = fields.Float(string='SGST', default=0, readonly=True)
-    tax_amount = fields.Float(string='Tax Amount', default=0, readonly=True)
-    taxed_amount = fields.Float(string='Taxed Amount', default=0, readonly=True)
-    untaxed_amount = fields.Float(string='Tax Amount', default=0, readonly=True)
-    total_amount = fields.Float(string='Total', default=0, readonly=True)
-    return_id = fields.Many2one(comodel_name='purchase.return', string='Purchase Return')
-    progress = fields.Selection(PROGRESS_INFO, string='Progress', related='return_id.progress')
+        data = calculation.data_calculation(recs)
+        self.write(data)
 
+    def trigger_grn(self):
+        data = {}
+
+        hos_move = []
+        recs = self.return_detail
+        for rec in recs:
+            if (rec.returned_quantity > 0) and (rec.unit_price > 0):
+                hos_move.append((0, 0, {"reference": self.name,
+                                        "source_location_id": self.env.user.company_id.location_store_id.id,
+                                        "destination_location_id": self.env.user.company_id.location_purchase_id.id,
+                                        "picking_type": "out",
+                                        "product_id": rec.product_id.id,
+                                        "requested_quantity": rec.returned_quantity}))
+
+        if hos_move:
+            data["person_id"] = self.vendor_id.id
+            data["reference"] = self.name
+            data["picking_detail"] = hos_move
+            data["picking_type"] = "out"
+            data["date"] = datetime.now().strftime("%Y-%m-%d")
+            data["purchase_return_id"] = self.id
+            data["source_location_id"] = self.env.user.company_id.location_store_id.id
+            data["destination_location_id"] = self.env.user.company_id.location_purchase_id.id
+            data["picking_category"] = "material_return"
+            picking_id = self.env["hos.picking"].create(data)
+            return True
+        return False
+
+    @api.multi
+    def trigger_purchase_return_approve(self):
+        self.total_calculation()
+
+        if not self.trigger_grn():
+            raise exceptions.ValidationError("Error! Please check Product lines")
+
+        writter = "Purchase Return approved by {0}".format(self.env.user.name)
+        self.write({"progress": "approved", "writter": writter})
+
+    @api.multi
+    def trigger_cancel(self):
+        person_id = self.env["hos.person"].search([("id", "=", self.env.user.person_id.id)])
+        writter = "Purchase Return cancelled by {0}".format(person_id.name)
+
+        self.write({"progress": "cancelled", "writter": writter})
+
+    @api.model
+    def create(self, vals):
+        vals["name"] = self.env['ir.sequence'].next_by_code(self._name)
+        return super(PurchaseReturn, self).create(vals)
