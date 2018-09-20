@@ -97,34 +97,8 @@ class HospitalInvoice(models.Model):
         for rec in recs:
             rec.detail_calculation()
 
-        discount_amount = discounted_amount = tax_amount = untaxed_amount = taxed_amount\
-            = cgst = sgst = igst = sub_total_amount = 0
-        for rec in recs:
-            discount_amount = discount_amount + rec.discount_amount
-            discounted_amount = discounted_amount + rec.discounted_amount
-            tax_amount = tax_amount + rec.tax_amount
-            untaxed_amount = untaxed_amount + rec.untaxed_amount
-            taxed_amount = taxed_amount + rec.taxed_amount
-            cgst = cgst + rec.cgst
-            sgst = sgst + rec.sgst
-            igst = igst + rec.igst
-            sub_total_amount = sub_total_amount + rec.total_amount
-
-        total_amount = sub_total_amount + rec.total_amount
-        grand_total_amount = round(total_amount + tax_amount)
-        round_off_amount = round(total_amount + tax_amount) - (total_amount + tax_amount)
-
-        self.write({"discount_amount": discount_amount,
-                    "discounted_amount": discounted_amount,
-                    "tax_amount": tax_amount,
-                    "untaxed_amount": untaxed_amount,
-                    "taxed_amount": taxed_amount,
-                    "cgst": cgst,
-                    "sgst": sgst,
-                    "igst": igst,
-                    "total_amount": total_amount,
-                    "grand_total_amount": grand_total_amount,
-                    "round_off_amount": round_off_amount})
+        data = calculation.data_calculation(recs)
+        self.write(data)
 
 
 class InvoiceDetail(models.Model):
@@ -136,7 +110,10 @@ class InvoiceDetail(models.Model):
     unit_price = fields.Float(string="Unit Price")
     quantity = fields.Float(string="Quantity", required=True)
     discount = fields.Float(string="Discount")
-    tax_id = fields.Many2one(comodel_name="product.tax", string="Tax")
+    tax_id = fields.Many2one(comodel_name="product.tax",
+                             string="Tax",
+                             default=lambda self: self.env.user.company_id.tax_id.id,
+                             required=True)
     total_amount = fields.Float(string="Total Amount", readonly=True)
     cgst = fields.Float(string="CGST", readonly=True)
     sgst = fields.Float(string="SGST", readonly=True)

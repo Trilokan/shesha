@@ -2,6 +2,7 @@
 
 from odoo import fields, models, api, exceptions, _
 from datetime import datetime
+from .. import calculation
 
 # Purchase Indent
 PROGRESS_INFO = [('draft', 'Draft'),
@@ -66,36 +67,8 @@ class PurchaseOrder(models.Model):
         for rec in recs:
             rec.detail_calculation()
 
-        discount_amount = discounted_amount = tax_amount = untaxed_amount = taxed_amount \
-            = cgst = sgst = igst = sub_total_amount = 0
-
-        for rec in recs:
-            discount_amount = discount_amount + rec.discount_amount
-            discounted_amount = discounted_amount + rec.discounted_amount
-            tax_amount = tax_amount + rec.tax_amount
-            untaxed_amount = untaxed_amount + rec.untaxed_amount
-            taxed_amount = taxed_amount + rec.taxed_amount
-            cgst = cgst + rec.cgst
-            sgst = sgst + rec.sgst
-            igst = igst + rec.igst
-            sub_total_amount = sub_total_amount + rec.total_amount
-
-        total_amount = sub_total_amount - discount_amount
-        grand_total_amount = round(total_amount + tax_amount)
-        round_off_amount = round(total_amount + tax_amount) - (total_amount + tax_amount)
-
-        self.write({"discount_amount": discount_amount,
-                    "discounted_amount": discounted_amount,
-                    "tax_amount": tax_amount,
-                    "untaxed_amount": untaxed_amount,
-                    "taxed_amount": taxed_amount,
-                    "cgst": cgst,
-                    "sgst": sgst,
-                    "igst": igst,
-                    "sub_total_amount": sub_total_amount,
-                    "total_amount": total_amount,
-                    "grand_total_amount": grand_total_amount,
-                    "round_off_amount": round_off_amount})
+        data = calculation.data_calculation(recs)
+        self.write(data)
 
     def trigger_grn(self):
         data = {}

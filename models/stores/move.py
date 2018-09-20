@@ -144,12 +144,15 @@ class StockMove(models.Model):
 
     @api.multi
     def trigger_move(self):
-        self.generate_warehouse()
+
+        self.env["product.warehouse"].generate_warehouse(self.product_id.id, self.source_location_id.id)
+        self.env["product.warehouse"].generate_warehouse(self.product_id.id, self.destination_location_id.id)
 
         writter = "Stock Moved by {0}".format(self.env.user.name)
         location = self.source_location_id.id
         quantity = self.get_balance_quantity(location)
 
+        # Except Purchase
         if self.picking_type in ["internal", "out"]:
             if quantity < self.quantity:
                 raise exceptions.ValidationError("Error! Product {0} has not enough stock to move".
@@ -164,6 +167,7 @@ class StockMove(models.Model):
                     raise exceptions.ValidationError("Error! Product {0} with {1} has not enough stock to move".
                                                      format(self.product_id.name, rec.batch_id.batch_no))
 
+        # On Purchase
         if self.picking_type in ["in"]:
             self.generate_batch()
 
@@ -174,25 +178,12 @@ class StockMove(models.Model):
         self.generate_assert()
         self.write({"progress": "moved", "writter": writter})
 
-    def generate_warehouse(self):
-        warehouse = self.env["product.warehouse"]
-        source = warehouse.search([("product_id", "=", self.product_id.id),
-                                   ("location_id", "=", self.source_location_id.id)])
-
-        if not source:
-            warehouse.create({"product_id": self.product_id.id,
-                              "location_id": self.source_location_id.id})
-
-        destination = warehouse.search([("product_id", "=", self.product_id.id),
-                                        ("location_id", "=", self.destination_location_id.id)])
-
-        if not destination:
-            warehouse.create({"product_id": self.product_id.id,
-                              "location_id": self.destination_location_id.id})
-
     @api.constrains("requested_quantity", "quantity")
     def check_requested_quantity(self):
-        if self.picking_id.picking_category in ["store_issue", "material_receipt", "store_intake"]:
+        if self.picking_id.picking_category in ["store_issue",
+                                                "assert_capitalisation",
+                                                "material_receipt",
+                                                "store_intake"]:
             if self.requested_quantity < self.quantity:
                 error_msg = "Error! Approved/Store Quantity must be lower than requested quantity"
                 raise exceptions.ValidationError(error_msg)

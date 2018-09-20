@@ -128,7 +128,7 @@ class Picking(models.Model):
             data["person_id"] = self.person_id.id
             data["reference"] = self.name
             data["invoice_detail"] = invoice_detail
-            data["invoice_type"] = self.picking_category
+            data["invoice_type"] = "direct_purchase_bill"
             data["picking_id"] = self.id
 
             invoice_id = self.env["hos.invoice"].create(data)
@@ -243,7 +243,7 @@ class Picking(models.Model):
     def _get_source_location_id(self):
         picking_category = self.env.context.get("default_picking_category", False)
 
-        if picking_category == 'stock_adjust':
+        if picking_category in ['stock_adjust', 'direct_material_receipt']:
             return self.env.user.company_id.location_purchase_id.id
         elif picking_category == 'assert_capitalisation':
             return self.env.user.company_id.location_store_id.id
@@ -251,7 +251,7 @@ class Picking(models.Model):
     def _get_destination_location_id(self):
         picking_category = self.env.context.get("default_picking_category", False)
 
-        if picking_category == 'stock_adjust':
+        if picking_category in ['stock_adjust', 'direct_material_receipt']:
             return self.env.user.company_id.location_store_id.id
         elif picking_category == 'assert_capitalisation':
             return self.env.user.company_id.location_assert_id.id

@@ -32,3 +32,12 @@ class HospitalWarehouse(models.Model):
                            ("batch_id", "=", False)]
 
             record.quantity = self.env["hos.stock"].get_stock(source, destination)
+
+    def generate_warehouse(self, product_id, location_id):
+        warehouse = self.env["product.warehouse"].search([("product_id", "=", product_id),
+                                                          ("location_id", "=", location_id)])
+
+        if not warehouse:
+            warehouse.create({"product_id": product_id,
+                              "location_id": location_id})
+
