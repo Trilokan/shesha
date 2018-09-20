@@ -74,13 +74,14 @@ class PurchaseIndent(models.Model):
     def get_last_5_invoice_transaction(self, product_id):
         history = []
         recs = self.env["invoice.detail"].search([("product_id", "=", product_id),
-                                                  ("invoice_id.invoice_type", "in", ["po", "dpo"])])
+                                                  ("invoice_id.invoice_type", "in", ["purchase_bill", "direct_purchase_bill"])],
+                                                 limit=5,
+                                                 order="id desc")
 
         for rec in recs:
-            if len(history) < 5:
-                data = rec.copy_data()[0]
-                data['vendor_id'] = data.pop('person_id')
-                history.append((0, 0, data))
+            data = rec.copy_data()[0]
+            data['vendor_id'] = data.pop('person_id')
+            history.append((0, 0, data))
 
         return history
 
@@ -88,13 +89,14 @@ class PurchaseIndent(models.Model):
     def create_quote(self, writter):
 
         quote_detail = []
-        recs = self.indent_detail
+
+        recs = self.env["purchase.indent.detail"].search([("quantity", ">", 0),
+                                                          ("indent_id", "=", self.id)])
 
         for rec in recs:
-            if rec.quantity > 0:
-                quote_detail.append((0, 0, {"product_id": rec.product_id.id,
-                                            "quantity": rec.quantity,
-                                            "purchase_history": self.get_last_5_invoice_transaction(rec.product_id.id)}))
+            quote_detail.append((0, 0, {"product_id": rec.product_id.id,
+                                        "quantity": rec.quantity,
+                                        "purchase_history": self.get_last_5_invoice_transaction(rec.product_id.id)}))
 
         data = {"indent_id": self.id,
                 "quote_detail": quote_detail,

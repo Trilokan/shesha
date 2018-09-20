@@ -88,7 +88,7 @@ class Picking(models.Model):
             if rec.quantity > 0:
 
                 order_detail = self.env["purchase.detail"].search([("product_id", "=", rec.product_id.id),
-                                                                   ("order_id", "=", self.po_id.id)])
+                                                                   ("order_id", "=", self.purchase_order_id.id)])
 
                 invoice_detail.append((0, 0, {"product_id": rec.product_id.id,
                                               "quantity": rec.quantity,
@@ -101,16 +101,16 @@ class Picking(models.Model):
             data["person_id"] = self.person_id.id
             data["reference"] = self.name
             data["invoice_detail"] = invoice_detail
-            data["invoice_type"] = self.picking_category
-            data["indent_id"] = self.po_id.indent_id.id
-            data["quote_id"] = self.po_id.quote_id.id
-            data["order_id"] = self.po_id.id
+            data["invoice_type"] = "purchase_bill"
+            data["indent_id"] = self.purchase_order_id.indent_id.id
+            data["quote_id"] = self.purchase_order_id.quote_id.id
+            data["order_id"] = self.purchase_order_id.id
             data["picking_id"] = self.id
 
             invoice_id = self.env["hos.invoice"].create(data)
             invoice_id.total_calculation()
 
-            self.write({"create_invoice_flag": True})
+            self.write({"is_invoice_created": True})
 
     @api.multi
     def trigger_create_direct_invoice(self):
@@ -134,7 +134,7 @@ class Picking(models.Model):
             invoice_id = self.env["hos.invoice"].create(data)
             invoice_id.total_calculation()
 
-            self.write({"create_invoice_flag": True})
+            self.write({"is_invoice_created": True})
 
     def generate_incoming_shipment(self):
         data = {}

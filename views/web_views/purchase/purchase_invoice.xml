@@ -2,11 +2,11 @@
 <odoo>
 
     <!-- Tree -->
-    <record id="view_purchase_order_tree" model="ir.ui.view">
-        <field name="name">purchase.order.tree</field>
-        <field name="model">purchase.order</field>
+    <record id="view_hos_invoice_purchase_tree" model="ir.ui.view">
+        <field name="name">hos.invoice.tree</field>
+        <field name="model">hos.invoice</field>
         <field name="arch" type="xml">
-            <tree string="Purchase Order">
+            <tree string="Purchase Invoice">
                 <field name="date"/>
                 <field name="name"/>
                 <field name="indent_id"/>
@@ -17,37 +17,37 @@
     </record>
 
     <!-- Form -->
-    <record id="view_purchase_order_form" model="ir.ui.view">
-        <field name="name">purchase.order.form</field>
-        <field name="model">purchase.order</field>
+    <record id="view_hos_invoice_purchase_form" model="ir.ui.view">
+        <field name="name">hos.invoice.form</field>
+        <field name="model">hos.invoice</field>
         <field name="arch" type="xml">
-            <form string="Purchase Order">
+            <form string="Purchase Invoice">
                 <sheet>
                     <div id="s_header">
-                        <h1>Purchase Order</h1>
+                        <h1>Purchase Invoice</h1>
                     </div>
                     <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
                     <h2><field name="name"/></h2>
                     <group col="4">
                         <field name="date"/>
+                        <field name="person_id"/>
                         <field name="indent_id"/>
                         <field name="quote_id"/>
-                        <field name="vendor_id"/>
-                        <field name="vendor_ref" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="purchase_order_id"/>
+                        <field name="sale_order_id"/>
+                        <field name="reference" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
                     </group>
                     <notebook>
-                        <page string="Order Detail">
-                            <field name="order_detail" attrs="{'readonly': [('progress', '!=', 'draft')]}">
+                        <page string="Invoice Detail">
+                            <field name="invoice_detail" attrs="{'readonly': [('progress', '!=', 'draft')]}">
                                 <tree editable="bottom" create="false" delete="false">
                                     <field name="product_id"/>
                                     <field name="uom_id" readonly="1"/>
-                                    <field name="requested_quantity" invisible="0"/>
-                                    <field name="accepted_quantity" string="Quantity"/>
+                                    <field name="quantity"/>
                                     <field name="unit_price"/>
                                     <field name="discount"/>
                                     <field name="tax_id"/>
                                     <field name="total_amount" string="Amount"/>
-                                    <field name="quote_detail_id" invisible="1"/>
                                     <field name="progress" invisible="1"/>
                                 </tree>
                             </field>
@@ -167,9 +167,9 @@
     </record>
 
     <!-- Action -->
-    <record id="action_purchase_order" model="ir.actions.act_window">
-        <field name="name">Purchase Order</field>
-        <field name="res_model">purchase.order</field>
+    <record id="action_hos_invoice_purchase" model="ir.actions.act_window">
+        <field name="name">Purchase Invoice</field>
+        <field name="res_model">hos.invoice</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>

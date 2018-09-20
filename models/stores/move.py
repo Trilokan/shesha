@@ -192,7 +192,7 @@ class StockMove(models.Model):
 
     @api.constrains("requested_quantity", "quantity")
     def check_requested_quantity(self):
-        if self.picking_id.picking_category in ["si", "po", "sr"]:
+        if self.picking_id.picking_category in ["store_issue", "material_receipt", "store_intake"]:
             if self.requested_quantity < self.quantity:
                 error_msg = "Error! Approved/Store Quantity must be lower than requested quantity"
                 raise exceptions.ValidationError(error_msg)

@@ -10,10 +10,10 @@ def purchase_calculation(unit_price, quantity, discount, tax, tax_state):
     tax_amount = discounted_amount * float(tax)/100
 
     cgst = sgst = igst = 0
-    if tax_state == 'inter_state':
-        igst = tax_amount
-    elif tax_state == 'outer_state':
+    if tax_state == 'Tamil Nadu':
         cgst = sgst = tax_amount / 2
+    else:
+        igst = tax_amount
 
     return {"cgst": cgst,
             "sgst": sgst,

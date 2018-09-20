@@ -130,6 +130,14 @@
             'views/web_views/payroll/salary_rule_slab.xml',
             'views/web_views/payroll/salary_structure.xml',
 
+            # Purchase
+            'views/web_views/purchase/indent.xml',
+            'views/web_views/purchase/quotation.xml',
+            'views/web_views/purchase/purchase_order.xml',
+            'views/web_views/purchase/material_receipt.xml',
+            'views/web_views/purchase/purchase_invoice.xml',
+            # 'views/web_views/purchase/direct_material_receipt.xml',
+
 
         # Menu
         'menu/base_pack.xml',
@@ -142,6 +150,8 @@
         'menu/leave_management.xml',
         'menu/payroll.xml',
         'menu/recruitment.xml',
+        'menu/purchase.xml',
+
     ],
     "demo": [
 
