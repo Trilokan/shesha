@@ -4,7 +4,7 @@ from odoo import fields, models, api, exceptions, _
 from datetime import datetime
 from .. import calculation
 
-# Purchase Return
+# Purchase Indent
 PROGRESS_INFO = [('draft', 'Draft'),
                  ('approved', 'Approved'),
                  ('cancelled', 'Cancelled')]
@@ -18,12 +18,12 @@ class PurchaseReturn(models.Model):
     date = fields.Date(string="Date",
                        default=datetime.now().strftime("%Y-%m-%d"),
                        readonly=True)
-    vendor_id = fields.Many2one(comodel_name="hos.person", string="Vendor", required=True)
+    vendor_id = fields.Many2one(comodel_name="hos.person", string="Vendor", readonly=True)
     processed_by = fields.Many2one(comodel_name="hos.person", string="Processed By", readonly=True)
     processed_on = fields.Date(string='Processed On', readonly=True)
     return_detail = fields.One2many(comodel_name='purchase.return.detail',
                                     inverse_name='return_id',
-                                    string='return Detail')
+                                    string='Return Detail')
     progress = fields.Selection(PROGRESS_INFO, default='draft', string='Progress')
     comment = fields.Text(string='Comment')
 
@@ -85,7 +85,7 @@ class PurchaseReturn(models.Model):
             data["person_id"] = self.vendor_id.id
             data["reference"] = self.name
             data["picking_detail"] = hos_move
-            data["picking_type"] = "out"
+            data["picking_type"] = 'out'
             data["date"] = datetime.now().strftime("%Y-%m-%d")
             data["purchase_return_id"] = self.id
             data["source_location_id"] = self.env.user.company_id.location_store_id.id

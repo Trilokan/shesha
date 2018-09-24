@@ -12,4 +12,5 @@ from . import leave_management
 from . import recruitment
 from . import payroll
 from . import purchase
+from . import pharmacy
 from . import invoice

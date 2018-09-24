@@ -138,6 +138,7 @@
             'views/web_views/purchase/purchase_invoice.xml',
             'views/web_views/purchase/direct_material_receipt.xml',
             'views/web_views/purchase/purchase_return.xml',
+            'views/web_views/purchase/material_return.xml',
 
 
         # Menu

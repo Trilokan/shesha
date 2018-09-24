@@ -5,19 +5,19 @@ from .. import calculation
 
 
 PROGRESS_INFO = [('draft', 'Draft'),
-                 ('approved', 'Approved'),
-                 ('cancelled', 'Cancelled')]
+                 ('qa', 'Quotation Approved'),
+                 ('cancel', 'Cancel')]
 
 
-class PurchaseReturnDetail(models.Model):
-    _name = 'purchase.return.detail'
-    _description = 'Purchase Order Detail'
+class PharmacyDetail(models.Model):
+    _name = 'sale.detail'
+    _description = 'Sale Order Detail'
 
-    return_id = fields.Many2one(comodel_name='purchase.return', string='Purchase Return')
+    order_id = fields.Many2one(comodel_name='sale.order', string='Purchase Order')
     vendor_id = fields.Many2one(comodel_name='hos.person', string='Vendor', readonly=True)
-    product_id = fields.Many2one(comodel_name='hos.product', string='Product')
-    uom_id = fields.Many2one(comodel_name='product.uom', string='UOM', related='product_id.uom_id')
-    returned_quantity = fields.Float(string='Returned Quantity', default=0)
+    product_id = fields.Many2one(comodel_name='hos.product', string='Product', required=True)
+    uom_id = fields.Many2one(comodel_name='product.uom', string='UOM', readonly=True)
+    quantity = fields.Float(string='Quantity', default=0)
     unit_price = fields.Float(string='Unit Price', default=0)
     discount = fields.Float(string='Discount', default=0)
     discount_amount = fields.Float(string='Discount Amount', default=0, readonly=True)
@@ -30,7 +30,7 @@ class PurchaseReturnDetail(models.Model):
     taxed_amount = fields.Float(string='Taxed Amount', default=0, readonly=True)
     untaxed_amount = fields.Float(string='Tax Amount', default=0, readonly=True)
     total_amount = fields.Float(string='Total', default=0, readonly=True)
-    progress = fields.Selection(PROGRESS_INFO, string='Progress', related='return_id.progress')
+    progress = fields.Selection(PROGRESS_INFO, string='Progress', related='order_id.progress')
 
     # Batch
     batch_id = fields.Many2one(comodel_name="hos.batch", string="Batch")
@@ -47,7 +47,7 @@ class PurchaseReturnDetail(models.Model):
     @api.multi
     def detail_calculation(self):
         data = calculation.purchase_calculation(self.unit_price,
-                                                self.returned_quantity,
+                                                self.quantity,
                                                 self.discount,
                                                 self.tax_id.rate,
                                                 self.vendor_id.state_id.name)
