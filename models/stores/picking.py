@@ -77,64 +77,73 @@ class Picking(models.Model):
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     writter = fields.Text(string="Writter", track_visibility='always')
 
-    # Purchase
+    def get_purchase_data(self, rec):
+        move_line = {}
+        order_detail = self.env["purchase.detail"].search([("product_id", "=", rec.product_id.id),
+                                                           ("order_id", "=", self.purchase_order_id.id)])
+
+        if order_detail:
+            move_line = {"unit_price": order_detail.unit_price,
+                         "discount": order_detail.discount,
+                         "tax_id": order_detail.tax_id.id}
+
+        return move_line
+
+    def generate_line(self):
+        invoice_detail = []
+
+        no_batch_recs = self.env["hos.move"].search([("picking_id", "=", self.id), ("is_batch", "=", False)])
+        batch_recs = self.env["hos.move"].search([("split_id.picking_id", "=", self.id)])
+
+        recs = no_batch_recs + batch_recs
+        for rec in recs:
+            if rec.quantity > 0:
+                move_line = {"product_id": rec.product_id.id,
+                             "quantity": rec.quantity,
+                             "batch_id": rec.batch_id.id}
+
+                if self.picking_category == "material_receipt":
+                    move_line.update(self.get_purchase_data(rec))
+
+                invoice_detail.append((0, 0, move_line))
+
+        return invoice_detail
+
+    def get_product_type(self):
+        product_type = "not_batch"
+        batch_recs = self.env["hos.move"].search([("split_id.picking_id", "=", self.id)])
+
+        if batch_recs:
+            product_type = "batch"
+
+        return product_type
+
     @api.multi
     def trigger_create_purchase_invoice(self):
         data = {}
-
-        invoice_detail = []
-        recs = self.picking_detail
-        for rec in recs:
-            if rec.quantity > 0:
-
-                order_detail = self.env["purchase.detail"].search([("product_id", "=", rec.product_id.id),
-                                                                   ("order_id", "=", self.purchase_order_id.id)])
-
-                invoice_detail.append((0, 0, {"product_id": rec.product_id.id,
-                                              "quantity": rec.quantity,
-                                              "unit_price": order_detail.unit_price,
-                                              "discount": order_detail.discount,
-                                              "tax_id": order_detail.tax_id.id}))
+        invoice_detail = self.generate_line()
 
         if invoice_detail:
             data["date"] = datetime.now().strftime("%Y-%m-%d")
             data["person_id"] = self.person_id.id
             data["reference"] = self.name
             data["invoice_detail"] = invoice_detail
-            data["invoice_type"] = "purchase_bill"
-            data["indent_id"] = self.purchase_order_id.indent_id.id
-            data["quote_id"] = self.purchase_order_id.quote_id.id
-            data["order_id"] = self.purchase_order_id.id
+            data["product_type"] = self.get_product_type()
             data["picking_id"] = self.id
 
-            invoice_id = self.env["hos.invoice"].create(data)
-            invoice_id.total_calculation()
+        if self.picking_category == "material_receipt":
+            data.update({"indent_id": self.purchase_order_id.indent_id.id,
+                         "quote_id": self.purchase_order_id.quote_id.id,
+                         "order_id": self.purchase_order_id.id,
+                         "invoice_type": "purchase_bill"})
 
-            self.write({"is_invoice_created": True})
+        if self.picking_category == "direct_material_receipt":
+            data.update({"invoice_type": "direct_purchase_bill"})
 
-    @api.multi
-    def trigger_create_direct_invoice(self):
-        data = {}
+        invoice_id = self.env["hos.invoice"].create(data)
+        invoice_id.total_calculation()
 
-        invoice_detail = []
-        recs = self.picking_detail
-        for rec in recs:
-            if rec.quantity > 0:
-                invoice_detail.append((0, 0, {"product_id": rec.product_id.id,
-                                              "quantity": rec.quantity}))
-
-        if invoice_detail:
-            data["date"] = datetime.now().strftime("%Y-%m-%d")
-            data["person_id"] = self.person_id.id
-            data["reference"] = self.name
-            data["invoice_detail"] = invoice_detail
-            data["invoice_type"] = "direct_purchase_bill"
-            data["picking_id"] = self.id
-
-            invoice_id = self.env["hos.invoice"].create(data)
-            invoice_id.total_calculation()
-
-            self.write({"is_invoice_created": True})
+        self.write({"is_invoice_created": True})
 
     def generate_incoming_shipment(self):
         data = {}

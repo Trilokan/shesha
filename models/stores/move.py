@@ -125,6 +125,7 @@ class StockMove(models.Model):
                     "destination_location_id": self.destination_location_id.id,
                     "picking_type": self.picking_type,
                     "batch_id": batch_id.id,
+                    "split_id": self.id,
                     "date": self.date,
                     "reference": self.reference,
                     "quantity": rec.quantity,
@@ -171,7 +172,7 @@ class StockMove(models.Model):
         if self.picking_type in ["in"]:
             self.generate_batch()
 
-        if self.is_batch:
+        if self.is_batch and (self.quantity > 0):
             if not self.batch_split:
                 raise exceptions.ValidationError("Error! Product needs batch")
 

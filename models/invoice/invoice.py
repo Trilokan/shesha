@@ -11,6 +11,7 @@ INVOICE_TYPE = [("direct_purchase_bill", "Direct Purchase Bill"),
                 ("purchase_return_bill", "Purchase Return Bill"),
                 ("sale_bill", "Sale Bill"),
                 ("sale_return_bill", "Sale Return Bill")]
+PRODUCT_TYPE = [("batch", "Batch"), ("not_batch", "Not Batch")]
 
 
 # Bills
@@ -35,6 +36,7 @@ class HospitalInvoice(models.Model):
 
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     invoice_type = fields.Selection(selection=INVOICE_TYPE, string="Invoice Type", required=True)
+    product_type = fields.Selection(selection=PRODUCT_TYPE, string="Product Type", required=True)
 
     discounted_amount = fields.Float(string='Discounted Amount', readonly=True, help='Amount after discount')
     taxed_amount = fields.Float(string='Taxed Amount', readonly=True, help='Tax after discounted amount')
@@ -123,6 +125,18 @@ class InvoiceDetail(models.Model):
     discounted_amount = fields.Float(string="Discounted Amount", readonly=True)
     untaxed_amount = fields.Float(string="Untaxed Value", readonly=True)
     taxed_amount = fields.Float(string="Taxed value", readonly=True)
+
+    # Batch
+    batch_id = fields.Many2one(comodel_name="hos.batch", string="Batch")
+    manufactured_date = fields.Date(string="Manufacturing Date",
+                                    related="batch_id.manufactured_date",
+                                    readonly=True)
+    expiry_date = fields.Date(string="Expiry Date",
+                              related="batch_id.expiry_date",
+                              readonly=True)
+    mrp_rate = fields.Float(string="MRP",
+                            related="batch_id.mrp_rate",
+                            readonly=True)
 
     invoice_id = fields.Many2one(comodel_name="hos.invoice", string="Hospital Invoice")
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", related="invoice_id.progress")
