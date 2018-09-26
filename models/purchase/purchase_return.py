@@ -73,13 +73,16 @@ class PurchaseReturn(models.Model):
         hos_move = []
         recs = self.return_detail
         for rec in recs:
-            if (rec.returned_quantity > 0) and (rec.unit_price > 0):
-                hos_move.append((0, 0, {"reference": self.name,
-                                        "source_location_id": self.env.user.company_id.location_store_id.id,
-                                        "destination_location_id": self.env.user.company_id.location_purchase_id.id,
-                                        "picking_type": "out",
-                                        "product_id": rec.product_id.id,
-                                        "requested_quantity": rec.returned_quantity}))
+            if (rec.quantity > 0) and (rec.unit_price > 0):
+
+                line_data = {"reference": self.name,
+                             "source_location_id": self.env.user.company_id.location_store_id.id,
+                             "destination_location_id": self.env.user.company_id.location_purchase_id.id,
+                             "picking_type": "out",
+                             "product_id": rec.product_id.id,
+                             "requested_quantity": rec.quantity}
+
+                hos_move.append((0, 0, line_data))
 
         if hos_move:
             data["person_id"] = self.vendor_id.id

@@ -36,7 +36,7 @@
                                 <tree editable="bottom">
                                     <field name="product_id"/>
                                     <field name="uom_id" readonly="1"/>
-                                    <field name="returned_quantity" invisible="0"/>
+                                    <field name="quantity" invisible="0"/>
                                     <field name="unit_price"/>
                                     <field name="discount"/>
                                     <field name="tax_id"/>

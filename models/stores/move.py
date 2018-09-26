@@ -172,9 +172,9 @@ class StockMove(models.Model):
         if self.picking_type in ["in"]:
             self.generate_batch()
 
-        if self.is_batch and (self.quantity > 0):
-            if not self.batch_split:
-                raise exceptions.ValidationError("Error! Product needs batch")
+            if self.is_batch and (self.quantity > 0):
+                if not self.batch_split:
+                    raise exceptions.ValidationError("Error! Product needs batch")
 
         self.generate_assert()
         self.write({"progress": "moved", "writter": writter})

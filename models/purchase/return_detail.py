@@ -17,7 +17,7 @@ class PurchaseReturnDetail(models.Model):
     vendor_id = fields.Many2one(comodel_name='hos.person', string='Vendor', readonly=True)
     product_id = fields.Many2one(comodel_name='hos.product', string='Product')
     uom_id = fields.Many2one(comodel_name='product.uom', string='UOM', related='product_id.uom_id')
-    returned_quantity = fields.Float(string='Returned Quantity', default=0)
+    quantity = fields.Float(string='Returned Quantity', default=0)
     unit_price = fields.Float(string='Unit Price', default=0)
     discount = fields.Float(string='Discount', default=0)
     discount_amount = fields.Float(string='Discount Amount', default=0, readonly=True)
@@ -32,22 +32,10 @@ class PurchaseReturnDetail(models.Model):
     total_amount = fields.Float(string='Total', default=0, readonly=True)
     progress = fields.Selection(PROGRESS_INFO, string='Progress', related='return_id.progress')
 
-    # Batch
-    batch_id = fields.Many2one(comodel_name="hos.batch", string="Batch")
-    manufactured_date = fields.Date(string="Manufacturing Date",
-                                    related="batch_id.manufactured_date",
-                                    readonly=True)
-    expiry_date = fields.Date(string="Expiry Date",
-                              related="batch_id.expiry_date",
-                              readonly=True)
-    mrp_rate = fields.Float(string="MRP",
-                            related="batch_id.mrp_rate",
-                            readonly=True)
-
     @api.multi
     def detail_calculation(self):
         data = calculation.purchase_calculation(self.unit_price,
-                                                self.returned_quantity,
+                                                self.quantity,
                                                 self.discount,
                                                 self.tax_id.rate,
                                                 self.vendor_id.state_id.name)

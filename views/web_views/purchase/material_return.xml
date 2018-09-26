@@ -55,18 +55,33 @@
                                         <field name="quantity" string="Accepted Quantity" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
                                         <field name="progress" invisible="1"/>
                                         <field name="is_batch" invisible="1"/>
+                                        <field name="source_location_id" invisible="1"/>
+                                        <field name="destination_location_id" invisible="1"/>
+                                        <field name="picking_type" invisible="1"/>
+                                        <field name="date" invisible="1"/>
                                     </group>
                                     <notebook>
                                         <page string="Batch" attrs="{'invisible': [('is_batch', '=', False)]}">
-                                            <field name="batch_split"
+                                            <field name="move_split"
+                                                   context="{'source_location_id': source_location_id,
+                                                             'destination_location_id': destination_location_id,
+                                                             'picking_type': picking_type,
+                                                             'date': date,
+                                                             'product_id': product_id}"
                                                    attrs="{'invisible': [('is_batch', '=', False)], 'readonly': [('progress', '!=', 'draft')]}">
                                                 <tree editable="bottom">
-                                                    <field name="batch_no"/>
+                                                    <field name="batch_id"/>
                                                     <field name="manufactured_date"/>
                                                     <field name="expiry_date"/>
                                                     <field name="mrp_rate"/>
                                                     <field name="unit_price"/>
                                                     <field name="quantity"/>
+                                                    <!--Auto Fill-->
+                                                    <field name="source_location_id" invisible="1"/>
+                                                    <field name="destination_location_id" invisible="1"/>
+                                                    <field name="picking_type" invisible="1"/>
+                                                    <field name="product_id" invisible="1"/>
+                                                    <field name="date" invisible="1"/>
                                                 </tree>
                                             </field>
                                         </page>
