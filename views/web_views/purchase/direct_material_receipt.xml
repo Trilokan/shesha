@@ -69,7 +69,7 @@
                                         <field name="destination_location_id" invisible="1"/>
                                         <field name="picking_type" invisible="1"/>
                                     </group>
-                                    <field name="batch_split"
+                                    <field name="dummy_batch_ids"
                                            attrs="{'invisible': [('is_batch', '=', False)], 'readonly': [('progress', '!=', 'draft')]}">
                                         <tree editable="bottom">
                                             <field name="batch_no"/>

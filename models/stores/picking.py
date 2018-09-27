@@ -62,7 +62,7 @@ class Picking(models.Model):
     store_request_id = fields.Many2one(comodel_name="store.request", string="Store Request")
     store_return_id = fields.Many2one(comodel_name="store.return", string="Store Return")
     purchase_order_id = fields.Many2one(comodel_name="purchase.order", string="Purchase Order")
-    # purchase_return_id = fields.Many2one(comodel_name="purchase.return", string="Purchase Return")
+    purchase_return_id = fields.Many2one(comodel_name="purchase.return", string="Purchase Return")
     # sale_order_id = fields.Many2one(comodel_name="sale.order", string="Sale Order")
     # sale_return_id = fields.Many2one(comodel_name="sale.return", string="Sale Return")
 
@@ -174,9 +174,9 @@ class Picking(models.Model):
             if self.purchase_order_id:
                 data["purchase_order_id"] = self.purchase_order_id.id
 
-            # if self.purchase_return_id:
-            #     data["purchase_return_id"] = self.purchase_return_id.id
-            #
+            if self.purchase_return_id:
+                data["purchase_return_id"] = self.purchase_return_id.id
+
             # if self.sale_order_id:
             #     data["sale_order_id"] = self.sale_order_id.id
             #

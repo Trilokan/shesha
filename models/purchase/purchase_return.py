@@ -17,8 +17,8 @@ class PurchaseReturn(models.Model):
     name = fields.Char(string='Name', readonly=True)
     date = fields.Date(string="Date",
                        default=datetime.now().strftime("%Y-%m-%d"),
-                       readonly=True)
-    vendor_id = fields.Many2one(comodel_name="hos.person", string="Vendor", readonly=True)
+                       required=True)
+    vendor_id = fields.Many2one(comodel_name="hos.person", string="Vendor", required=True)
     processed_by = fields.Many2one(comodel_name="hos.person", string="Processed By", readonly=True)
     processed_on = fields.Date(string='Processed On', readonly=True)
     return_detail = fields.One2many(comodel_name='purchase.return.detail',
