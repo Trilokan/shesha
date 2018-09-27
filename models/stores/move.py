@@ -105,6 +105,15 @@ class StockMove(models.Model):
 
                 self.env["hos.asserts"].create(data)
 
+    def check_batch_quantity(self):
+        if self.dummy_batch_ids:
+            quantity = 0
+            for rec in self.dummy_batch_ids:
+                quantity = quantity + rec.quantity
+
+            if self.quantity != quantity:
+                raise exceptions.ValidationError("Error! Batch Quantity must be equal")
+
     def update_batch_movement(self):
         if self.dummy_batch_ids:
             for rec in self.dummy_batch_ids:
@@ -151,7 +160,6 @@ class StockMove(models.Model):
 
     @api.multi
     def trigger_move(self):
-
         self.env["product.warehouse"].generate_warehouse(self.product_id.id, self.source_location_id.id)
         self.env["product.warehouse"].generate_warehouse(self.product_id.id, self.destination_location_id.id)
 
@@ -166,6 +174,7 @@ class StockMove(models.Model):
                                                  format(self.product_id.name))
 
         self.generate_assert()
+        self.check_batch_quantity()
         self.update_batch_movement()
         self.update_batch_movement_1()
         self.write({"progress": "moved", "writter": writter})

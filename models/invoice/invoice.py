@@ -26,6 +26,7 @@ class HospitalInvoice(models.Model):
     indent_id = fields.Many2one(comodel_name="purchase.indent", string="Purchase Indent")
     quote_id = fields.Many2one(comodel_name="purchase.quote", string="Quotation")
     purchase_order_id = fields.Many2one(comodel_name="purchase.order", string="Purchase Order")
+    purchase_return_id = fields.Many2one(comodel_name="purchase.return", string="Purchase Return")
     sale_order_id = fields.Many2one(comodel_name="sale.order", string="Sale Order")
     picking_id = fields.Many2one(comodel_name="hos.picking", string="Material Receipt")
     reference = fields.Char(string="Reference")
