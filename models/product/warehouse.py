@@ -23,15 +23,13 @@ class HospitalWarehouse(models.Model):
         for record in self:
             source = [("product_id", "=", record.product_id.id),
                       ("source_location_id", "=", record.location_id.id),
-                      ("progress", "=", "moved"),
-                      ("batch_id", "=", False)]
+                      ("progress", "=", "moved")]
 
             destination = [("product_id", "=", record.product_id.id),
                            ("destination_location_id", "=", record.location_id.id),
-                           ("progress", "=", "moved"),
-                           ("batch_id", "=", False)]
+                           ("progress", "=", "moved")]
 
-            record.quantity = self.env["hos.stock"].get_stock(source, destination)
+            record.quantity = self.env["hos.stock"].get_stock("hos.move", source, destination)
 
     def generate_warehouse(self, product_id, location_id):
         warehouse = self.env["product.warehouse"].search([("product_id", "=", product_id),

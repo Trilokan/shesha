@@ -72,27 +72,6 @@
                                         <field name="date" invisible="1"/>
                                         <field name="is_batch" invisible="1"/>
                                     </group>
-                                    <field name="move_split"
-                                           attrs="{'invisible': [('is_batch', '=', False)]}"
-                                           context="{'product_id': product_id,
-                                                     'source_location_id': source_location_id,
-                                                     'destination_location_id': destination_location_id,
-                                                     'picking_type': picking_type,
-                                                     'date': date}">
-                                        <tree editable="bottom">
-                                            <field name="batch_id" required="1"/>
-                                            <field name="manufactured_date"/>
-                                            <field name="expiry_date"/>
-                                            <field name="mrp_rate"/>
-                                            <field name="unit_price"/>
-                                            <field name="quantity"/>
-                                            <field name="product_id" invisible="1"/>
-                                            <field name="source_location_id" invisible="1"/>
-                                            <field name="destination_location_id" invisible="1"/>
-                                            <field name="picking_type" invisible="1"/>
-                                            <field name="date" invisible="1"/>
-                                        </tree>
-                                    </field>
                                 </form>
                             </field>
                         </page>

@@ -79,6 +79,10 @@
             'views/web_views/stores/store_intake.xml',
             'views/web_views/stores/stock_move.xml',
 
+            # Batch
+            'views/web_views/batch/dummy.xml',
+            'views/web_views/batch/batch.xml',
+
             # Asserts
             'views/web_views/asserts/asserts_capitalisation.xml',
             'views/web_views/asserts/asserts.xml',
@@ -135,10 +139,10 @@
             'views/web_views/purchase/quotation.xml',
             'views/web_views/purchase/purchase_order.xml',
             'views/web_views/purchase/material_receipt.xml',
-            'views/web_views/purchase/purchase_invoice.xml',
-            'views/web_views/purchase/direct_material_receipt.xml',
-            'views/web_views/purchase/purchase_return.xml',
-            'views/web_views/purchase/material_return.xml',
+            # 'views/web_views/purchase/purchase_invoice.xml',
+            # 'views/web_views/purchase/direct_material_receipt.xml',
+            # 'views/web_views/purchase/purchase_return.xml',
+            # 'views/web_views/purchase/material_return.xml',
 
 
         # Menu

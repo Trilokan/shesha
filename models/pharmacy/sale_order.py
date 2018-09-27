@@ -74,12 +74,15 @@ class SaleOrder(models.Model):
         recs = self.order_detail
         for rec in recs:
             if (rec.accepted_quantity > 0) and (rec.unit_price > 0):
-                hos_move.append((0, 0, {"reference": self.name,
-                                        "source_location_id": self.env.user.company_id.location_pharmacy_id.id,
-                                        "destination_location_id": self.env.user.company_id.location_sale_id.id,
-                                        "picking_type": "out",
-                                        "product_id": rec.product_id.id,
-                                        "requested_quantity": rec.accepted_quantity}))
+
+                line_data = {"reference": self.name,
+                             "source_location_id": self.env.user.company_id.location_pharmacy_id.id,
+                             "destination_location_id": self.env.user.company_id.location_sale_id.id,
+                             "picking_type": "out",
+                             "product_id": rec.product_id.id,
+                             "requested_quantity": rec.accepted_quantity}
+
+                hos_move.append((0, 0, line_data))
 
         if hos_move:
             data["person_id"] = self.vendor_id.id

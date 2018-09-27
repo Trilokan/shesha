@@ -58,7 +58,7 @@
                                     </group>
                                     <notebook>
                                         <page string="Batch" attrs="{'invisible': [('is_batch', '=', False)]}">
-                                            <field name="batch_split"
+                                            <field name="dummy_batch_ids"
                                                    attrs="{'invisible': [('is_batch', '=', False)], 'readonly': [('progress', '!=', 'draft')]}">
                                                 <tree editable="bottom">
                                                     <field name="batch_no"/>

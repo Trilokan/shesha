@@ -60,78 +60,40 @@ class StockMove(models.Model):
                                               default=lambda self: self.env.context.get("destination_location_id", False),
                                               required=True)
 
-    # Batch
-    is_batch = fields.Boolean(string="Batch", related="product_id.is_batch")
-    split_id = fields.Many2one(comodel_name="hos.move", string="Move")
-    batch_id = fields.Many2one(comodel_name="hos.batch", string="Batch")
-
-    manufactured_date = fields.Date(string="Manufacturing Date",
-                                    related="batch_id.manufactured_date")
-
-    expiry_date = fields.Date(string="Expiry Date",
-                              related="batch_id.expiry_date")
-
-    mrp_rate = fields.Float(string="MRP",
-                            related="batch_id.mrp_rate")
-
-    unit_price = fields.Float(string="Unit Price",
-                              related="batch_id.unit_price")
-
-    move_split = fields.One2many(comodel_name="hos.move",
-                                 inverse_name="split_id",
-                                 string="Move Split")
-
-    batch_split = fields.One2many(comodel_name="dum.batch",
-                                  inverse_name="move_id",
-                                  string="Batch Split")
-
     assert_ids = fields.One2many(comodel_name="hos.asserts",
                                  inverse_name="move_id",
                                  string="Assert")
 
+    is_batch = fields.Boolean(string="Batch", related="product_id.is_batch")
+    dummy_batch_ids = fields.One2many(comodel_name="dum.batch", inverse_name="move_id", string="Batch")
+
+    batch_ids = fields.Many2many(comodel_name="hos.batch", string="Batch")
+
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     writter = fields.Text(string="Writter", track_visibility='always')
 
-    def get_balance_quantity(self, location, batch=False):
+    def get_balance_quantity(self, location):
 
         source = [("product_id", "=", self.product_id.id),
                   ("source_location_id", "=", location),
-                  ("progress", "=", "moved"),
-                  ("batch_id", "=", batch)]
+                  ("progress", "=", "moved")]
 
         destination = [("product_id", "=", self.product_id.id),
                        ("destination_location_id", "=", location),
-                       ("progress", "=", "moved"),
-                       ("batch_id", "=", batch)]
+                       ("progress", "=", "moved")]
 
-        return self.env["hos.stock"].get_stock(source, destination)
+        return self.env["hos.stock"].get_stock("hos.move", source, destination)
 
-    def generate_batch(self):
-        for rec in self.batch_split:
-            batch = {"product_id": self.product_id.id,
-                     "batch_no": rec.batch_no,
-                     "manufactured_date": rec.manufactured_date,
-                     "expiry_date": rec.expiry_date,
-                     "mrp_rate": rec.mrp_rate,
-                     "unit_price": rec.unit_price}
+    def get_batch_quantity(self, batch_id, location):
+        source = [("batch_id", "=", batch_id),
+                  ("source_location_id", "=", location),
+                  ("progress", "=", "moved")]
 
-            batch_id = self.env["hos.batch"].search([("batch_no", "=", rec.batch_no)])
+        destination = [("batch_id", "=", batch_id),
+                       ("destination_location_id", "=", location),
+                       ("progress", "=", "moved")]
 
-            if not batch_id.id:
-                batch_id = self.env["hos.batch"].create(batch)
-
-            move = {"product_id": self.product_id.id,
-                    "source_location_id": self.source_location_id.id,
-                    "destination_location_id": self.destination_location_id.id,
-                    "picking_type": self.picking_type,
-                    "batch_id": batch_id.id,
-                    "split_id": self.id,
-                    "date": self.date,
-                    "reference": self.reference,
-                    "quantity": rec.quantity,
-                    "progress": "moved"}
-
-            self.env["hos.move"].create(move)
+        return self.env["hos.stock"].get_stock("batch.move", source, destination)
 
     def generate_assert(self):
         if self.picking_id.picking_category == 'assert_capitalisation':
@@ -142,6 +104,50 @@ class StockMove(models.Model):
                         "move_id": self.id}
 
                 self.env["hos.asserts"].create(data)
+
+    def update_batch_movement(self):
+        if self.dummy_batch_ids:
+            for rec in self.dummy_batch_ids:
+                batch_id = self.env["hos.batch"].search([("batch_no", "=", rec.batch_no),
+                                                         ("product_id", "=", self.product_id.id)])
+
+                data = {"batch_id": batch_id.id,
+                        "source_location_id": self.source_location_id.id,
+                        "destination_location_id": self.destination_location_id.id,
+                        "quantity": rec.quantity,
+                        "progress": "moved"}
+
+                self.env["batch.move"].create(data)
+
+    def quantity_calc(self, batch_qty, quantity):
+        if batch_qty > quantity:
+            move_quantity = quantity
+        else:
+            move_quantity = batch_qty
+
+        return move_quantity
+
+    def update_batch_movement_1(self):
+        if self.batch_ids:
+            location = self.source_location_id.id
+
+            quantity = self.quantity
+            for rec in self.batch_ids:
+                batch_qty = self.get_batch_quantity(rec.id, location)
+
+                if batch_qty > 0:
+
+                    data = {"batch_id": rec.id,
+                            "source_location_id": self.source_location_id.id,
+                            "destination_location_id": self.destination_location_id.id,
+                            "quantity": self.quantity_calc(batch_qty, quantity),
+                            "progress": "moved"}
+
+                    quantity = quantity - data["quantity"]
+                    self.env["batch.move"].create(data)
+
+            if quantity:
+                raise exceptions.ValidationError("Error! Batch doesn't have enough stock to move")
 
     @api.multi
     def trigger_move(self):
@@ -159,24 +165,9 @@ class StockMove(models.Model):
                 raise exceptions.ValidationError("Error! Product {0} has not enough stock to move".
                                                  format(self.product_id.name))
 
-            batch_total = 0
-            for rec in self.move_split:
-                batch_quantity = self.get_balance_quantity(location, rec.batch_id.id)
-                batch_total = batch_total + batch_quantity
-
-                if batch_quantity < rec.quantity:
-                    raise exceptions.ValidationError("Error! Product {0} with {1} has not enough stock to move".
-                                                     format(self.product_id.name, rec.batch_id.batch_no))
-
-        # On Purchase
-        if self.picking_type in ["in"]:
-            self.generate_batch()
-
-            if self.is_batch and (self.quantity > 0):
-                if not self.batch_split:
-                    raise exceptions.ValidationError("Error! Product needs batch")
-
         self.generate_assert()
+        self.update_batch_movement()
+        self.update_batch_movement_1()
         self.write({"progress": "moved", "writter": writter})
 
     @api.constrains("requested_quantity", "quantity")

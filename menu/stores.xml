@@ -44,5 +44,16 @@
               parent="menu_stores"
               sequence="70"/>
 
+    <menuitem id="stores_hos_batch"
+              name="Batch"
+              action="action_hos_batch"
+              parent="menu_stores"
+              sequence="80"/>
+
+    <menuitem id="stores_dum_batch"
+              name="Dummy Batch"
+              action="action_dum_batch"
+              parent="menu_stores"
+              sequence="90"/>
 
 </odoo>

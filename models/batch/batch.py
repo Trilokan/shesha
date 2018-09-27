@@ -11,7 +11,7 @@ class Batch(models.Model):
     product_id = fields.Many2one(comodel_name="hos.product",
                                  string="Product",
                                  readonly=True)
-    batch_detail = fields.One2many(comodel_name="hos.move",
+    batch_detail = fields.One2many(comodel_name="batch.move",
                                    inverse_name="batch_id",
                                    string="Batch Detail")
     batch_no = fields.Char(string="Batch", readonly=True)
@@ -20,17 +20,3 @@ class Batch(models.Model):
     mrp_rate = fields.Float(string="MRP", default=0, readonly=True)
     unit_price = fields.Float(string="Unit Price", default=0, readonly=True)
     quantity = fields.Float(string="Quantity", readonly=True)
-
-
-class DummyBatch(models.Model):
-    _name = "dum.batch"
-
-    batch_no = fields.Char(string="Batch", required=True)
-    manufactured_date = fields.Date(string="Manufacturing Date", required=True)
-    expiry_date = fields.Date(string="Expiry Date", required=True)
-    mrp_rate = fields.Float(string="MRP", default=0)
-    unit_price = fields.Float(string="Unit Price", default=0)
-    quantity = fields.Float(string="Quantity", required=True)
-    move_id = fields.Many2one(comodel_name="hos.move", string="Move")
-
-
