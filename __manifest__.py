@@ -30,6 +30,8 @@
         'sequence/account.xml',
         'sequence/product.xml',
         'sequence/stores.xml',
+        'sequence/purchase.xml',
+        'sequence/invoice.xml',
 
         # Data
 
@@ -139,7 +141,7 @@
             'views/web_views/purchase/quotation.xml',
             'views/web_views/purchase/purchase_order.xml',
             'views/web_views/purchase/material_receipt.xml',
-            # 'views/web_views/purchase/purchase_invoice.xml',
+            'views/web_views/purchase/purchase_invoice.xml',
             'views/web_views/purchase/direct_material_receipt.xml',
             'views/web_views/purchase/purchase_return.xml',
             'views/web_views/purchase/material_return.xml',

@@ -19,10 +19,13 @@ class HospitalInvoice(models.Model):
     _name = "hos.invoice"
     _inherit = "mail.thread"
 
-    date = fields.Date(srring="Date", required=True)
+    date = fields.Date(srring="Date", default=datetime.now().strftime("%Y-%m-%d"), required=True)
     name = fields.Char(string="Name", readonly=True)
     person_id = fields.Many2one(comodel_name="hos.person", string="Partner", required=True)
-    company_id = fields.Many2one(comodel_name="res.company", string="Company", readdonly=True)
+    company_id = fields.Many2one(comodel_name="res.company",
+                                 deafult=lambda self: self.env.user.company_id.id,
+                                 string="Company",
+                                 readdonly=True)
     indent_id = fields.Many2one(comodel_name="purchase.indent", string="Purchase Indent")
     quote_id = fields.Many2one(comodel_name="purchase.quote", string="Quotation")
     purchase_order_id = fields.Many2one(comodel_name="purchase.order", string="Purchase Order")
@@ -67,15 +70,6 @@ class HospitalInvoice(models.Model):
     #                                  string="Invoice detail")
     # Account_detail
 
-    def default_vals_creation(self, vals):
-        code = "{0}.{1}".format("hos.invoice", vals["invoice_type"])
-        vals['name'] = self.env['ir.sequence'].next_by_code(code)
-        vals['company_id'] = self.env.user.company_id.id
-        vals['writter'] = self.env.user.name
-        if vals.get('date', True):
-            vals['date'] = datetime.now().strftime("%Y-%m-%d")
-        return vals
-
     @api.multi
     def trigger_approve(self):
         self.total_calculation()
@@ -102,6 +96,13 @@ class HospitalInvoice(models.Model):
 
         data = calculation.data_calculation(recs)
         self.write(data)
+
+    @api.model
+    def create(self, vals):
+        code = "{0}.{1}".format("invoice", vals["invoice_type"])
+        vals['name'] = self.env['ir.sequence'].next_by_code(code)
+        vals['writter'] = self.env.user.name
+        return super(HospitalInvoice, self).create(vals)
 
 
 class InvoiceDetail(models.Model):

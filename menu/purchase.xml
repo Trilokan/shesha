@@ -44,11 +44,11 @@
               parent="menu_purchase"
               sequence="70"/>
 
-    <!--<menuitem id="purchase_hos_invoice_purchase"-->
-              <!--name="Invoice"-->
-              <!--action="action_hos_invoice_purchase"-->
-              <!--parent="menu_purchase"-->
-              <!--sequence="80"/>-->
+    <menuitem id="purchase_hos_invoice_purchase"
+              name="Invoice"
+              action="action_hos_invoice_purchase"
+              parent="menu_purchase"
+              sequence="80"/>
 
 
 </odoo>

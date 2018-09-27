@@ -159,7 +159,7 @@
                         <button name="total_calculation" string="Total Calculation" type="object"/>
                         <button name="trigger_cancel" string="Cancel" type="object"
                                 attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
-                        <button name="trigger_po_approve" string="PO Approve" type="object"
+                        <button name="trigger_approve" string="Approve" type="object"
                                 attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
                     </footer>
                 </sheet>
