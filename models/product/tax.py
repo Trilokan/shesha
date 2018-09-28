@@ -3,7 +3,7 @@
 from odoo import models, fields
 
 
-# Tax
+# Product Tax
 class Tax(models.Model):
     _name = "product.tax"
     _rec_name = "code"

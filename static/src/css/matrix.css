@@ -1,0 +1,41 @@
+.form_layout {
+    min-width: 650px;
+    max-width: 860px;
+    min-height: 330px;
+    background: white;
+    padding: 0px;
+    margin: 0 auto;
+    border: 1px solid #c8c8d3;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
+
+.form_header {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 30px;
+	background: #4CAF50;
+    padding: 26px;
+    vertical-align: middle;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
+    }
+
+.progress_layout {
+	padding: 10px;
+	height: 45px;
+    }
+
+.data_layout {
+	margin: 0;
+    padding: 26px;
+    }
+
+.progress_bar {
+    float: right;
+    }
+
+.smart_button_layout {
+    float: right;
+    padding: 16px;
+    }

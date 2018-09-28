@@ -26,6 +26,7 @@
                     <group>
                         <field name="name"/>
                         <field name="code"/>
+                        <field name="account_id"/>
                     </group>
                 </sheet>
             </form>

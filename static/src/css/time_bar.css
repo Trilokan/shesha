@@ -1,0 +1,63 @@
+/* Time bar Item CSS */
+#time_bar {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#time_bar td, #time_bar th {
+    border: 3px solid #ddd;
+    padding: 8px;
+}
+
+#time_bar tr:nth-child(even){background-color: #f2f2f2;}
+
+#time_bar tr:hover {background-color: #ddd;}
+
+#time_bar th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Header CSS */
+#s_header {
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+    border: 3px solid #ddd;
+    padding: 8px;
+}
+
+#p_header {height: 80px;}
+
+
+
+
+/* Line Item CSS */
+
+.o_form_view .o_form_field .o_list_view{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.o_form_view .o_form_field .o_list_view td, .o_form_view .o_form_field .o_list_view th {
+    border: 2px solid #ddd;
+    padding: 8px;
+}
+
+.o_form_view .o_form_field .o_list_view tr:nth-child(even){background-color: #f2f2f2;}
+
+.o_form_view .o_form_field .o_list_view tr:hover {background-color: #ddd;}
+
+.o_form_view .o_form_field .o_list_view th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+

@@ -22,6 +22,9 @@
     """,
     "depends": ["base", "mail"],
     "data": [
+        # CSS
+        'views/web_views/assert_backend.xml',
+
         # Main Menu
         'menu/menu.xml',
 
@@ -151,7 +154,6 @@
             'views/web_views/pharmacy/material_delivery.xml',
             'views/web_views/pharmacy/sale_return.xml',
             'views/web_views/pharmacy/material_intake.xml',
-
 
         # Menu
         'menu/base_pack.xml',

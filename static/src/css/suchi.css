@@ -1,0 +1,13 @@
+.custom_purchase_order > .o_form_field > .o_list_editable > .table-responsive > table > thead {display: none;}
+
+.custom_purchase_order > .o_form_field > .o_list_editable > .table-responsive > table {float: right;
+                                                                                       width: 50%;}
+
+@media only screen and (max-width: 600px) {
+    .o_sub_menu {visibility: collapse;} }
+
+@media only screen and (max-width: 600px) {
+
+ .o_cp_sidebar { display: none; }
+
+}

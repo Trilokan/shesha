@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, exceptions, _
+from odoo import models, fields, api, exceptions
 
 
 # Product
@@ -18,17 +18,76 @@ class Product(models.Model):
                                     string="Warehouse",
                                     domain=lambda self: self._get_warehouse_ids(),
                                     readonly=True)
+    is_batch = fields.Boolean(string="Batch")
+    min_stock = fields.Integer(string="Min Stock")
+    max_stock = fields.Integer(string="Max Stock")
+
+    # Smart Button
+    indent_count = fields.Integer(string="Indent", compute="_get_indent_count")
+    purchase_order_count = fields.Integer(string="Purchase Order", compute="_get_purchase_order_count")
+    sale_order_count = fields.Integer(string="Sale Order", compute="_get_sale_order_count")
+    incoming_shipment_count = fields.Integer(string="Incoming Shipment", compute="_get_incoming_shipment_count")
+    invoice_count = fields.Integer(string="Invoice", compute="_get_invoice_count")
+    batch_count = fields.Integer(string="Batch", compute="_get_batch_count")
+    assert_count = fields.Integer(string="Assert", compute="_get_assert_count")
+
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True)
 
-    min_stock = fields.Integer(string="Min Stock")
-    max_stock = fields.Integer(string="Max Stock")
-    is_batch = fields.Boolean(string="Batch")
-
     _sql_constraints = [('unique_code', 'unique (code)', 'Error! Product Code must be unique'),
                         ('unique_name', 'unique (name)', 'Error! Product must be unique')]
+
+    # Smart Button
+    def _get_indent_count(self):
+        return 0
+
+    def _get_purchase_order_count(self):
+        return 0
+
+    def _get_sale_order_count(self):
+        return 0
+
+    def _get_incoming_shipment_count(self):
+        return 0
+
+    def _get_invoice_count(self):
+        return 0
+
+    def _get_batch_count(self):
+        return 0
+
+    def _get_assert_count(self):
+        pass
+
+    @api.multi
+    def action_view_indent(self):
+        pass
+
+    @api.multi
+    def action_view_purchase_order(self):
+        pass
+
+    @api.multi
+    def action_view_sale_order(self):
+        pass
+
+    @api.multi
+    def action_view_incoming_shipment(self):
+        pass
+
+    @api.multi
+    def action_view_invoice(self):
+        pass
+
+    @api.multi
+    def action_view_batch(self):
+        pass
+
+    @api.multi
+    def action_view_assert(self):
+        pass
 
     def _get_warehouse_ids(self):
         location_left = self.env.user.company_id.location_left
@@ -59,12 +118,6 @@ class Product(models.Model):
             result.append((record.id, name))
         return result
 
-    def _get_code(self, vals):
-        group_id = self.env["product.group"].search([("id", "=", vals["group_id"])])
-        sub_group_id = self.env["product.sub.group"].search([("id", "=", vals["sub_group_id"])])
-
-        return "{0}/{1}".format(group_id.code, sub_group_id.code)
-
     def generate_warehouse(self, rec):
         location_store_id = self.env.user.company_id.location_store_id
 
@@ -73,6 +126,12 @@ class Product(models.Model):
 
         self.env["product.warehouse"].generate_warehouse({"product_id": rec.id,
                                                           "location_id": location_store_id.id})
+
+    def _get_code(self, vals):
+        group_id = self.env["product.group"].search([("id", "=", vals["group_id"])])
+        sub_group_id = self.env["product.sub.group"].search([("id", "=", vals["sub_group_id"])])
+
+        return "{0}/{1}".format(group_id.code, sub_group_id.code)
 
     @api.model
     def create(self, vals):

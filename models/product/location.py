@@ -3,7 +3,7 @@
 from odoo import models, fields
 
 
-# Location
+# Product Location
 class HospitalLocation(models.Model):
     _name = "product.location"
     _rec_name = "code"
