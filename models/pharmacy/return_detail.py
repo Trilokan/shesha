@@ -9,11 +9,11 @@ PROGRESS_INFO = [('draft', 'Draft'),
                  ('cancel', 'Cancel')]
 
 
-class PharmacyDetail(models.Model):
-    _name = 'sale.detail'
-    _description = 'Sale Order Detail'
+class PharmacyReturnDetail(models.Model):
+    _name = 'sale.return.detail'
+    _description = 'Sale Return Detail'
 
-    order_id = fields.Many2one(comodel_name='sale.order', string='Purchase Order')
+    return_id = fields.Many2one(comodel_name='sale.return', string='Purchase Order')
     vendor_id = fields.Many2one(comodel_name='hos.person', string='Vendor', readonly=True)
     product_id = fields.Many2one(comodel_name='hos.product', string='Product', required=True)
     uom_id = fields.Many2one(comodel_name='product.uom', string='UOM', related="product_id.uom_id", readonly=True)
@@ -30,7 +30,7 @@ class PharmacyDetail(models.Model):
     taxed_amount = fields.Float(string='Taxed Amount', default=0, readonly=True)
     untaxed_amount = fields.Float(string='Tax Amount', default=0, readonly=True)
     total_amount = fields.Float(string='Total', default=0, readonly=True)
-    progress = fields.Selection(PROGRESS_INFO, string='Progress', related='order_id.progress')
+    progress = fields.Selection(PROGRESS_INFO, string='Progress', related='return_id.progress')
 
     # Batch
     batch_ids = fields.Many2many(comodel_name="hos.batch", string="Batch")

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Pharmacy-->
+    <menuitem id="pharmacy_sale_order"
+              name="Sale Order"
+              action="action_sale_order"
+              parent="menu_pharmacy"
+              sequence="10"/>
+
+    <menuitem id="pharmacy_material_delivery"
+              name="Material Delivery"
+              action="action_hos_picking_material_delivery"
+              parent="menu_pharmacy"
+              sequence="20"/>
+
+    <menuitem id="pharmacy_sale_return"
+              name="Sale Return"
+              action="action_sale_return"
+              parent="menu_pharmacy"
+              sequence="30"/>
+
+    <menuitem id="pharmacy_material_intake"
+              name="Material Intake"
+              action="action_hos_picking_material_intake"
+              parent="menu_pharmacy"
+              sequence="40"/>
+
+</odoo>

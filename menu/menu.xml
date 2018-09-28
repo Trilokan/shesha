@@ -11,6 +11,7 @@
     <menuitem id="menu_hr" name="Human Resources" sequence="70"/>
     <menuitem id="menu_recruitment" name="Recruitment" sequence="80"/>
     <menuitem id="menu_account" name="Account" sequence="90"/>
+    <menuitem id="menu_pharmacy" name="Pharmacy" sequence="95"/>
     <menuitem id="menu_base" name="Base" sequence="100"/>
 
 

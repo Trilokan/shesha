@@ -18,6 +18,7 @@
                             <field name="location_store_id"/>
                             <field name="location_purchase_id"/>
                             <field name="location_pharmacy_id"/>
+                            <field name="location_sale_id"/>
                             <field name="location_left"/>
                             <field name="location_right"/>
                         </group>

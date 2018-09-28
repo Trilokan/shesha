@@ -67,20 +67,30 @@ class SaleOrder(models.Model):
         data = calculation.data_calculation(recs)
         self.write(data)
 
+    def get_batch_ids(self, batch):
+        batch_ids = []
+        for rec in batch:
+            batch_ids.append(rec.id)
+
+        return [(6, 0, batch_ids)]
+
     def trigger_grn(self):
         data = {}
 
         hos_move = []
         recs = self.order_detail
         for rec in recs:
-            if (rec.accepted_quantity > 0) and (rec.unit_price > 0):
+            if (rec.quantity > 0) and (rec.unit_price > 0):
+
+                print rec.batch_ids
 
                 line_data = {"reference": self.name,
                              "source_location_id": self.env.user.company_id.location_pharmacy_id.id,
                              "destination_location_id": self.env.user.company_id.location_sale_id.id,
                              "picking_type": "out",
                              "product_id": rec.product_id.id,
-                             "requested_quantity": rec.accepted_quantity}
+                             "quantity": rec.quantity,
+                             "batch_ids": self.get_batch_ids(rec.batch_ids)}
 
                 hos_move.append((0, 0, line_data))
 
@@ -95,15 +105,16 @@ class SaleOrder(models.Model):
             data["destination_location_id"] = self.env.user.company_id.location_sale_id.id
             data["picking_category"] = "material_delivery"
             picking_id = self.env["hos.picking"].create(data)
-            return True
-        return False
+            return picking_id
+
+        raise exceptions.ValidationError("Error! Please check Product lines")
 
     @api.multi
     def trigger_so_approve(self):
         self.total_calculation()
 
-        if not self.trigger_grn():
-            raise exceptions.ValidationError("Error! Please check Product lines")
+        picking_id = self.trigger_grn()
+        picking_id.trigger_move()
 
         writter = "SO approved by {0}".format(self.env.user.name)
         self.write({"progress": "approved", "writter": writter})

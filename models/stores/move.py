@@ -143,8 +143,9 @@ class StockMove(models.Model):
             quantity = self.quantity
             for rec in self.batch_ids:
                 batch_qty = self.get_batch_quantity(rec.id, location)
+                move_qty = self.quantity_calc(batch_qty, quantity)
 
-                if batch_qty > 0:
+                if (batch_qty > 0) and (move_qty > 0):
 
                     data = {"batch_id": rec.id,
                             "source_location_id": self.source_location_id.id,

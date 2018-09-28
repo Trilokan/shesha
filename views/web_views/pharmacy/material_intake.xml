@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_picking_material_intake_tree" model="ir.ui.view">
+        <field name="name">hos.picking.tree</field>
+        <field name="model">hos.picking</field>
+        <field name="arch" type="xml">
+            <tree string="Material Intake" create="false" delete="false">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="picking_type"/>
+                <field name="name"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_picking_material_intake_form" model="ir.ui.view">
+        <field name="name">hos.picking.form</field>
+        <field name="model">hos.picking</field>
+        <field name="arch" type="xml">
+            <form string="Material Intake" create="false" delete="false">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Material Intake</h1>
+                    </div>
+                    <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    <h2><field name="name" readonly="1"/></h2>
+                    <group col="4">
+                        <field name="date" readonly="1"/>
+                        <field name="person_id" readonly="1"/>
+                        <field name="reference" readonly="1"/>
+                        <field name="picking_type" readonly="1"/>
+                        <field name="purchase_return_id" readonly="1"/>
+                        <field name="is_invoice_created" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Material Detail">
+                            <field name="picking_detail" attrs="{'readonly': [('progress', '!=', 'draft')]}">
+                                <tree create="false" delete="false">
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="uom_id" readonly="1"/>
+                                    <field name="requested_quantity" string="Requested Quantity" readonly="1"/>
+                                    <field name="quantity" string="Accepted Quantity" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                    <field name="progress" invisible="1"/>
+                                </tree>
+                                <form create="false" delete="false">
+                                    <group>
+                                        <field name="product_id" readonly="1"/>
+                                        <field name="uom_id" readonly="1"/>
+                                        <field name="requested_quantity" string="Requested Quantity" readonly="1"/>
+                                        <field name="quantity" string="Accepted Quantity" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                                        <field name="progress" invisible="1"/>
+                                        <field name="is_batch" invisible="1"/>
+                                        <field name="source_location_id" invisible="1"/>
+                                        <field name="destination_location_id" invisible="1"/>
+                                        <field name="picking_type" invisible="1"/>
+                                        <field name="date" invisible="1"/>
+                                    </group>
+                                    <field name="batch_ids"
+                                           domain="[('product_id', '=', product_id)]"
+                                           attrs="{'invisible': [('is_batch', '=', False)], 'readonly': [('progress', '!=', 'draft')]}"/>
+                                </form>
+
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="trigger_move" string="Accept" type="object"
+                                attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                        <button name="trigger_create_purchase_return_invoice"
+                                string="Create Invoice" type="object"
+                                attrs="{'invisible': ['|',('progress', '=', 'draft'),('is_invoice_created','!=',False)]}"/>
+                        <button name="trigger_revert"
+                                string="Revert" type="object"
+                                attrs="{'invisible': [('progress', '!=', 'moved')]}"/>
+                    </footer>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action GRN-->
+    <record id="action_hos_picking_material_intake" model="ir.actions.act_window">
+        <field name="name">Material Intake</field>
+        <field name="res_model">hos.picking</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('picking_category', '=', 'material_intake')]</field>
+        <field name="view_id" ref="view_hos_picking_material_intake_tree"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_hos_picking_material_intake_form">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hos_picking_material_intake_form" />
+        <field name="act_window_id" ref="action_hos_picking_material_intake"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_hos_picking_material_intake_tree">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_hos_picking_material_intake_tree"/>
+        <field name="act_window_id" ref="action_hos_picking_material_intake"/>
+    </record>
+
+</odoo>
+

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_sale_return_tree" model="ir.ui.view">
+        <field name="name">sale.return.tree</field>
+        <field name="model">sale.return</field>
+        <field name="arch" type="xml">
+            <tree string="Sale Return">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_sale_return_form" model="ir.ui.view">
+        <field name="name">sale.return.form</field>
+        <field name="model">sale.return</field>
+        <field name="arch" type="xml">
+            <form string="Sale Return">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Sale Return</h1>
+                    </div>
+                    <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    <h2><field name="name"/></h2>
+                    <group col="4">
+                        <field name="date"/>
+                        <field name="vendor_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Return Detail">
+                            <field name="return_detail" attrs="{'readonly': [('progress', '!=', 'draft')]}">
+                                <tree>
+                                    <field name="product_id"/>
+                                    <field name="uom_id" readonly="1"/>
+                                    <field name="quantity"/>
+                                    <field name="unit_price"/>
+                                    <field name="discount"/>
+                                    <field name="tax_id"/>
+                                    <field name="total_amount" string="Amount"/>
+                                    <field name="batch_ids"/>
+                                    <field name="progress" invisible="1"/>
+                                </tree>
+                                <form>
+                                    <group col="4">
+                                        <field name="product_id"/>
+                                        <field name="uom_id" readonly="1"/>
+                                        <field name="quantity"/>
+                                        <field name="unit_price"/>
+                                        <field name="discount"/>
+                                        <field name="tax_id"/>
+                                        <field name="total_amount" string="Amount"/>
+                                    </group>
+                                    <field name="batch_ids" domain="[('product_id', '=', product_id)]"/>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <div style="float: left; width: 100%;">
+                            <table id="time_bar">
+                                <tr>
+                                    <th>sgst</th>
+                                    <th>cgst</th>
+                                    <th>igst</th>
+                                </tr>
+                                <tr>
+                                    <td align="right"><field name="sgst" nolabel="1"/></td>
+                                    <td align="right"><field name="cgst" nolabel="1"/></td>
+                                    <td align="right"><field name="igst" nolabel="1"/></td>
+                                </tr>
+                            </table>
+
+                            <br></br>
+                            <table id="time_bar">
+                                <tr>
+                                    <th>Taxed Amount</th>
+                                    <td align="right"><field name="taxed_amount" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Un Taxed Amount</th>
+                                    <td align="right"><field name="untaxed_amount" nolabel="1"/></td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+
+                        <div style="float: right; width: 70%;">
+                            <table id="time_bar">
+                                <tr>
+                                    <th>Sub Total</th>
+                                    <td align="right"><field name="sub_total_amount" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Discount</th>
+                                    <td align="right"><field name="discount_amount" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Total (after Discount)</th>
+                                    <td align="right"><field name="total_amount" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Tax</th>
+                                    <td align="right"><field name="tax_amount" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Round-Off</th>
+                                    <td align="right"><field name="round_off_amount" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="font-size: 25px">Grand Total</th>
+                                    <td align="right" style="font-size: 25px"><b><field name="grand_total_amount" nolabel="1"/></b></td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+					</group>
+
+                    <div style="width: 50%;">
+                            <table id="time_bar">
+                                <tr>
+                                    <th colspan="2" style="text-align: center; font-size: 20px;">Terms And Conditions</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 20px;">Expected Delivery</th>
+                                    <td><field name="expected_delivery" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Freight</th>
+                                    <td><field name="freight" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Payment</th>
+                                    <td><field name="payment" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Insurance</th>
+                                    <td><field name="insurance" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Certificate</th>
+                                    <td><field name="certificate" nolabel="1"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Warranty</th>
+                                    <td><b><field name="warranty" nolabel="1"/></b></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    <br></br>
+
+
+                    <footer>
+                        <button name="total_calculation" string="Total Calculation" type="object"/>
+                        <button name="trigger_cancel" string="Cancel" type="object"
+                                attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                        <button name="trigger_srn_approve" string="Approve" type="object"
+                                attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
+                    </footer>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sale_return" model="ir.actions.act_window">
+        <field name="name">Sale Return</field>
+        <field name="res_model">sale.return</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

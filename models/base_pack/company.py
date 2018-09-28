@@ -25,7 +25,7 @@ class HospitalCompany(models.Model):
     location_store_id = fields.Many2one(comodel_name="product.location", string="Store Location")
     location_pharmacy_id = fields.Many2one(comodel_name="product.location", string="Pharmacy Location")
     location_purchase_id = fields.Many2one(comodel_name="product.location", string="Purchase Location")
-    location_sale_id = fields.Many2one(comodel_name="product.location", string="Purchase Location")
+    location_sale_id = fields.Many2one(comodel_name="product.location", string="Sale Location")
     location_assert_id = fields.Many2one(comodel_name="hos.asserts", string="Assert Location")
     location_left = fields.Integer(string="Location Left")
     location_right = fields.Integer(string="Location Right")

@@ -146,6 +146,12 @@
             'views/web_views/purchase/purchase_return.xml',
             'views/web_views/purchase/material_return.xml',
 
+            # Pharmacy
+            'views/web_views/pharmacy/sale_order.xml',
+            'views/web_views/pharmacy/material_delivery.xml',
+            'views/web_views/pharmacy/sale_return.xml',
+            'views/web_views/pharmacy/material_intake.xml',
+
 
         # Menu
         'menu/base_pack.xml',
@@ -159,6 +165,7 @@
         'menu/payroll.xml',
         'menu/recruitment.xml',
         'menu/purchase.xml',
+        'menu/pharmacy.xml',
 
     ],
     "demo": [

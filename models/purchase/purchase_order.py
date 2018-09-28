@@ -95,15 +95,14 @@ class PurchaseOrder(models.Model):
             data["destination_location_id"] = self.env.user.company_id.location_store_id.id
             data["picking_category"] = "material_receipt"
             picking_id = self.env["hos.picking"].create(data)
-            return True
-        return False
+            return picking_id
+
+        raise exceptions.ValidationError("Error! Please check Product lines")
 
     @api.multi
     def trigger_po_approve(self):
         self.total_calculation()
-
-        if not self.trigger_grn():
-            raise exceptions.ValidationError("Error! Please check Product lines")
+        self.trigger_grn()
 
         writter = "PO approved by {0}".format(self.env.user.name)
         self.write({"progress": "approved", "writter": writter})
