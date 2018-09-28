@@ -3,6 +3,8 @@
 from odoo import fields, models, api, exceptions, _
 from datetime import datetime
 
+CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
+CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
 
 PROGRESS_INFO = [("draft", "Draft"),
                  ("confirmed", "Confirmed"),
@@ -16,40 +18,37 @@ class StoreRequest(models.Model):
     _inherit = "mail.thread"
 
     name = fields.Char(string="Name", readonly=True)
-
-    date = fields.Date(string="Date",
-                       default=datetime.now().strftime("%Y-%m-%d"),
-                       readonly=True)
-
-    company_id = fields.Many2one(comodel_name="res.company",
-                                 string="Company",
-                                 default=lambda self: self.env.user.company_id.id,
-                                 readonly=True)
-
-    department_id = fields.Many2one(comodel_name="hr.department",
-                                    string="Department",
-                                    required=True)
-
-    request_detail = fields.One2many(comodel_name="store.request.detail",
-                                     inverse_name="request_id",
-                                     string="Request Detail")
+    date = fields.Date(string="Date", default=CURRENT_DATE, readonly=True)
+    department_id = fields.Many2one(comodel_name="hr.department", string="Department", required=True)
 
     requested_by = fields.Many2one(comodel_name="hos.person",
                                    string="Requested By",
                                    default=lambda self: self.env.user.person_id.id,
                                    readonly=True)
 
-    approved_by = fields.Many2one(comodel_name="hos.person",
-                                  string="Approved By",
-                                  readonly=True)
+    approved_by = fields.Many2one(comodel_name="hos.person", string="Approved By", readonly=True)
+
+    request_detail = fields.One2many(comodel_name="store.request.detail",
+                                     inverse_name="request_id",
+                                     string="Request Detail")
+
+    # Smart Button
+    issue_count = fields.Integer(string="Issue", compute="_get_issue_count")
 
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     writter = fields.Text(string="Writter", track_visibility='always')
 
+    company_id = fields.Many2one(comodel_name="res.company",
+                                 string="Company",
+                                 default=lambda self: self.env.user.company_id.id,
+                                 readonly=True)
+
+    def _get_issue_count(self):
+        return 0
+
     @api.multi
     def check_quantity(self):
-        recs = self.env["store.request.detail"].search([("request_id", "=", self.id),
-                                                        ("quantity", ">", 0)])
+        recs = self.env["store.request.detail"].search([("request_id", "=", self.id), ("quantity", ">", 0)])
 
         if not recs:
             raise exceptions.ValidationError("Error! No Products Found")
@@ -59,34 +58,29 @@ class StoreRequest(models.Model):
         self.check_quantity()
 
         requested_by = self.env["hos.person"].search([("id", "=", self.env.user.person_id.id)])
-        writter = "Store Requested by {0} on {1}".format(requested_by.name,
-                                                         datetime.now().strftime("%d-%m-%Y %H:%M"))
+        msg = "Store Requested by {0} on {1}"
+        writter = msg.format(requested_by.name, CURRENT_TIME)
 
-        self.write({"progress": "confirmed",
-                    "requested_by": requested_by.id,
-                    "writter": writter})
+        self.write({"progress": "confirmed", "requested_by": requested_by.id, "writter": writter})
 
     @api.multi
     def trigger_cancel(self):
         cancelled_by = self.env["hos.person"].search([("id", "=", self.env.user.person_id.id)])
-        writter = "Store Request cancelled by {0} on {1}".format(cancelled_by.name,
-                                                                 datetime.now().strftime("%d-%m-%Y %H:%M"))
+        msg = "Store Request cancelled by {0} on {1}"
+        writter = msg.format(cancelled_by.name, CURRENT_TIME)
 
-        self.write({"progress": "cancelled",
-                    "writter": writter})
+        self.write({"progress": "cancelled", "writter": writter})
 
     @api.multi
     def trigger_approve(self):
         self.check_quantity()
 
         approved_by = self.env["hos.person"].search([("id", "=", self.env.user.person_id.id)])
-        writter = "Store Request approved by {0} on {1}".format(approved_by.name,
-                                                                datetime.now().strftime("%d-%m-%Y %H:%M"))
+        msg = "Store Request approved by {0} on {1}"
+        writter = msg.format(approved_by.name, CURRENT_TIME)
 
         self.create_issue(writter)
-        self.write({"progress": "approved",
-                    "approved_by": approved_by.id,
-                    "writter": writter})
+        self.write({"progress": "approved", "approved_by": approved_by.id, "writter": writter})
 
     @api.multi
     def create_issue(self, writter):

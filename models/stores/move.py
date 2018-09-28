@@ -3,6 +3,8 @@
 from odoo import fields, models, api, exceptions, _
 from datetime import datetime
 
+CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
+CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
 
 PROGRESS_INFO = [("draft", "Draft"), ("moved", "Moved")]
 PICKING_TYPE = [("in", "IN"), ("internal", "Internal"), ("out", "OUT")]
@@ -14,18 +16,8 @@ class StockMove(models.Model):
     _inherit = "mail.thread"
 
     name = fields.Char(string="Name", readonly=True)
-
-    date = fields.Date(string="Date",
-                       default=datetime.now().strftime("%Y-%m-%d"),
-                       required=True)
-
-    company_id = fields.Many2one(comodel_name="res.company",
-                                 string="Company",
-                                 default=lambda self: self.env.user.company_id.id,
-                                 readonly=True)
-
+    date = fields.Date(string="Date", default=CURRENT_DATE, required=True)
     reference = fields.Char(string="Reference", readonly=True)
-
     picking_id = fields.Many2one(comodel_name="hos.picking", string="Stock Picking")
 
     picking_type = fields.Selection(selection=PICKING_TYPE,
@@ -38,17 +30,9 @@ class StockMove(models.Model):
                                  default=lambda self: self.env.context.get("product_id", False),
                                  required=True)
 
-    uom_id = fields.Many2one(comodel_name="product.uom",
-                             string="UOM",
-                             related="product_id.uom_id")
-
-    requested_quantity = fields.Float(string="Requested Quantity",
-                                      default=0,
-                                      readonly=True)
-
-    quantity = fields.Float(string="Approved Quantity",
-                            default=0,
-                            required=True)
+    uom_id = fields.Many2one(comodel_name="product.uom", string="UOM", related="product_id.uom_id")
+    requested_quantity = fields.Float(string="Requested Quantity", default=0, readonly=True)
+    quantity = fields.Float(string="Approved Quantity", default=0, required=True)
 
     source_location_id = fields.Many2one(comodel_name="product.location",
                                          string="Source Location",
@@ -60,17 +44,18 @@ class StockMove(models.Model):
                                               default=lambda self: self.env.context.get("destination_location_id", False),
                                               required=True)
 
-    assert_ids = fields.One2many(comodel_name="hos.asserts",
-                                 inverse_name="move_id",
-                                 string="Assert")
-
+    assert_ids = fields.One2many(comodel_name="hos.asserts", inverse_name="move_id", string="Assert")
     is_batch = fields.Boolean(string="Batch", related="product_id.is_batch")
     dummy_batch_ids = fields.One2many(comodel_name="dum.batch", inverse_name="move_id", string="Batch")
-
     batch_ids = fields.Many2many(comodel_name="hos.batch", string="Batch")
 
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     writter = fields.Text(string="Writter", track_visibility='always')
+
+    company_id = fields.Many2one(comodel_name="res.company",
+                                 string="Company",
+                                 default=lambda self: self.env.user.company_id.id,
+                                 readonly=True)
 
     def get_balance_quantity(self, location):
 

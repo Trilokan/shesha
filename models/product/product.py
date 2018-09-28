@@ -124,8 +124,7 @@ class Product(models.Model):
         if not location_store_id:
             raise exceptions.ValidationError("Default Product Location is not set")
 
-        self.env["product.warehouse"].generate_warehouse({"product_id": rec.id,
-                                                          "location_id": location_store_id.id})
+        self.env["product.warehouse"].generate_warehouse(rec.id, location_store_id.id)
 
     def _get_code(self, vals):
         group_id = self.env["product.group"].search([("id", "=", vals["group_id"])])

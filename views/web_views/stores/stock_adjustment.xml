@@ -26,6 +26,7 @@
                     <div id="s_header">
                         <h1>Stock Adjustment</h1>
                     </div>
+
                     <div id="p_header">
                         <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
                     </div>
@@ -33,10 +34,10 @@
                     <h2><field name="name" readonly="1"/></h2>
                     <group col="4">
                         <field name="date" required="1" attrs="{'readonly': [('progress', '=', 'moved')]}"/>
-                        <field name="picking_type" invisible="0"/>
-                        <field name="source_location_id" invisible="0" ref="shesha.virtual_purchase_location"/>
-                        <field name="destination_location_id" invisible="0"/>
-                        <field name="picking_category" invisible="0"/>
+                        <field name="picking_type" invisible="1"/>
+                        <field name="source_location_id" invisible="1"/>
+                        <field name="destination_location_id" invisible="1"/>
+                        <field name="picking_category" invisible="1"/>
                     </group>
                     <notebook>
                         <page string="Adjustment Detail">
@@ -49,9 +50,9 @@
                                 <tree editable="bottom">
                                     <field name="id" invisible="1"/>
                                     <field name="product_id" required="1"
-                                           domain="[('is_batch', '=', False), ('category_id.name', 'in', ['Medicine', 'Equipment'])]"/>
+                                           domain="[('is_batch', '=', False)]"/>
                                     <field name="uom_id" readonly="1"/>
-                                    <field name="quantity" required="1"/>
+                                    <field name="quantity" required="1" string="Quantity"/>
                                     <field name="source_location_id" invisible="1"/>
                                     <field name="destination_location_id" invisible="1"/>
                                     <field name="picking_type" invisible="1"/>

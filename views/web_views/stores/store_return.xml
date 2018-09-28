@@ -27,9 +27,20 @@
                     <div id="s_header">
                         <h1>Store Return</h1>
                     </div>
+
                     <div id="p_header">
                         <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
                     </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                            name="action_view_indent"
+                            class="oe_stat_button"
+                            icon="fa-copy">
+                            <field name="intake_count" widget="statinfo" string="Store Intake"/>
+                        </button>
+                    </div>
+
                     <h2><field name="name"/></h2>
                     <group col="4">
                         <field name="date"/>

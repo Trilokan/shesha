@@ -3,6 +3,8 @@
 from odoo import fields, models, api, exceptions, _
 from datetime import datetime
 
+CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
+CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
 
 PROGRESS_INFO = [("draft", "Draft"), ("moved", "Moved")]
 PICKING_TYPE = [("in", "IN"), ("internal", "Internal"), ("out", "OUT")]
@@ -24,30 +26,12 @@ class Picking(models.Model):
     _inherit = "mail.thread"
 
     name = fields.Char(string="Name", readonly=True)
+    date = fields.Date(string="Date", default=CURRENT_DATE, required=True)
 
-    date = fields.Date(string="Date",
-                       default=datetime.now().strftime("%Y-%m-%d"),
-                       required=True)
-
-    company_id = fields.Many2one(comodel_name="res.company",
-                                 string="Company",
-                                 default=lambda self: self.env.user.company_id.id,
-                                 readonly=True)
-
-    person_id = fields.Many2one(comodel_name="hos.person",
-                                string="Partner",
-                                readonly=True)
-
-    picking_detail = fields.One2many(comodel_name="hos.move",
-                                     inverse_name="picking_id",
-                                     string="Stock Move")
-
-    picking_type = fields.Selection(selection=PICKING_TYPE,
-                                    string="Picking Type",
-                                    required=True)
-
-    picking_category = fields.Selection(selection=PICKING_CATEGORY,
-                                        string="Picking Category")
+    person_id = fields.Many2one(comodel_name="hos.person", string="Partner", readonly=True)
+    picking_detail = fields.One2many(comodel_name="hos.move", inverse_name="picking_id", string="Stock Move")
+    picking_type = fields.Selection(selection=PICKING_TYPE, string="Picking Type", required=True)
+    picking_category = fields.Selection(selection=PICKING_CATEGORY, string="Picking Category")
 
     source_location_id = fields.Many2one(comodel_name="product.location",
                                          string="Source Location",
@@ -67,15 +51,16 @@ class Picking(models.Model):
     # sale_return_id = fields.Many2one(comodel_name="sale.return", string="Sale Return")
 
     reference = fields.Char(string="Reference", readonly=True)
-
     reason = fields.Text(string="Reason")
-
     back_order_id = fields.Many2one(comodel_name="hos.picking", string="Back Order")
-
     is_invoice_created = fields.Boolean(string="Create Invoice")
-
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     writter = fields.Text(string="Writter", track_visibility='always')
+
+    company_id = fields.Many2one(comodel_name="res.company",
+                                 string="Company",
+                                 default=lambda self: self.env.user.company_id.id,
+                                 readonly=True)
 
     @api.multi
     def trigger_create_direct_purchase_invoice(self):
@@ -90,7 +75,7 @@ class Picking(models.Model):
                 invoice_detail.append((0, 0, move_line))
 
         if invoice_detail:
-            data["date"] = datetime.now().strftime("%Y-%m-%d")
+            data["date"] = CURRENT_DATE
             data["person_id"] = self.person_id.id
             data["reference"] = self.name
             data["invoice_detail"] = invoice_detail
@@ -173,28 +158,32 @@ class Picking(models.Model):
 
     def generate_incoming_shipment(self):
         data = {}
-
         hos_move = []
+
+        reference = self.reference
+        source = self.source_location_id.id
+        destination = self.destination_location_id.id
+        picking_type = self.picking_type
+
         recs = self.picking_detail
         for rec in recs:
             quantity = rec.requested_quantity - rec.quantity
             if quantity > 0:
-                hos_move.append((0, 0, {"reference": rec.reference,
-                                        "source_location_id": rec.source_location_id.id,
-                                        "destination_location_id": rec.destination_location_id.id,
-                                        "picking_type": rec.picking_type,
-                                        "product_id": rec.product_id.id,
-                                        "requested_quantity": quantity}))
+                hos_move.append((0, 0, {"product_id": rec.product_id.id,
+                                        "requested_quantity": quantity,
+                                        "reference": reference,
+                                        "source_location_id": source,
+                                        "destination_location_id": destination,
+                                        "picking_type": picking_type}))
 
         if hos_move:
-            data["date"] = datetime.now().strftime("%Y-%m-%d")
             data["person_id"] = self.person_id.id
-            data["reference"] = self.reference
             data["picking_detail"] = hos_move
-            data["picking_type"] = self.picking_type
-            data["source_location_id"] = self.source_location_id.id
-            data["destination_location_id"] = self.destination_location_id.id
             data["picking_category"] = self.picking_category
+            data["reference"] = reference
+            data["source_location_id"] = source
+            data["destination_location_id"] = destination
+            data["picking_type"] = picking_type
             data["back_order_id"] = self.id
 
             if self.purchase_order_id:
@@ -249,7 +238,8 @@ class Picking(models.Model):
 
     @api.multi
     def trigger_move(self):
-        writter = "Stock Picked by {0}".format(self.env.user.name)
+        msg = "Stock Picked by {0} on {1}"
+        writter = msg.format(self.env.user.name, CURRENT_TIME)
         recs = self.picking_detail
 
         for rec in recs:
@@ -264,10 +254,12 @@ class Picking(models.Model):
 
         invoice = self.env["hos.invoice"].search([("picking_id", "=", self.id),
                                                   ("progress", "in", ["draft", "approved"])])
+
         if invoice:
             raise exceptions.ValidationError("Error! Please cancel the invoice before Stock reverting")
 
-        writter = "Stock Picked reverted by {0}".format(self.env.user.name)
+        msg = "Stock Picked reverted by {0} on {1}"
+        writter = msg.format(self.env.user.name, CURRENT_TIME)
         recs = self.picking_detail
 
         for rec in recs:
