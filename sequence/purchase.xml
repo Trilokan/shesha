@@ -7,6 +7,7 @@
         <record id="purchase_indent_sequence" model="ir.sequence">
             <field name="name">Purchase Indent</field>
             <field name="code">purchase.indent</field>
+            <field name="prefix">PI/</field>
             <field name="padding">6</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
@@ -15,6 +16,7 @@
         <record id="purchase_order_sequence" model="ir.sequence">
             <field name="name">Purchase Order</field>
             <field name="code">purchase.order</field>
+            <field name="prefix">PO/</field>
             <field name="padding">6</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
@@ -23,6 +25,7 @@
         <record id="purchase_return_sequence" model="ir.sequence">
             <field name="name">Purchase Return</field>
             <field name="code">purchase.return</field>
+            <field name="prefix">PRN/</field>
             <field name="padding">6</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
@@ -31,6 +34,7 @@
         <record id="picking_purchase_sequence" model="ir.sequence">
             <field name="name">Picking Purchase</field>
             <field name="code">picking.material_receipt</field>
+            <field name="prefix">MR/</field>
             <field name="padding">6</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
@@ -39,6 +43,7 @@
         <record id="picking_direct_purchase_sequence" model="ir.sequence">
             <field name="name">Picking Direct Purchase</field>
             <field name="code">picking.direct_material_receipt</field>
+            <field name="prefix">DMR/</field>
             <field name="padding">6</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
@@ -47,6 +52,7 @@
         <record id="picking_return_sequence" model="ir.sequence">
             <field name="name">Picking Return</field>
             <field name="code">picking.material_return</field>
+            <field name="prefix">PRN/</field>
             <field name="padding">6</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
