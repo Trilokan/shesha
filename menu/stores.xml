@@ -32,28 +32,22 @@
               parent="menu_stores"
               sequence="50"/>
 
-    <menuitem id="stores_asserts_capitalisation"
-              name="Assert Capitalisation"
-              action="action_hos_picking_assert_capitalisation"
-              parent="menu_stores"
-              sequence="60"/>
-
     <menuitem id="stores_hos_move"
               name="Stock Move"
               action="action_hos_move"
               parent="menu_stores"
-              sequence="70"/>
+              sequence="60"/>
 
     <menuitem id="stores_hos_batch"
               name="Batch"
               action="action_hos_batch"
               parent="menu_stores"
-              sequence="80"/>
+              sequence="70"/>
 
     <menuitem id="stores_dum_batch"
               name="Dummy Batch"
               action="action_dum_batch"
               parent="menu_stores"
-              sequence="90"/>
+              sequence="80"/>
 
 </odoo>

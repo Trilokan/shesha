@@ -4,6 +4,7 @@
     <menuitem id="menu_contact" name="Contact" sequence="10"/>
     <menuitem id="menu_product" name="Product" sequence="20"/>
     <menuitem id="menu_stores" name="Stores" sequence="30"/>
+    <menuitem id="menu_asserts" name="Asserts" sequence="35"/>
     <menuitem id="menu_purchase" name="Purchase" sequence="40"/>
     <menuitem id="menu_time_management" name="Time Management" sequence="40"/>
     <menuitem id="menu_leave_management" name="Leave Management" sequence="50"/>

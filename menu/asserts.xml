@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Asserts-->
+    <menuitem id="asserts_hos_asserts"
+              name="Asserts"
+              action="action_hos_asserts"
+              parent="menu_asserts"
+              sequence="10"/>
+
+    <menuitem id="asserts_asserts_reminder"
+              name="Asserts Reminder"
+              action="action_asserts_reminder"
+              parent="menu_asserts"
+              sequence="20"/>
+
+    <menuitem id="asserts_asserts_service"
+              name="Asserts Service"
+              action="action_asserts_service"
+              parent="menu_asserts"
+              sequence="30"/>
+
+    <menuitem id="asserts_hos_person_patient"
+              name="Assert Capitalisation"
+              action="action_hos_picking_assert_capitalisation"
+              parent="menu_asserts"
+              sequence="40"/>
+
+
+</odoo>

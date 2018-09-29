@@ -81,9 +81,12 @@ class StockMove(models.Model):
         return self.env["hos.stock"].get_stock("batch.move", source, destination)
 
     def generate_assert(self):
+        if self.uom_id.code != "NOS":
+            raise exceptions.ValidationError("Error! Assert Capitalise must be Numbers")
+
         if self.picking_id.picking_category == 'assert_capitalisation':
 
-            for qty in range(1, self.quantity + 1):
+            for qty in range(1, int(self.quantity) + 1):
                 data = {"date": self.date,
                         "product_id": self.product_id.id,
                         "move_id": self.id}
@@ -168,7 +171,6 @@ class StockMove(models.Model):
     @api.constrains("requested_quantity", "quantity")
     def check_requested_quantity(self):
         if self.picking_id.picking_category in ["store_issue",
-                                                "assert_capitalisation",
                                                 "material_receipt",
                                                 "store_intake"]:
             if self.requested_quantity < self.quantity:

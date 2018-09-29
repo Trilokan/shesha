@@ -3,6 +3,9 @@
 from odoo import models, fields, api
 from datetime import datetime
 
+CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
+CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
+
 PROGRESS_INFO = [('draft', 'Draft'), ('confirmed', 'Confirmed')]
 
 
@@ -11,7 +14,7 @@ class Assert(models.Model):
     _name = "hos.asserts"
     _inherit = "mail.thread"
 
-    date = fields.Date(string="Date", default=datetime.now().strftime("%Y-%m-%d"))
+    date = fields.Date(string="Date", default=CURRENT_DATE, required=True)
     name = fields.Char(string="Name", readonly=True)
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
@@ -58,8 +61,17 @@ class Assert(models.Model):
 
     _sql_constraints = [('unique_name', 'unique (name)', 'Error! Assert must be unique')]
 
+    @api.multi
+    def trigger_confirm(self):
+        msg = "Asserts Confirmed by {0} on {1}"
+        writter = msg.format(self.env.user.name, CURRENT_TIME)
+
+        self.write({"progress": "confirmed", "writter": writter})
+
     @api.model
     def create(self, vals):
         vals["name"] = self.env["ir.sequence"].next_by_code(self._name)
-        vals["writter"] = "Assert Created by {0}".format(self.env.user.name)
+
+        msg = "Assert Created by {0} on {1}"
+        vals["writter"] = msg.format(self.env.user.name, CURRENT_TIME)
         return super(Assert, self).create(vals)

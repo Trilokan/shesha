@@ -35,6 +35,7 @@
         'sequence/stores.xml',
         'sequence/purchase.xml',
         'sequence/invoice.xml',
+        'sequence/asserts.xml',
 
         # Data
 
@@ -168,6 +169,7 @@
         'menu/recruitment.xml',
         'menu/purchase.xml',
         'menu/pharmacy.xml',
+        'menu/asserts.xml',
 
     ],
     "demo": [
