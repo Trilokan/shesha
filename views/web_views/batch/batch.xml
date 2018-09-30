@@ -11,7 +11,7 @@
                 <field name="batch_no"/>
                 <field name="manufactured_date"/>
                 <field name="expiry_date"/>
-                <field name="store_quantity"/>
+                <field name="stock"/>
             </tree>
         </field>
     </record>

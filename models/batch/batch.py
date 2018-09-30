@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 # Batch
@@ -21,6 +21,35 @@ class Batch(models.Model):
     unit_price = fields.Float(string="Unit Price", default=0, readonly=True)
     quantity = fields.Float(string="Quantity", readonly=True)
     store_quantity = fields.Float(string="Quantity", compute="_get_store_quantity")
+    location_id = fields.Many2one(comodel_name="product.location", string="Location")
+    stock = fields.Float(string="Quantity", compute="_get_stock")
+
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        location_id = 0
+        stock_recs = []
+
+        for idx, val in enumerate(domain):
+            if val[0] == "location_id":
+                location_id = val[2]
+                del domain[idx]
+
+        recs = super(Batch, self).search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
+
+        if location_id:
+            for rec in recs:
+                rec["stock"] = self.get_batch_quantity(rec["id"], location_id)
+                if rec["stock"]:
+                    stock_recs.append(rec)
+
+            return stock_recs
+
+        else:
+            return recs
+
+    def _get_stock(self):
+        for rec in self:
+            rec.stock = 0
 
     def _get_store_quantity(self):
         location = self.env.user.company_id.location_store_id.id
