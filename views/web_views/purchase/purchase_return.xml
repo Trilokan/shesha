@@ -27,8 +27,8 @@
                     <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
                     <h2><field name="name"/></h2>
                     <group col="4">
-                        <field name="date"/>
-                        <field name="vendor_id"/>
+                        <field name="date" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
+                        <field name="vendor_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
                     </group>
                     <notebook>
                         <page string="Return Detail">
@@ -114,27 +114,27 @@
                                 </tr>
                                 <tr>
                                     <th style="width: 20px;">Expected Delivery</th>
-                                    <td><field name="expected_delivery" nolabel="1"/></td>
+                                    <td><field name="expected_delivery" nolabel="1" attrs="{'readonly': [('progress', '!=', 'draft')]}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Freight</th>
-                                    <td><field name="freight" nolabel="1"/></td>
+                                    <td><field name="freight" nolabel="1" attrs="{'readonly': [('progress', '!=', 'draft')]}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Payment</th>
-                                    <td><field name="payment" nolabel="1"/></td>
+                                    <td><field name="payment" nolabel="1" attrs="{'readonly': [('progress', '!=', 'draft')]}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Insurance</th>
-                                    <td><field name="insurance" nolabel="1"/></td>
+                                    <td><field name="insurance" nolabel="1" attrs="{'readonly': [('progress', '!=', 'draft')]}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Certificate</th>
-                                    <td><field name="certificate" nolabel="1"/></td>
+                                    <td><field name="certificate" nolabel="1" attrs="{'readonly': [('progress', '!=', 'draft')]}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Warranty</th>
-                                    <td><b><field name="warranty" nolabel="1"/></b></td>
+                                    <td><b><field name="warranty" nolabel="1" attrs="{'readonly': [('progress', '!=', 'draft')]}"/></b></td>
                                 </tr>
                             </table>
                         </div>

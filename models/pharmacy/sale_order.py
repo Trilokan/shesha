@@ -4,7 +4,10 @@ from odoo import fields, models, api, exceptions, _
 from datetime import datetime
 from .. import calculation
 
-# Purchase Indent
+CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
+CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
+
+# Sale Order
 PROGRESS_INFO = [('draft', 'Draft'),
                  ('approved', 'Approved'),
                  ('cancelled', 'Cancelled')]
@@ -15,10 +18,8 @@ class SaleOrder(models.Model):
     _inherit = "mail.thread"
 
     name = fields.Char(string='Name', readonly=True)
-    date = fields.Date(string="Date",
-                       default=datetime.now().strftime("%Y-%m-%d"),
-                       readonly=True)
-    vendor_id = fields.Many2one(comodel_name="hos.person", string="Vendor", readonly=True)
+    date = fields.Date(string="Date", default=CURRENT_DATE, required=True)
+    vendor_id = fields.Many2one(comodel_name="hos.person", string="Vendor", required=True)
     processed_by = fields.Many2one(comodel_name="hos.person", string="Processed By", readonly=True)
     processed_on = fields.Date(string='Processed On', readonly=True)
     order_detail = fields.One2many(comodel_name='sale.detail',

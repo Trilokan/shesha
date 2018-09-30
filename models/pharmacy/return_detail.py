@@ -34,6 +34,9 @@ class PharmacyReturnDetail(models.Model):
 
     # Batch
     batch_ids = fields.Many2many(comodel_name="hos.batch", string="Batch")
+    location_id = fields.Many2one(comodel_name="product.location",
+                                  default=lambda self: self.env.user.company_id.location_pharmacy_id.id,
+                                  string="Location")
 
     @api.multi
     def detail_calculation(self):
