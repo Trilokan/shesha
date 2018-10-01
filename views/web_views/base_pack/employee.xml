@@ -105,13 +105,64 @@
                                 <field name="mother_tongue_id"/>
                                 <field name="language_known_ids" widget="many2many_tags"/>
                             </group>
-                            <field name="family_member_ids"/>
+                            <field name="family_member_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="relation"/>
+                                    <field name="mobile"/>
+                                    <field name="email"/>
+                                </tree>
+                                <form>
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="relation"/>
+                                        <field name="mobile"/>
+                                        <field name="email"/>
+                                    </group>
+                                    <group>
+                                        <group>
+                                        <label for="street" string="Address"/>
+                                        <div>
+                                            <div class="address_format">
+                                                <field name="door_no" style="width: 30%" placeholder="Door No..."/>
+                                                <field name="building_name" style="width: 70%" placeholder="Building name..."/>
+                                            </div>
+                                            <field name="street_1" placeholder="Street 1..."/>
+                                            <field name="street_2" placeholder="Street 2..."/>
+                                            <field name="locality" placeholder="Locality..."/>
+                                            <field name="city" placeholder="City..."/>
+                                            <field name="landmark" placeholder="Landmark..."/>
+                                            <div class="address_format">
+                                                <field name="country_id" style="width: 45%" placeholder="Country" options="{'create': false, 'create_edit': false}" modifiers="{}"/>
+                                                <field name="state_id" style="width: 55%" options="{'create': false, 'create_edit': false}" placeholder="State" modifiers="{}"/>
+                                            </div>
+                                            <field name="pin_code" placeholder="ZIP" style="width: 55%"/>
+                                        </div>
+                                        </group>
+                                </group>
+                                </form>
+                            </field>
                         </page>
                         <page string="Education Details">
-                            <field name="qualification_ids"/>
+                            <field name="qualification_ids">
+                                <tree editable="bottom">
+                                    <field name="name" string="Education"/>
+                                    <field name="institution"/>
+                                    <field name="enrollment_year"/>
+                                    <field name="completed_year"/>
+                                    <field name="result"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="Professional Details">
-                            <field name="experience_ids"/>
+                            <field name="experience_ids">
+                                <tree editable="bottom">
+                                    <field name="name" string="Company"/>
+                                    <field name="position"/>
+                                    <field name="total_years"/>
+                                    <field name="relieving_reason"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="Leave Details">
                             <group>

@@ -27,7 +27,7 @@
                         <h1>Employee Experience</h1>
                     </div>
                     <group>
-                        <field name="employee_id"/>
+                        <field name="employee_id" required="1"/>
                         <field name="name"/>
                         <field name="position"/>
                         <field name="total_years"/>
