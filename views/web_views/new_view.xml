@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2016, 2017 Openworx.
+  License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). */
+-->
+
+<odoo>
+
+    <template id="shesha.menu_secondary_1">
+        <div class="o_sub_menu_content">
+            <t t-foreach="menu_data['children']" t-as="menu">
+                <div style="display: none" class="oe_secondary_menu" t-att-data-menu-parent="menu['id']">
+                    <t t-foreach="menu['children']" t-as="menu">
+                        <div class="oe_secondary_menu_section" t-att-data-menu-xmlid="menu.get('xmlid')">
+                            <t t-if="menu['children']"><t t-esc="menu['name']"/></t>
+                            <t t-if="not menu['children']"><t t-call="web.menu_link_1"/></t>
+                        </div>
+                        <t t-call="shesha.menu_secondary_submenu_1"/>
+                    </t>
+                </div>
+            </t>
+        </div>
+        <div class="o_sub_menu_footer">
+            Powered by <a href="http://www.odoo.com" target="_blank"><span>Odoo</span></a>
+        </div>
+    </template>
+
+
+
+
+    <template id="shesha.menu_secondary_submenu_1">
+        <ul t-if="menu['children']" class="oe_secondary_submenu nav nav-pills nav-stacked">
+            <li t-foreach="menu['children']" t-as="menu">
+                <t t-call="shesha.menu_link_1"/>
+                <t t-call="shesha.menu_secondary_submenu_1"/>
+            </li>
+        </ul>
+    </template>
+    <template id="shesha.menu_link_1">
+        <t t-set="debug_param" t-value="'?&amp;debug=' if debug else ''"/>
+        <a t-att-href="'/web%s#menu_id=%s&amp;action=%s' % (debug_param, menu['id'], menu['action'] and menu['action'].split(',')[1] or '')"
+            t-att-class="'oe_menu_toggler' if menu.get('children') else 'oe_menu_leaf'"
+            t-att-data-menu="menu['id']"
+            t-att-data-menu-xmlid="menu.get('xmlid')"
+            t-att-data-action-model="menu['action'] and menu['action'].split(',')[0] or None"
+            t-att-data-action-id="menu['action'] and menu['action'].split(',')[1] or None">
+            <img t-attf-src="/web/image/ir.ui.menu/{{ menu['id'] }}/web_icon_data" t-att-alt="menu['name']" class="app-sidebar-menuitem" t-att-title="menu['name']"/>
+        </a>
+    </template>
+
+
+
+
+    <template id="app_sidebar" inherit_id="web.webclient_bootstrap" name="Apps Sidebar">
+        <xpath expr="//div[@class='o_main']//div[@class='o_main_content']" position="after">
+            <div class="o_sub_menu" groups="base.group_user,base.group_portal">
+                <t t-call="shesha.menu_secondary_1"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

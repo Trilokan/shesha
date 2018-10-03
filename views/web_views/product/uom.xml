@@ -26,6 +26,7 @@
                     <group>
                         <field name="name"/>
                         <field name="code"/>
+                        <field name="percentage"/>
                     </group>
                 </sheet>
             </form>

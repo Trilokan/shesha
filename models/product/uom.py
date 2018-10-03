@@ -10,6 +10,8 @@ class UOM(models.Model):
 
     name = fields.Char(string="Name", required=True)
     code = fields.Char(string="Code", required=True)
+    percentage = fields.Float(string="Percentage", required=True,
+                              help="Material Excess Percentage on Purchase/Sales")
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  default=lambda self: self.env.user.company_id.id,

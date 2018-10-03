@@ -5,56 +5,67 @@
     <record id="number_uom" model="product.uom">
         <field name="name">Numbers</field>
         <field name="code">NOS</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="package_uom" model="product.uom">
         <field name="name">Package</field>
         <field name="code">PACK</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="box_uom" model="product.uom">
         <field name="name">Box</field>
         <field name="code">BOX</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="set_uom" model="product.uom">
         <field name="name">Set</field>
         <field name="code">SET</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="milliliter_uom" model="product.uom">
         <field name="name">Milliliter</field>
         <field name="code">ML</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="liter_uom" model="product.uom">
         <field name="name">Liter</field>
         <field name="code">Ltr</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="gram_uom" model="product.uom">
         <field name="name">Gram</field>
         <field name="code">GM</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="kilogram_uom" model="product.uom">
         <field name="name">Kilogram</field>
         <field name="code">KG</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="millimeter_uom" model="product.uom">
         <field name="name">Millimeter</field>
         <field name="code">MM</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="centimeter_uom" model="product.uom">
         <field name="name">Centimeter</field>
         <field name="code">CM</field>
+        <field name="percentage">0.0</field>
     </record>
 
     <record id="meter_uom" model="product.uom">
         <field name="name">Meter</field>
         <field name="code">Mtr</field>
+        <field name="percentage">0.0</field>
     </record>
 
 

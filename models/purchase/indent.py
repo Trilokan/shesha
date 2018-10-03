@@ -41,6 +41,36 @@ class PurchaseIndent(models.Model):
                                 default="draft")
     writter = fields.Text(string="Writter", track_visibility='always')
 
+    # Smart Button
+    po_count = fields.Integer(string="Purchase Order", compute="get_po_count")
+    invoice_count = fields.Integer(string="Invoice", compute="get_invoice_count")
+    mr_count = fields.Integer(string="Material Receipt", compute="get_mr_count")
+
+    # Smart Button
+    def get_po_count(self):
+        po = self.env["purchase.order"].search_count([("indent_id", "=", self.id),
+                                                      ("progress", "=", "approved")])
+        return po
+
+    def get_mr_count(self):
+        mr = self.env["hos.picking"].search_count([("purchase_order_id.indent_id", "=", self.id),
+                                                   ("progress", "=", "moved")])
+        return mr
+
+    def get_invoice_count(self):
+        inv = self.env["hos.invoice"].search_count([("indent_id", "=", self.id),
+                                                    ("progress", "=", "approved")])
+        return inv
+
+    def action_view_po(self):
+        pass
+
+    def action_view_mr(self):
+        pass
+
+    def action_view_invoice(self):
+        pass
+
     @api.multi
     def check_quantity(self):
         recs = self.env["purchase.indent.detail"].search([("indent_id", "=", self.id), ("quantity", ">", 0)])

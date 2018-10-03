@@ -57,6 +57,26 @@ class PurchaseOrder(models.Model):
                                  readonly=True)
     writter = fields.Text(string="Writter", track_visibility='always')
 
+    # Smart Button
+    invoice_count = fields.Integer(string="Invoice", compute="get_invoice_count")
+    mr_count = fields.Integer(string="Material Receipt", compute="get_mr_count")
+
+    def get_mr_count(self):
+        mr = self.env["hos.picking"].search_count([("purchase_order_id.indent_id", "=", self.id),
+                                                   ("progress", "=", "moved")])
+        return mr
+
+    def get_invoice_count(self):
+        inv = self.env["hos.invoice"].search_count([("indent_id", "=", self.id),
+                                                    ("progress", "=", "approved")])
+        return inv
+
+    def action_view_mr(self):
+        pass
+
+    def action_view_invoice(self):
+        pass
+
     @api.multi
     def total_calculation(self):
         recs = self.order_detail

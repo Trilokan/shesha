@@ -50,4 +50,10 @@
               parent="menu_stores"
               sequence="80"/>
 
+    <menuitem id="stores_store_conf"
+              name="Store Configuration"
+              action="action_store_conf"
+              parent="menu_stores"
+              sequence="90"/>
+
 </odoo>

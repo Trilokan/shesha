@@ -84,6 +84,7 @@
             'views/web_views/stores/store_return.xml',
             'views/web_views/stores/store_intake.xml',
             'views/web_views/stores/stock_move.xml',
+            'views/web_views/stores/store_configuration.xml',
 
             # Batch
             'views/web_views/batch/dummy.xml',

@@ -29,7 +29,7 @@
                     </div>
                     <group>
                         <field name="employee_id" required="1"/>
-                        <field name="name"/>
+                        <field name="name" string="Education"/>
                         <field name="institution"/>
                         <field name="enrollment_year"/>
                         <field name="completed_year"/>
