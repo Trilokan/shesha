@@ -30,6 +30,8 @@ class HospitalInvoice(models.Model):
     quote_id = fields.Many2one(comodel_name="purchase.quote", string="Quotation")
     purchase_order_id = fields.Many2one(comodel_name="purchase.order", string="Purchase Order")
     purchase_return_id = fields.Many2one(comodel_name="purchase.return", string="Purchase Return")
+    sale_order_id = fields.Many2one(comodel_name="sale.order", string="Purchase Order")
+    sale_return_id = fields.Many2one(comodel_name="sale.return", string="Purchase Return")
     sale_order_id = fields.Many2one(comodel_name="sale.order", string="Sale Order")
     picking_id = fields.Many2one(comodel_name="hos.picking", string="Material Receipt")
     reference = fields.Char(string="Reference")
@@ -69,6 +71,108 @@ class HospitalInvoice(models.Model):
     #                                  inverse_name="invoice_id",
     #                                  string="Invoice detail")
     # Account_detail
+
+    def get_period(self, date):
+        period_id = self.env["period.period"].search([("from_date", "=>", date),
+                                                      ("till_date", "<=", date),
+                                                      ("progress", "=", "open")])
+
+        if not period_id:
+            raise exceptions.ValidationError("Error! Period is not open")
+
+        return period_id
+
+    def get_account(self, product_id):
+        account_id = product_id.category_id.account_id
+
+        if not account_id:
+            raise exceptions.ValidationError("Error! Journal is not found")
+
+        return account_id
+
+    def get_description(self, name, value, price):
+        description = "{0} {1} {2}".format(name, value, price)
+
+        return description
+
+    def get_journal(self, invoice_type):
+        journal_id = None
+
+        if invoice_type == "purchase_bill":
+            pass
+        elif invoice_type == "direct_purchase_bill":
+            pass
+        elif invoice_type == "purchase_return_bill":
+            pass
+        elif invoice_type == "sale_bill":
+            pass
+        elif invoice_type == "sale_return_bill":
+            pass
+
+        if not journal_id:
+            raise exceptions.ValidationError("Error! Journal is not found")
+
+        return journal_id
+
+    def get_credit(self, invoice_type):
+        credit = 0
+
+        if invoice_type == "purchase_bill":
+            pass
+        elif invoice_type == "direct_purchase_bill":
+            pass
+        elif invoice_type == "purchase_return_bill":
+            pass
+        elif invoice_type == "sale_bill":
+            pass
+        elif invoice_type == "sale_return_bill":
+            pass
+
+        return credit
+
+    def get_debit(self, invoice_type):
+        debit = 0
+
+        if invoice_type == "purchase_bill":
+            pass
+        elif invoice_type == "direct_purchase_bill":
+            pass
+        elif invoice_type == "purchase_return_bill":
+            pass
+        elif invoice_type == "sale_bill":
+            pass
+        elif invoice_type == "sale_return_bill":
+            pass
+
+        return debit
+
+    def generate_journal_items(self):
+        journal_item = []
+        recs = self.invoice_detail
+
+        for rec in recs:
+            data = {"period_id": self.get_period(self.date),
+                    "journal_id": self.get_journal(self.invoice_type),
+                    "reference": self.name,
+                    "progress": "posted",
+                    "invoice_id": self.id,
+                    "account_id": self.get_account(rec.product_id),
+                    "description": self.get_description(rec.product_id.name, rec.quantity, rec.unit_price),
+                    "credit": self.get_credit(self.invoice_type),
+                    "debit": self.get_debit(self.invoice_type)}
+            journal_item.append((0, 0, data))
+
+    def generate_journal_entries(self):
+        journal_item = self.generate_journal_items()
+
+        if journal_item:
+            data = {"period_id": self.get_period(self.date),
+                    "journal_id": self.get_journal(self.invoice_type),
+                    "reference": self.name,
+                    "progress": "posted",
+                    "journal_item": journal_item}
+
+            self.env["journal.entries"].create(data)
 
     @api.multi
     def trigger_approve(self):

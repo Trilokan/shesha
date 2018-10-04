@@ -2,6 +2,7 @@
 
 from odoo import fields, models, api, exceptions, _
 from datetime import datetime
+from .. import calculation as calc
 
 CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
 CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
@@ -16,8 +17,17 @@ PICKING_CATEGORY = [("stock_adjust", "Stock Adjustment"),
                     ("direct_material_receipt", "Direct Material Receipt"),
                     ("material_return", "Material Return"),
                     ("material_delivery", "Material Delivery"),
+                    ("material_intake", "Material Intake"),
                     ("delivery_return", "Delivery Return"),
                     ("assert_capitalisation", "Assert Capitalisation")]
+
+INCOMING_SHIPMENT_DETAIL_KEY =["product_id", "reference", "source_location_id",
+                               "destination_location_id", "picking_type"]
+
+INCOMING_SHIPMENT_KEY = ["person_id", "picking_category", "reference",
+                         "source_location_id", "destination_location_id", "picking_type",
+                         "purchase_order_id", "purchase_return_id", "sale_order_id",
+                         "sale_return_id", "store_request_id", "store_return_id"]
 
 
 # Stock Picking
@@ -47,8 +57,8 @@ class Picking(models.Model):
     store_return_id = fields.Many2one(comodel_name="store.return", string="Store Return")
     purchase_order_id = fields.Many2one(comodel_name="purchase.order", string="Purchase Order")
     purchase_return_id = fields.Many2one(comodel_name="purchase.return", string="Purchase Return")
-    # sale_order_id = fields.Many2one(comodel_name="sale.order", string="Sale Order")
-    # sale_return_id = fields.Many2one(comodel_name="sale.return", string="Sale Return")
+    sale_order_id = fields.Many2one(comodel_name="sale.order", string="Sale Order")
+    sale_return_id = fields.Many2one(comodel_name="sale.return", string="Sale Return")
 
     reference = fields.Char(string="Reference", readonly=True)
     reason = fields.Text(string="Reason")
@@ -62,179 +72,139 @@ class Picking(models.Model):
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True)
 
-    @api.multi
-    def trigger_create_direct_purchase_invoice(self):
-        data = {}
-        invoice_detail = []
+    def get_shipment_requested_quantity(self, requested, actual):
+        requested_quantity = 0
 
-        for rec in self.picking_detail:
-            if rec.quantity > 0:
-                move_line = {"product_id": rec.product_id.id,
-                             "quantity": rec.quantity}
+        if self.picking_category in ["store_issue", "store_intake", "material_receipt"]:
+            requested_quantity = requested - actual
 
-                invoice_detail.append((0, 0, move_line))
+        return requested_quantity
 
-        if invoice_detail:
-            data["date"] = CURRENT_DATE
-            data["person_id"] = self.person_id.id
-            data["reference"] = self.name
-            data["invoice_detail"] = invoice_detail
-            data["product_type"] = "batch"
-            data["picking_id"] = self.id
-            data["invoice_type"] = "direct_purchase_bill"
+    def generate_picking_detail(self):
+        picking_detail = []
 
-        invoice_id = self.env["hos.invoice"].create(data)
-        invoice_id.total_calculation()
+        recs = self.picking_detail
+        for rec in recs:
 
-        self.write({"is_invoice_created": True})
+            temp_move_detail = rec.copy_data()[0]
+            move = calc.dictionary_reset(temp_move_detail, INCOMING_SHIPMENT_DETAIL_KEY)
+            requested_quantity = self.get_shipment_requested_quantity(rec.requested_quantity, rec.quantity)
 
-    @api.multi
-    def trigger_create_purchase_return_invoice(self):
-        data = {}
-        invoice_detail = []
+            if requested_quantity:
+                move["requested_quantity"] = requested_quantity
+                picking_detail.append((0, 0, move))
 
-        for rec in self.picking_detail:
-            if rec.quantity > 0:
-                return_detail = self.env["purchase.return.detail"].search([("product_id", "=", rec.product_id.id),
-                                                                           ("return_id", "=", self.purchase_return_id.id)])
-
-                move_line = {"product_id": rec.product_id.id,
-                             "quantity": rec.quantity,
-                             "unit_price": return_detail.unit_price,
-                             "discount": return_detail.discount,
-                             "tax_id": return_detail.tax_id.id}
-
-                invoice_detail.append((0, 0, move_line))
-
-        if invoice_detail:
-            data["date"] = datetime.now().strftime("%Y-%m-%d")
-            data["person_id"] = self.person_id.id
-            data["reference"] = self.name
-            data["invoice_detail"] = invoice_detail
-            data["product_type"] = "batch"
-            data["picking_id"] = self.id
-            data["purchase_return_id"] = self.purchase_return_id.id
-            data["invoice_type"] = "purchase_return_bill"
-
-        invoice_id = self.env["hos.invoice"].create(data)
-        invoice_id.total_calculation()
-
-        self.write({"is_invoice_created": True})
-
-    @api.multi
-    def trigger_create_purchase_invoice(self):
-        data = {}
-        invoice_detail = []
-
-        for rec in self.picking_detail:
-            if rec.quantity > 0:
-                order_detail = self.env["purchase.detail"].search([("product_id", "=", rec.product_id.id),
-                                                                   ("order_id", "=", self.purchase_order_id.id)])
-
-                move_line = {"product_id": rec.product_id.id,
-                             "quantity": rec.quantity,
-                             "unit_price": order_detail.unit_price,
-                             "discount": order_detail.discount,
-                             "tax_id": order_detail.tax_id.id}
-
-                invoice_detail.append((0, 0, move_line))
-
-        if invoice_detail:
-            data["date"] = datetime.now().strftime("%Y-%m-%d")
-            data["person_id"] = self.person_id.id
-            data["reference"] = self.name
-            data["invoice_detail"] = invoice_detail
-            data["product_type"] = "batch"
-            data["picking_id"] = self.id
-            data["indent_id"] = self.purchase_order_id.indent_id.id
-            data["quote_id"] = self.purchase_order_id.quote_id.id
-            data["purchase_order_id"] = self.purchase_order_id.id
-            data["invoice_type"] = "purchase_bill"
-
-        invoice_id = self.env["hos.invoice"].create(data)
-        invoice_id.total_calculation()
-
-        self.write({"is_invoice_created": True})
+        return picking_detail
 
     def generate_incoming_shipment(self):
-        data = {}
-        hos_move = []
+        picking_detail = self.generate_picking_detail()
 
-        reference = self.reference
-        source = self.source_location_id.id
-        destination = self.destination_location_id.id
-        picking_type = self.picking_type
+        if picking_detail:
 
-        recs = self.picking_detail
-        for rec in recs:
-            quantity = rec.requested_quantity - rec.quantity
-            if quantity > 0:
-                hos_move.append((0, 0, {"product_id": rec.product_id.id,
-                                        "requested_quantity": quantity,
-                                        "reference": reference,
-                                        "source_location_id": source,
-                                        "destination_location_id": destination,
-                                        "picking_type": picking_type}))
+            temp_picking = self.copy_data()[0]
+            picking = calc.dictionary_reset(temp_picking, INCOMING_SHIPMENT_KEY)
+            picking["picking_detail"] = picking_detail
+            picking["back_order_id"] = self.id
 
-        if hos_move:
-            data["person_id"] = self.person_id.id
-            data["picking_detail"] = hos_move
-            data["picking_category"] = self.picking_category
-            data["reference"] = reference
-            data["source_location_id"] = source
-            data["destination_location_id"] = destination
-            data["picking_type"] = picking_type
-            data["back_order_id"] = self.id
+            self.env["hos.picking"].create(picking)
 
-            if self.purchase_order_id:
-                data["purchase_order_id"] = self.purchase_order_id.id
+    def get_order_detail(self, product_id):
+        order_id = None
+        picking = self.picking_category
 
-            if self.purchase_return_id:
-                data["purchase_return_id"] = self.purchase_return_id.id
+        if picking == "material_receipt":
+            order_id = self.env["purchase.detail"].search([("product_id", "=", product_id),
+                                                           ("order_id", "=", self.purchase_order_id.id)])
+        elif picking == "material_return":
+            order_id = self.env["purchase.return.detail"].search([("product_id", "=", product_id),
+                                                                  ("return_id", "=", self.purchase_return_id.id)])
+        elif picking == "material_delivery":
+            order_id = self.env["sale.detail"].search([("product_id", "=", product_id),
+                                                       ("order_id", "=", self.sale_order_id.id)])
+        elif picking == "material_intake":
+            order_id = self.env["sale.return.detail"].search([("product_id", "=", product_id),
+                                                              ("return_id", "=", self.sale_return_id.id)])
 
-            # if self.sale_order_id:
-            #     data["sale_order_id"] = self.sale_order_id.id
-            #
-            # if self.sale_return_id:
-            #     data["sale_return_id"] = self.sale_return_id.id
-            #
-            # if self.store_request_id:
-            #     data["store_request_id"] = self.store_request_id.id
-            #
-            # if self.store_return_id:
-            #     data["store_return_id"] = self.store_return_id.id
+        return order_id
 
-            self.env["hos.picking"].create(data)
+    def get_unit_price(self, product_id):
+        unit_price = 0
 
-    # Sale
-    @api.multi
-    def trigger_create_sale_invoice(self):
-        data = {}
+        order_id = self.get_order_detail(product_id)
+        if order_id:
+           unit_price = order_id.unit_price
 
+        return unit_price
+
+    def get_tax(self, product_id):
+        tax_id = self.env.user.company_id.tax_id.id
+
+        order_id = self.get_order_detail(product_id)
+        if order_id:
+            tax_id = order_id.tax_id.id
+
+        return tax_id
+
+    def get_discount(self, product_id):
+        discount = 0
+
+        order_id = self.get_order_detail(product_id)
+        if order_id:
+            discount = order_id.discount
+
+        return discount
+
+    def get_invoice_type(self):
+        invoice_type = None
+        category = self.picking_category
+
+        if category == "material_receipt":
+            invoice_type = "purchase_bill"
+        elif category == "direct_material_receipt":
+            invoice_type = "direct_purchase_bill"
+        elif category == "material_return":
+            invoice_type = "purchase_return_bill"
+        elif category == "material_delivery":
+            invoice_type = "sale_bill"
+        elif category == "material_intake":
+            invoice_type = "sale_return_bill"
+
+        return invoice_type
+
+    def generate_invoice_detail(self):
         invoice_detail = []
         recs = self.picking_detail
+
         for rec in recs:
             if rec.quantity > 0:
-                order_detail = self.env["sale.detail"].search([("product_id", "=", rec.product_id.id),
-                                                               ("order_id", "=", self.so_id.id)])
+                data = {"product_id": rec.product_id.id,
+                        "quantity": rec.quantity,
+                        "unit_price": self.get_unit_price(rec.product_id.id),
+                        "discount": self.get_discount(rec.product_id.id),
+                        "tax_id": self.get_tax(rec.product_id.id)}
 
-                invoice_detail.append((0, 0, {"product_id": rec.product_id.id,
-                                              "quantity": rec.quantity,
-                                              "unit_price": order_detail.unit_price,
-                                              "discount": order_detail.discount,
-                                              "tax_id": order_detail.tax_id.id}))
+                invoice_detail.append((0, 0, data))
 
-        if invoice_detail:
-            data["date"] = datetime.now().strftime("%Y-%m-%d")
-            data["person_id"] = self.person_id.id
-            data["reference"] = self.name
-            data["invoice_detail"] = invoice_detail
-            data["invoice_type"] = self.picking_category
-            data["so_id"] = self.so_id.id
-            data["picking_id"] = self.id
+        return invoice_detail
 
-            invoice_id = self.env["hos.invoice"].create(data)
-            invoice_id.total_calculation()
+    def generate_invoice(self):
+        invoice_detail = self.generate_invoice_detail()
+
+        data = {"date": CURRENT_DATE,
+                "person_id": self.person_id.id,
+                "reference": self.name,
+                "invoice_detail": invoice_detail,
+                "invoice_type": self.get_invoice_type(),
+                "purchase_order_id": self.purchase_order_id.id,
+                "purchase_return_id": self.purchase_return_id.id,
+                "sale_order_id": self.sale_order_id.id,
+                "sale_return_id": self.sale_return_id.id,
+                "picking_id": self.id}
+
+        invoice_id = self.env["hos.invoice"].create(data)
+        invoice_id.total_calculation()
+
+        self.write({"is_invoice_created": True})
 
     @api.multi
     def trigger_move(self):

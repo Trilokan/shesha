@@ -73,7 +73,7 @@
                                         <field name="date" invisible="1"/>
                                         <field name="is_batch" invisible="1"/>
                                     </group>
-                                    <field name="batch_ids" domain="[('product_id', '=', product_id)]"
+                                    <field name="batch_ids" domain="[('product_id', '=', product_id), ('location_id', '=', source_location_id)]"
                                            attrs="{'invisible': [('is_batch', '=', False)]}">
                                         <tree>
                                             <field name="batch_no"/>

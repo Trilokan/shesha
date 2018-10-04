@@ -52,3 +52,13 @@ def data_calculation(recs):
             "total_amount": total_amount,
             "grand_total_amount": grand_total_amount,
             "round_off_amount": round_off_amount}
+
+
+def dictionary_reset(recs, array):
+    new_dict = {}
+
+    for key, value in recs.iteritems():
+        if key in array:
+            new_dict[key] = value
+
+    return new_dict

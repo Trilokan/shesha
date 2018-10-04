@@ -71,7 +71,7 @@
                     <footer>
                         <button name="trigger_move" string="Accept" type="object"
                                 attrs="{'invisible': [('progress', '!=', 'draft')]}"/>
-                        <button name="trigger_create_purchase_return_invoice"
+                        <button name="generate_invoice"
                                 string="Create Invoice" type="object"
                                 attrs="{'invisible': ['|',('progress', '=', 'draft'),('is_invoice_created','!=',False)]}"/>
                         <button name="trigger_revert"

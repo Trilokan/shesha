@@ -13,7 +13,7 @@ class Voucher(models.Model):
 
     date = fields.Date(string="Date")
     name = fields.Char(string="Name")
-    journal_id = ""
+    journal_id = fields.Many2one(comodel_name="hos.journal")
     voucher_type = fields.Selection(selection=VOUCHER_TYPE, string="Type")
     payment_type = fields.Selection(selection=PAYMENT_TYPE, string="Payment Type")
     amount = fields.Float(string="Amount")
