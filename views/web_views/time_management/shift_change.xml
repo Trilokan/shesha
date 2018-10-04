@@ -30,14 +30,15 @@
                         <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
                     </div>
                     <group col="4">
-                        <field name="date"/>
-                        <field name="person_id"/>
-                        <field name="shift_id" required="1"/>
+                        <field name="date" attrs="{'readonly': [('progress', '=', 'changed')]}"/>
+                        <field name="person_id" attrs="{'readonly': [('progress', '=', 'changed')]}"/>
+                        <field name="shift_id" required="1" attrs="{'readonly': [('progress', '=', 'changed')]}"/>
                     </group>
                     <group>
-                        <field name="reason"/>
+                        <field name="reason" attrs="{'readonly': [('progress', '=', 'changed')]}"/>
                     </group>
-                    <button name="trigger_shift_change" string="Change" type="object"/>
+                    <button name="trigger_shift_change" string="Change" type="object"
+                            attrs="{'invisible': [('progress', '=', 'changed')]}"/>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
