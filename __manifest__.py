@@ -66,6 +66,9 @@
             'views/web_views/account/account.xml',
             'views/web_views/account/year.xml',
             'views/web_views/account/period.xml',
+            'views/web_views/account/journal_entries.xml',
+            'views/web_views/account/customer_payments.xml',
+            'views/web_views/account/vendor_payments.xml',
 
             # Product
             'views/web_views/product/group.xml',
