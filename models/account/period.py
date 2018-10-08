@@ -19,6 +19,15 @@ class Period(models.Model):
 
     _sql_constraints = [('unique_period', 'unique (name)', 'Error! Monthly period must be unique')]
 
+    def get_period(self, date):
+        period_id = self.env["period.period"].search([("from_date", "<=", date),
+                                                      ("till_date", ">=", date)])
+
+        if not period_id:
+            raise exceptions.ValidationError("Error! Period is Not found")
+
+        return period_id.id
+
     @api.multi
     def trigger_period_open(self):
         self.check_progress([("progress", "=", "open")])

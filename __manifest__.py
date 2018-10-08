@@ -49,6 +49,7 @@
 
             # Account
             'data/account/account.xml',
+            'data/account/journal.xml',
 
             # Base Pack
             'data/base_pack/base_pack.xml',
@@ -67,6 +68,7 @@
             'views/web_views/account/year.xml',
             'views/web_views/account/period.xml',
             'views/web_views/account/journal_entries.xml',
+            'views/web_views/account/journal_items.xml',
             'views/web_views/account/customer_payments.xml',
             'views/web_views/account/vendor_payments.xml',
 

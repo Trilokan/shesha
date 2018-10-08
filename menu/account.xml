@@ -26,17 +26,23 @@
               parent="menu_account"
               sequence="40"/>
 
+    <menuitem id="account_journal_items"
+              name="Journal Items"
+              action="action_journal_items"
+              parent="menu_account"
+              sequence="50"/>
+
     <menuitem id="account_hos_voucher_customer_payments"
               name="Customer Payments"
               action="action_hos_voucher_customer_payments"
               parent="menu_account"
-              sequence="50"/>
+              sequence="60"/>
 
     <menuitem id="account_hos_voucher_vendor_payments"
               name="Vendor Payments"
               action="action_hos_voucher_vendor_payments"
               parent="menu_account"
-              sequence="60"/>
+              sequence="70"/>
 
 
 </odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Cash-->
+    <record id="cash_hos_journal" model="hos.journal">
+        <field name="name">Cash</field>
+        <field name="code">CSH</field>
+    </record>
+
+    <record id="bank_hos_journal" model="hos.journal">
+        <field name="name">Bank</field>
+        <field name="code">BNK</field>
+    </record>
+
+    <record id="sales_hos_journal" model="hos.journal">
+        <field name="name">Sales</field>
+        <field name="code">SAL</field>
+    </record>
+
+    <record id="purchase_hos_journal" model="hos.journal">
+        <field name="name">Purchase</field>
+        <field name="code">PUR</field>
+    </record>
+
+    <record id="sale_return_hos_journal" model="hos.journal">
+        <field name="name">Sales Return</field>
+        <field name="code">SRN</field>
+    </record>
+
+    <record id="purchase_return_hos_journal" model="hos.journal">
+        <field name="name">Purchase Return</field>
+        <field name="code">PRN</field>
+    </record>
+
+</odoo>

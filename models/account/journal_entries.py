@@ -6,11 +6,12 @@ from datetime import datetime
 CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
 CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
 
-PROGRESS_INFO = [("draft", "Draft"), ("confirmed", "Confirmed")]
+PROGRESS_INFO = [("draft", "Draft"), ("posted", "Posted")]
 
 
 class JournalEntries(models.Model):
     _name = "journal.entries"
+    _rec_name = "name"
 
     date = fields.Date(string="Date", default=CURRENT_DATE)
     name = fields.Char(string="Name", readonly=True)

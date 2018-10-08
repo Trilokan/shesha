@@ -11,6 +11,7 @@ PROGRESS_INFO = [("draft", "Draft"), ("posted", "Posted")]
 
 class JournalItems(models.Model):
     _name = "journal.items"
+    _rec_name = "name"
 
     entry_id = fields.Many2one(comodel_name="journal.entries", string="Journal Entries")
     date = fields.Date(string="Date", default=CURRENT_DATE)
@@ -29,7 +30,7 @@ class JournalItems(models.Model):
     account_id = fields.Many2one(comodel_name="hos.account", string="Account")
     description = fields.Text(string="Description")
     credit = fields.Float(string="Credit", default=0)
-    debit = fields.Float(string="Credit", default=0)
+    debit = fields.Float(string="Debit", default=0)
     reconcile_id = fields.Many2one(comodel_name="hos.reconcile", string="Reconcile")
 
     company_id = fields.Many2one(comodel_name="res.company", string="Company",
@@ -38,5 +39,13 @@ class JournalItems(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code(self._name)
-        return super(JournalItems, self).create(vals)
+        credit = debit = 0
+        if "credit" in vals:
+            credit = vals["credit"]
+
+        if "debit" in vals:
+            debit = vals["debit"]
+
+        if credit or debit:
+            vals['name'] = self.env['ir.sequence'].next_by_code(self._name)
+            return super(JournalItems, self).create(vals)

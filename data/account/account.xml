@@ -13,5 +13,17 @@
         <field name="code">SDR</field>
     </record>
 
+    <!--Bank-->
+    <record id="sundry_debtor_hos_account" model="hos.account">
+        <field name="name">Bank</field>
+        <field name="code">BNK</field>
+    </record>
+
+    <!--Cash-->
+    <record id="cash_hos_account" model="hos.account">
+        <field name="name">Cash</field>
+        <field name="code">CSH</field>
+    </record>
+
 
 </odoo>

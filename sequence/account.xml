@@ -12,6 +12,24 @@
             <field name="number_increment">1</field>
         </record>
 
+        <record id="hos_voucher_customer_payment_sequence" model="ir.sequence">
+            <field name="name">Customer Payment</field>
+            <field name="code">hos.voucher.customer_payment</field>
+            <field name="prefix">CP/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="hos_voucher_vendor_payment_sequence" model="ir.sequence">
+            <field name="name">Vendor Payment</field>
+            <field name="code">hos.voucher.vendor_payment</field>
+            <field name="prefix">VP/</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
     </data>
 
 </odoo>
