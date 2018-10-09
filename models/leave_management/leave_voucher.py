@@ -22,18 +22,18 @@ class LeaveVoucher(models.Model):
                                  string="Company",
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True)
-    leave_taken = fields.Float(string="Leave Taken")
-    credit_detail = fields.One2many(comodel_name="leave.voucher.line",
-                                    inverse_name="credit_id",
-                                    string="Credit Line")
-    debit_detail = fields.One2many(comodel_name="leave.voucher.line",
-                                   inverse_name="debit_id",
-                                   string="Debit Line")
+    count = fields.Float(string="Count")
+    difference = fields.Float(string="Difference")
+    voucher_detail = fields.One2many(comodel_name="leave.voucher.line",
+                                     inverse_name="voucher_id",
+                                     string="Leave Voucher Line")
+
+    is_manual = fields.Boolean(string="Is Manual")
 
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     writter = fields.Text(string="Writter", track_visibility="always")
 
-    @api.onchange("leave_taken")
+    @api.onchange("count")
     def update_count(self):
         recs = self.voucher_detail
 
@@ -222,25 +222,18 @@ class LeaveVoucher(models.Model):
 
 class LeaveVoucherLine(models.Model):
     _name = "leave.voucher.line"
-    _order = "sequence"
+    _inherit = "mail.thread"
 
-    date = fields.Date(string="Date", default=CURRENT_DATE)
+    date = fields.Date(string="Date", required=True)
+    name = fields.Char(string="Name")
     description = fields.Text(string="Description")
-    leave = fields.Float(string="Leave", default=0)
-    reconcile = fields.Float(string="Reconcile", default=0)
-    balance = fields.Float(string="Balance", default=0)
-    credit_id = fields.Many2one(comodel_name="hos.voucher", string="Voucher")
-    debit_id = fields.Many2one(comodel_name="hos.voucher", string="Voucher")
-    sequence = fields.Integer(string="Sequence", default=10)
-
-    item_id = fields.Many2one(comodel_name="leave.item", string="Journal Items")
-    invoice_id = fields.Many2one(comodel_name="hos.invoice", string="Invoice")
-
-    @api.model
-    def create(self, vals):
-
-        if "amount" in vals:
-            if vals["amount"]:
-                return super(LeaveVoucherLine, self).create(vals)
-
+    item_id = fields.Many2one(comodel_name="leave.item", string="Journal Item")
+    person_id = fields.Many2one(comodel_name="hos.person", string="Person")
+    voucher_id = fields.Many2one(comodel_name="leave.voucher", string="Leave Voucher")
+    leave_available = fields.Float(string="Leave Available")
+    reconcile = fields.Boolean(string="Reconcile")
+    leave_reconcile = fields.Float(string="Leave Reconcile")
+    leave_order = fields.Float(string="Leave Order")
+    company_id = fields.Many2one(comodel_name="res.company", string="Company", readonly=True)
+    writter = fields.Text(string="Writter", track_visibility="always")
 
