@@ -24,6 +24,8 @@
     "data": [
         # CSS
         'views/web_views/assert_backend.xml',
+        'views/web_views/web.xml',
+        'views/web_views/side_menu.xml',
 
         # Main Menu
         'menu/menu.xml',

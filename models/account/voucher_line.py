@@ -14,9 +14,9 @@ class VoucherLine(models.Model):
 
     date = fields.Date(string="Date", default=CURRENT_DATE)
     description = fields.Text(string="Description")
-    amount = fields.Float(string="Amount", default=0)
-    reconcile = fields.Float(string="Reconcile", default=0)
-    balance = fields.Float(string="Balance", default=0)
+    amount = fields.Float(string="Amount")
+    reconcile = fields.Float(string="Reconcile")
+    balance = fields.Float(string="Balance")
     credit_id = fields.Many2one(comodel_name="hos.voucher", string="Voucher")
     debit_id = fields.Many2one(comodel_name="hos.voucher", string="Voucher")
     current = fields.Boolean(string="Current")

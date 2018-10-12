@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api, exceptions
 from datetime import datetime
+from .. import reconciliation as rex
 
 CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
 CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
@@ -16,11 +17,11 @@ class Voucher(models.Model):
     _rec_name = "name"
     _inherit = "mail.thread"
 
-    date = fields.Date(string="Date", default=CURRENT_DATE, required=True)
-    name = fields.Char(string="Name", readonly=True)
-    person_id = fields.Many2one(comodel_name="hos.person", string="Person", required=True)
-    voucher_type = fields.Selection(selection=VOUCHER_TYPE, string="Type", required=True)
-    payment_type = fields.Selection(selection=PAYMENT_TYPE, string="Payment Type", required=True)
+    date = fields.Date(string="Date", default=CURRENT_DATE)
+    name = fields.Char(string="Name")
+    person_id = fields.Many2one(comodel_name="hos.person", string="Person")
+    voucher_type = fields.Selection(selection=VOUCHER_TYPE, string="Type")
+    payment_type = fields.Selection(selection=PAYMENT_TYPE, string="Payment Type")
     amount = fields.Float(string="Amount", default=0)
     credit_lines = fields.One2many(comodel_name="voucher.line", inverse_name="credit_id", string="Credit")
     debit_lines = fields.One2many(comodel_name="voucher.line", inverse_name="debit_id", string="Debit")
@@ -33,43 +34,37 @@ class Voucher(models.Model):
     cheque_no = fields.Char(dtring="Cheque No")
     comment = fields.Text(string="Comment")
 
-    def get_dr_lines(self, account_id):
-        recs = self.env["journal.items"].search([("account_id", "=", account_id),
-                                                 ("debit", ">", 0),
-                                                 ("reconcile_id", "=", False)])
+    def get_line_id(self, record_id, pay_type, self_type):
+        result = False
 
-        res_dr = []
+        if pay_type == self_type:
+            result = record_id
 
-        for rec in recs:
-            data = {"date": rec.date,
-                    "name": rec.name,
-                    "description": rec.description,
-                    "credit_id": False,
-                    "debit_id": self.id,
-                    "item_id": rec.id,
-                    "amount": rec.debit}
-            res_dr.append(data)
+        return result
 
-        return res_dr
+    def get_amount(self, rec, pay_type):
+        result = 0
 
-    def get_cr_lines(self, account_id):
-        recs = self.env["journal.items"].search([("account_id", "=", account_id),
-                                                 ("credit", ">", 0),
-                                                 ("reconcile_id", "=", False)])
+        if pay_type == "credit":
+            result = rec.credit
+        elif pay_type == "debit":
+            result = rec.debit
 
-        res_cr = []
+        return result
 
-        for rec in recs:
-            data = {"date": rec.date,
-                    "name": rec.name,
-                    "description": rec.description,
-                    "credit_id": self.id,
-                    "debit_id": False,
-                    "item_id": rec.id,
-                    "amount": rec.credit}
-            res_cr.append(data)
+    def get_lines(self, records, pay_type):
+        res = []
 
-        return res_cr
+        for record in records:
+            data = {"date": record.date,
+                    "description": record.description,
+                    "credit_id": self.get_line_id(self.id, pay_type, "credit"),
+                    "debit_id": self.get_line_id(self.id, pay_type, "debit"),
+                    "item_id": record.id,
+                    "amount": self.get_amount(record, pay_type)}
+            res.append(data)
+
+        return res
 
     @api.onchange("person_id")
     def onchange_person_id(self):
@@ -79,12 +74,19 @@ class Voucher(models.Model):
         if self.person_id:
             account_id = self.person_id.payable_id.id
 
-            self.debit_lines = self.get_dr_lines(account_id)
-            self.credit_lines = self.get_cr_lines(account_id)
+            cr_records = self.env["journal.items"].search([("account_id", "=", account_id),
+                                                           ("credit", ">", 0),
+                                                           ("reconcile_id", "=", False)])
+
+            dr_records = self.env["journal.items"].search([("account_id", "=", account_id),
+                                                           ("debit", ">", 0),
+                                                           ("reconcile_id", "=", False)])
+
+            self.debit_lines = self.get_lines(dr_records, "debit")
+            self.credit_lines = self.get_lines(cr_records, "credit")
 
     def amount_update(self):
         data = {"date": self.date,
-                "name": self.name,
                 "description": "Payment",
                 "sequence": 1,
                 "current": True,
@@ -262,6 +264,29 @@ class Voucher(models.Model):
         code = "{0}{1}".format(self._name, vals["voucher_type"])
         vals["name"] = self.env["ir.sequence"].next_by_code(code)
         return super(Voucher, self).create(vals)
+
+    @api.multi
+    def mango(self):
+        cr = []
+        dr = []
+
+        for rec in self.credit_lines:
+            cr_obj = {}
+            cr_obj["id"] = rec.id
+            cr_obj["ref"] = "ff"
+            cr_obj["amount"] = rec.amount
+
+            cr.append(cr_obj)
+
+        for rec in self.debit_lines:
+            dr_obj = {}
+            dr_obj["id"] = rec.id
+            dr_obj["ref"] = "ff"
+            dr_obj["amount"] = rec.amount
+
+            dr.append(dr_obj)
+
+        rex.reconciliation(cr, dr)
 
 
 
