@@ -33,8 +33,6 @@
                             <field name="name"/>
                             <field name="total_hours" readonly="1" widget="float_time"/>
                             <field name="end_day"/>
-                            <field name="from_total_hours" widget="float_time" invisible="0"/>
-                            <field name="till_total_hours" widget="float_time" invisible="0"/>
                         </group>
 
                         <group>

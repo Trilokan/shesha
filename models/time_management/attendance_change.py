@@ -3,6 +3,9 @@
 from odoo import fields, models, api, exceptions
 from datetime import datetime, timedelta
 
+TIME_DELAY_HRS = -5
+TIME_DELAY_MIN = -30
+
 PROGRESS_INFO = [('draft', 'Draft'), ('changed', 'Changed')]
 DAY_PROGRESS = [('holiday', 'Holiday'), ('working_day', 'Working Day')]
 CHANGE_TYPE = [("holiday_change", "Holiday Chnage"),
@@ -65,15 +68,15 @@ class AttendanceChange(models.Model):
         self.date_check()
         attendance = self.employee_check()
         current_date_obj = datetime.strptime(self.date, "%Y-%m-%d")
-        week_schedule_obj = self.env["week.schedule"]
+
+        timings = self.env["model.date"].get_expected_time(current_date_obj,
+                                                           self.shift_id.from_hours + TIME_DELAY_HRS,
+                                                           self.shift_id.from_minutes + TIME_DELAY_MIN,
+                                                           self.shift_id.total_hours)
 
         attendance.write({"shift_id": self.shift_id.id,
-                          "expected_from_time": week_schedule_obj.get_time(current_date_obj,
-                                                                           self.shift_id.from_total_hours,
-                                                                           self.shift_id.end_day),
-                          "expected_till_time": week_schedule_obj.get_time(current_date_obj,
-                                                                           self.shift_id.till_total_hours,
-                                                                           self.shift_id.end_day)})
+                          "expected_from_time": timings["from_time"],
+                          "expected_till_time": timings["till_time"]})
 
         self.write({"progress": "changed"})
 
@@ -83,20 +86,19 @@ class AttendanceChange(models.Model):
         self.check_duplicate()
 
         attendance = self.env["time.attendance"].search([("date", "=", self.date)])
-
         current_date_obj = datetime.strptime(self.date, "%Y-%m-%d")
-        week_schedule_obj = self.env["week.schedule"]
+
+        timings = self.env["model.date"].get_expected_time(current_date_obj,
+                                                           self.shift_id.from_hours + TIME_DELAY_HRS,
+                                                           self.shift_id.from_minutes + TIME_DELAY_MIN,
+                                                           self.shift_id.total_hours)
 
         data = {"person_id": self.person_id.id,
                 "day_progress": "working_day",
                 "shift_id": self.shift_id.id,
                 "attendance_id": attendance.id,
-                "expected_from_time": week_schedule_obj.get_time(current_date_obj,
-                                                                 self.shift_id.from_total_hours,
-                                                                 self.shift_id.end_day),
-                "expected_till_time": week_schedule_obj.get_time(current_date_obj,
-                                                                 self.shift_id.till_total_hours,
-                                                                 self.shift_id.end_day)}
+                "expected_from_time": timings["from_time"],
+                "expected_till_time": timings["till_time"]}
 
         self.env["time.attendance.detail"].create(data)
 

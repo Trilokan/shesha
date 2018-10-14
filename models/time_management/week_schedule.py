@@ -4,7 +4,8 @@ from odoo import fields, models, api, exceptions
 from datetime import datetime, timedelta
 
 PROGRESS_INFO = [('draft', 'Draft'), ('scheduled', 'Scheduled')]
-TIME_DELAY_HRS = 5.50
+TIME_DELAY_HRS = -5
+TIME_DELAY_MIN = -30
 
 
 # Week Schedule
@@ -34,78 +35,67 @@ class WeekSchedule(models.Model):
     @api.constrains("from_date", "till_date")
     def check_date(self):
         """ From Date < Till Date """
-        from_date = datetime.strptime(self.from_date, "%Y-%m-%d")
-        till_date = datetime.strptime(self.till_date, "%Y-%m-%d")
-        if from_date > till_date:
+        date_greater = self.env["model.date"].from_date_greater(self.from_date, self.till_date, "%Y-%m-%d")
+        if date_greater:
             raise exceptions.ValidationError("Error! From Date should be greater than Till Date")
 
-        days = (till_date - from_date).days + 1
-
+        days = self.env["model.date"].date_difference(self.from_date, self.till_date, "%Y-%m-%d")
         if days != 7:
             raise exceptions.ValidationError("Error! From Date and Till Date should be within a week")
 
+        from_date = datetime.strptime(self.from_date, "%Y-%m-%d")
         if from_date.weekday() != 0:
             raise exceptions.ValidationError("Error! Week should start from Monday")
 
-        week_schedule = self.env["week.schedule"].search_count([("from_date", "=", self.from_date),
-                                                                ("till_date", "=", self.till_date)])
+        week_schedule = self.env["week.schedule"].search_count([("from_date", "=", self.from_date)])
         if week_schedule > 1:
             raise exceptions.ValidationError("Error! Duplicate Week Schedule")
 
     def generate_attendance(self):
-        from_date = datetime.strptime(self.from_date, "%Y-%m-%d")
-        till_date = datetime.strptime(self.till_date, "%Y-%m-%d")
-        date_range = (till_date - from_date).days + 1
+        date_range = self.env["model.date"].date_list(self.from_date, self.till_date, "%Y-%m-%d")
+
+        for date in date_range:
+            date_obj = datetime.strptime(date, "%Y-%m-%d")
+            attendance_detail = self.get_model_line_data(date_obj, date)
+            attendance = self.get_model_data(date, attendance_detail)
+
+            self.env["time.attendance"].create(attendance)
+
+    def get_model_data(self, date, attendance_detail):
+        month_id = self.env["month.attendance"].search([("period_id.from_date", "<=", date),
+                                                        ("period_id.till_date", ">=", date)])
+
+        if not month_id:
+            raise exceptions.ValidationError("Error! Attendance Month is not set")
+
+        return {"date": date, "month_id": month_id.id, "attendance_detail": attendance_detail}
+
+    def get_model_line_data(self, obj, date):
+        attendance_detail = []
 
         recs = self.schedule_detail
+        for rec in recs:
+            timings = self.env["model.date"].get_expected_time(obj,
+                                                               rec.shift_id.from_hours + TIME_DELAY_HRS,
+                                                               rec.shift_id.from_minutes + TIME_DELAY_MIN,
+                                                               rec.shift_id.total_hours)
+            for person_id in rec.person_ids:
+                record_data = {"shift_id": rec.shift_id.id,
+                               "person_id": person_id.id,
+                               "day_progress": self.get_day_progress(date, person_id.id),
+                               "expected_from_time": timings["from_time"],
+                               "expected_till_time": timings["till_time"]}
 
-        for day in range(0, date_range):
-            current_date_obj = from_date + timedelta(days=day)
-            current_date = current_date_obj.strftime("%Y-%m-%d")
+                attendance_detail.append((0, 0, record_data))
 
-            attendance_detail = []
-            for rec in recs:
-                for person_id in rec.person_ids:
-                    record_data = {"shift_id": rec.shift_id.id,
-                                   "person_id": person_id.id,
-                                   "day_progress": self.get_day_progress(current_date,
-                                                                         person_id.id),
-                                   "expected_from_time": self.get_time(current_date_obj,
-                                                                       rec.shift_id.from_total_hours,
-                                                                       rec.shift_id.end_day),
-                                   "expected_till_time": self.get_time(current_date_obj,
-                                                                       rec.shift_id.till_total_hours,
-                                                                       rec.shift_id.end_day)}
-
-                    attendance_detail.append((0, 0, record_data))
-
-            month_id = self.env["month.attendance"].search([("period_id.from_date", "<=", current_date),
-                                                            ("period_id.till_date", ">=", current_date)])
-
-            if not month_id:
-                raise exceptions.ValidationError("Error! Attendance Month is not set")
-
-            self.env["time.attendance"].create({"date": current_date,
-                                                "month_id": month_id.id,
-                                                "attendance_detail": attendance_detail})
-
-    def get_time(self, date_obj, hours, day_type):
-        total_hours = hours - TIME_DELAY_HRS
-
-        days = 1 if day_type == "next_day" else 0
-        time_obj = date_obj + timedelta(hours=total_hours, days=days)
-
-        return time_obj.strftime("%Y-%m-%d %H:%M:%S")
+        return attendance_detail
 
     def get_day_progress(self, current_date, person_id):
         holiday = self.env["week.off.detail"].search([("date", "=", current_date),
                                                       ("person_ids", "=", person_id),
                                                       ("schedule_id", "=", self.id)])
 
-        if holiday:
-            return "holiday"
-
-        return "working_day"
+        return "holiday" if holiday else "working_day"
 
     @api.multi
     def trigger_schedule(self):

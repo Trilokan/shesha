@@ -13,8 +13,6 @@ class Shift(models.Model):
 
     name = fields.Char(string="Shift", required=True)
     total_hours = fields.Float(string="Total Hours", readonly=True)
-    from_total_hours = fields.Float(string="From Total Hours", compute="_get_from_hours")
-    till_total_hours = fields.Float(string="Till Total Hours", compute="_get_till_hours")
     end_day = fields.Selection(selection=END_INFO, string="Ends On", default="current_day")
     from_hours = fields.Integer(string="From Hours")
     from_minutes = fields.Integer(string="From Minutes")
@@ -24,33 +22,6 @@ class Shift(models.Model):
                                  string="Company",
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True)
-
-    def _get_from_hours(self):
-        today = datetime.strptime("2018-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
-        for rec in self:
-            from_date = today + timedelta(hours=rec.from_hours) + timedelta(minutes=rec.from_minutes)
-
-            secs = (from_date - today).seconds
-
-            minutes = ((secs / 60) % 60) / 60.0
-            hours = secs / 3600
-
-            rec.from_total_hours = hours + minutes
-
-    def _get_till_hours(self):
-        today = datetime.strptime("2018-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
-        for rec in self:
-            till_date = today + timedelta(hours=rec.till_hours) + timedelta(minutes=rec.till_minutes)
-
-            if rec.end_day == 'next_day':
-                till_date = till_date + timedelta(days=1)
-
-            secs = (till_date - today).seconds
-
-            minutes = ((secs / 60) % 60) / 60.0
-            hours = secs / 3600
-
-            rec.till_total_hours = hours + minutes
 
     @api.multi
     def trigger_calculate(self):
