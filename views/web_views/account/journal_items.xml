@@ -46,6 +46,7 @@
                         <field name="debit" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
                     </group>
                     <group>
+                        <field name="entry_id"/>
                         <field name="reconcile_id" attrs="{'readonly': [('progress', '!=', 'draft')]}"/>
                     </group>
                 </sheet>

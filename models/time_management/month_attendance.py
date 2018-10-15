@@ -207,10 +207,9 @@ class MonthAttendance(models.Model):
         for employee in employees:
             total_absent = self.get_absent_days(employee.person_id)
 
-            voucher = {}
-            voucher["period_id"] = self.period_id.id
-            voucher["person_id"] = employee.person_id.id
-            voucher["count"] = total_absent
+            voucher = {"period_id": self.period_id.id,
+                       "person_id": employee.person_id.id,
+                       "count": total_absent}
 
             # Check already voucher is created
             check_voucher = self.env["leave.voucher"].search([("period_id", "=", self.period_id.id),
@@ -224,6 +223,43 @@ class MonthAttendance(models.Model):
 
         self.write({"progress": "closed"})
 
+    def get_model_data(self, period_id, employee, leave_item):
+
+        journal = {"period_id": period_id.id,
+                   "person_id": employee.person_id.id,
+                   "journal_detail": leave_item,
+                   "progress": "posted",
+                   "reference": period_id.name}
+
+        return journal
+
+    def get_model_line_data(self, period_id, employee):
+        leave_item = []
+        configs = self.env["leave.configuration"].search([("leave_level_id", "=", employee.leave_level_id.id)])
+
+        # Credit Detail - Employee
+        for config in configs:
+            journal_detail = {"period_id": period_id.id,
+                              "person_id": employee.person_id.id,
+                              "leave_account_id": employee.leave_account_id.id,
+                              "description": "{0} Leave Credit".format(config.leave_type_id.name),
+                              "reference": period_id.name,
+                              "leave_order": config.leave_order}
+
+            # Leave Journal Credit
+            journal_credit = journal_detail
+            journal_credit.update({"debit": config.leave_credit,
+                                   "leave_account_id": employee.leave_account_id.id})
+            leave_item.append((0, 0, journal_credit))
+
+            # Leave Journal Debit
+            journal_debit = journal_detail
+            journal_debit.update({"credit": config.leave_credit,
+                                  "leave_account_id": self.env.user.company_id.leave_credit_id.id})
+            leave_item.append((0, 0, journal_debit))
+
+            return leave_item
+
     @api.multi
     def trigger_open(self):
         if self.env["month.attendance"].search_count([("progress", "=", "open"), ("id", "!=", self.id)]):
@@ -233,41 +269,8 @@ class MonthAttendance(models.Model):
         employees = self.env["hr.employee"].search([])
 
         for employee in employees:
-            leave_item = []
-            configs = self.env["leave.configuration"].search([("leave_level_id", "=", employee.leave_level_id.id)])
-
-            # Credit Detail - Employee
-            for config in configs:
-                journal_detail = {}
-                journal_detail["period_id"] = self.period_id.id
-                journal_detail["person_id"] = employee.person_id.id
-                journal_detail["leave_account_id"] = employee.leave_account_id.id
-                journal_detail["description"] = "{0} Leave Credit".format(config.leave_type_id.name)
-                journal_detail["debit"] = config.leave_credit
-                journal_detail["reference"] = self.period_id.name
-                journal_detail["leave_order"] = config.leave_order
-
-                leave_item.append((0, 0, journal_detail))
-
-            # Credit Detail - Monthly
-            for config in configs:
-                journal_detail = {}
-                journal_detail["period_id"] = self.period_id.id
-                journal_detail["person_id"] = employee.person_id.id
-                journal_detail["leave_account_id"] = self.env.user.company_id.leave_credit_id.id
-                journal_detail["description"] = "Leave Credit"
-                journal_detail["credit"] = config.leave_credit
-                journal_detail["reference"] = self.period_id.name
-                journal_detail["leave_order"] = config.leave_order
-
-                leave_item.append((0, 0, journal_detail))
-
-            journal = {}
-            journal["period_id"] = self.period_id.id
-            journal["person_id"] = employee.person_id.id
-            journal["journal_detail"] = leave_item
-            journal["progress"] = "posted"
-            journal["reference"] = self.period_id.name
+            leave_item = self.get_model_line_data(self.period_id, employee)
+            journal = self.get_model_data(self.period_id, employee, leave_item)
 
             self.env["leave.journal"].create(journal)
 

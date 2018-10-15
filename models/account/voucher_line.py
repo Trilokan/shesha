@@ -17,9 +17,10 @@ class VoucherLine(models.Model):
     amount = fields.Float(string="Amount")
     reconcile = fields.Float(string="Reconcile")
     balance = fields.Float(string="Balance")
+    status = fields.Boolean(string="Status", default=False)
     credit_id = fields.Many2one(comodel_name="hos.voucher", string="Voucher")
     debit_id = fields.Many2one(comodel_name="hos.voucher", string="Voucher")
-    current = fields.Boolean(string="Current")
+    current_id = fields.Many2one(comodel_name="hos.voucher", string="Voucher")
     sequence = fields.Integer(string="Sequence", default=10)
 
     item_id = fields.Many2one(comodel_name="journal.items", string="Journal Items")
