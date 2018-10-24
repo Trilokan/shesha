@@ -28,6 +28,29 @@
                     <div id="s_header">
                         <h1>Employee Database</h1>
                     </div>
+
+                    <div id="p_header"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                                name="action_view_payslip"
+                                class="oe_stat_button"
+                                string="Payslip"
+                                icon="fa-truck">
+                        </button>
+                        <button type="object"
+                                name="action_view_complaint"
+                                class="oe_stat_button"
+                                string="Complaints"
+                                icon="fa-truck">
+                        </button>
+                        <button type="object"
+                                name="action_view_atendance"
+                                class="oe_stat_button"
+                                string="Attendance"
+                                icon="fa-truck">
+                        </button>
+                    </div>
+
                     <div>
                         <field name="image" widget="image" class="oe_avatar oe_left"/>
                     </div>

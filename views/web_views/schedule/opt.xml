@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_schedule_opt_tree" model="ir.ui.view">
+        <field name="name">hos.schedule.opt.tree</field>
+        <field name="model">hos.schedule</field>
+        <field name="arch" type="xml">
+            <tree string="OPT">
+                <field name="person_id"/>
+                <field name="patient_id"/>
+                <field name="schedule_time"/>
+                <field name="schedule_type_id"/>
+                <field name="reason"/>
+                <field name="reference"/>
+                <field name="comment"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_schedule_opt_form" model="ir.ui.view">
+        <field name="name">hos.schedule.opt.form</field>
+        <field name="model">hos.schedule</field>
+        <field name="arch" type="xml">
+            <form string="OPT">
+                <sheet>
+                    <div id="s_header">
+                        <h1>OPT</h1>
+                    </div>
+                    <div id="p_header">
+                        <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    </div>
+                    <group>
+                        <field name="schedule_time"/>
+                        <field name="schedule_type_id"/>
+                        <field name="person_id"/>
+                        <field name="patient_id"/>
+                        <field name="reason"/>
+                        <field name="reference"/>
+                        <field name="comment"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action-->
+    <record id="action_hos_schedule_opt" model="ir.actions.act_window">
+        <field name="name">OPT</field>
+        <field name="res_model">hos.picking</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('picking_category', '=', 'material_receipt')]</field>
+        <field name="view_id" ref="view_hos_picking_material_receipt_tree"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_hos_picking_material_receipt_form">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hos_picking_material_receipt_form" />
+        <field name="act_window_id" ref="action_hos_picking_material_receipt"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_hos_picking_material_receipt_tree">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_hos_picking_material_receipt_tree"/>
+        <field name="act_window_id" ref="action_hos_picking_material_receipt"/>
+    </record>
+
+</odoo>

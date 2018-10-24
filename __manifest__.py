@@ -24,8 +24,6 @@
     "data": [
         # CSS
         'views/web_views/assert_backend.xml',
-        'views/web_views/web.xml',
-        'views/web_views/side_menu.xml',
 
         # Main Menu
         'menu/menu.xml',
@@ -164,11 +162,26 @@
             'views/web_views/pharmacy/sale_return.xml',
             'views/web_views/pharmacy/material_intake.xml',
 
+            # Hospital
+            'views/web_views/hospital/ambulance.xml',
+            'views/web_views/hospital/ward.xml',
+            'views/web_views/hospital/bed.xml',
+            'views/web_views/hospital/notes.xml',
+            'views/web_views/hospital/notification.xml',
+            'views/web_views/hospital/admission.xml',
+            'views/web_views/hospital/discharge.xml',
+            'views/web_views/hospital/doctor_availability.xml',
+
+            # Patient
+            'views/web_views/patient/symptoms.xml',
+            'views/web_views/patient/diagnosis.xml',
+            'views/web_views/patient/prescription.xml',
+
         # Menu
         'menu/base_pack.xml',
         'menu/account.xml',
         'menu/hr.xml',
-        'menu/contact.xml',
+        # 'menu/contact.xml',
         'menu/product.xml',
         'menu/stores.xml',
         'menu/time_management.xml',
@@ -176,7 +189,7 @@
         'menu/payroll.xml',
         'menu/recruitment.xml',
         'menu/purchase.xml',
-        'menu/pharmacy.xml',
+        # 'menu/pharmacy.xml',
         'menu/asserts.xml',
 
     ],

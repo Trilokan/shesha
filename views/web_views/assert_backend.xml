@@ -7,7 +7,6 @@
             <link rel="stylesheet" href="/shesha/static/src/css/status_bar.less"/>
             <link rel="stylesheet" href="/shesha/static/src/css/matrix.css"/>
             <link rel="stylesheet" href="/shesha/static/src/css/suchi.css"/>
-            <link rel="stylesheet" href="/shesha/static/src/css/side_bar.less"/>
         </xpath>
     </template>
 </odoo>

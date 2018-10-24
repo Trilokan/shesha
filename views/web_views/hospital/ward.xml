@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_ward_tree" model="ir.ui.view">
+        <field name="name">hos.ward.tree</field>
+        <field name="model">hos.ward</field>
+        <field name="arch" type="xml">
+            <tree string="Ward">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="incharge_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_ward_form" model="ir.ui.view">
+        <field name="name">hos.ward.form</field>
+        <field name="model">hos.ward</field>
+        <field name="arch" type="xml">
+            <form string="Ward">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Ward</h1>
+                    </div>
+
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="incharge_id"/>
+                    </group>
+                    <field name="bed_detail">
+                        <tree>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_ward" model="ir.actions.act_window">
+        <field name="name">Ward</field>
+        <field name="res_model">hos.ward</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

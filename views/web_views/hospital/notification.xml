@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_notification_tree" model="ir.ui.view">
+        <field name="name">hos.notification.tree</field>
+        <field name="model">hos.notification</field>
+        <field name="arch" type="xml">
+            <tree string="Notification">
+                <field name="notify_time"/>
+                <field name="sender_id"/>
+                <field name="receiver_id"/>
+                <field name="message"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_notification_form" model="ir.ui.view">
+        <field name="name">hos.notification.form</field>
+        <field name="model">hos.notification</field>
+        <field name="arch" type="xml">
+            <form string="Notification">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Notification</h1>
+                    </div>
+
+                    <group>
+                        <field name="notify_time"/>
+                        <field name="sender_id"/>
+                        <field name="receiver_id"/>
+                        <field name="message"/>
+                        <field name="attachment_detail"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_notification" model="ir.actions.act_window">
+        <field name="name">Notification</field>
+        <field name="res_model">hos.notification</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Contact-->
+    <menuitem id="hospital_hos_person_patient"
+              name="Admission"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="10"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Discharge"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Ambulance"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Doctor Availability"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="OPT Appointment"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="OT Appointment"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Other Appointment"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Ward"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Bed"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Bed Shifting"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Bed Status"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Notes"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Reminder"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Notification"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="Operation"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="OT Booking"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_person_patient"
+              name="OT Procedure"
+              action="action_hos_person_patient"
+              parent="menu_hospital"
+              sequence="20"/>
+
+
+</odoo>

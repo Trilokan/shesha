@@ -14,6 +14,6 @@
     <menuitem id="menu_account" name="Account" sequence="90"/>
     <menuitem id="menu_pharmacy" name="Pharmacy" sequence="95"/>
     <menuitem id="menu_base" name="Base" sequence="100"/>
-
-
+    <menuitem id="menu_hospital" name="Base1" sequence="101"/>
+    
 </odoo>

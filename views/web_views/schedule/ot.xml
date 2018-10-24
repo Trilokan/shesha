@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_schedule_appointment_ot_tree" model="ir.ui.view">
+        <field name="name">hos.schedule.appointment.ot.tree</field>
+        <field name="model">hos.schedule</field>
+        <field name="arch" type="xml">
+            <tree string="Operation Theater">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_schedule_appointment_ot_form" model="ir.ui.view">
+        <field name="name">hos.schedule.appointment.ot.form</field>
+        <field name="model">hos.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Operation Theater">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Operation Theater</h1>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_schedule_appointment_ot" model="ir.actions.act_window">
+        <field name="name">Operation Theater</field>
+        <field name="res_model">hos.schedule</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

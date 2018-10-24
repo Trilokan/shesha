@@ -16,7 +16,7 @@ class JournalEntries(models.Model):
     date = fields.Date(string="Date", default=CURRENT_DATE)
     name = fields.Char(string="Name", readonly=True)
     period_id = fields.Many2one(comodel_name="period.period", string="Period", required=True)
-    journal_id = fields.Many2one(comodel_name="hos.journal", string="Journal")
+    journal_id = fields.Many2one(comodel_name="hos.journal", string="Journal", required=True)
     reference = fields.Char(string="Reference")
     progress = fields.Selection(selection=PROGRESS_INFO, string="Progress", default="draft")
     journal_item = fields.One2many(comodel_name="journal.items", inverse_name="entry_id", string="Journal Item")

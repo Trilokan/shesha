@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_availability_doctor_tree" model="ir.ui.view">
+        <field name="name">hos.availability.tree</field>
+        <field name="model">hos.availability</field>
+        <field name="arch" type="xml">
+            <tree string="Doctor Availability" create="false" delete="false">
+                <field name="employee_id" string="Doctor"/>
+                <field name="from_time"/>
+                <field name="till_time"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_availability_doctor_form" model="ir.ui.view">
+        <field name="name">hos.availability.form</field>
+        <field name="model">hos.availability</field>
+        <field name="arch" type="xml">
+            <form string="Doctor Availability" create="false" delete="false">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Doctor Availability</h1>
+                    </div>
+                    <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    <group>
+                        <field name="employee_id" string="Doctor"/>
+                    </group>
+                    <group col="4">
+                        <field name="from_time"/>
+                        <field name="till_time"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action GRN-->
+    <record id="action_hos_availability_doctor" model="ir.actions.act_window">
+        <field name="name">Doctor Availability</field>
+        <field name="res_model">hos.availability</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_hos_availability_doctor_tree"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_hos_availability_doctor_form">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hos_availability_doctor_form" />
+        <field name="act_window_id" ref="action_hos_availability_doctor"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_hos_availability_doctor_tree">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_hos_availability_doctor_tree"/>
+        <field name="act_window_id" ref="action_hos_availability_doctor"/>
+    </record>
+
+</odoo>
+

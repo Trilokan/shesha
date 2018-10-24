@@ -65,6 +65,7 @@
                     <footer>
                         <button name="trigger_reconcile" string="Reconcile" type="object"/>
                         <button name="trigger_check_balance" string="Balance" type="object"/>
+                        <button name="trigger_journal_entries" string="Journals" type="object"/>
                     </footer>
                 </sheet>
             </form>

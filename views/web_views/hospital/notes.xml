@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_notes_tree" model="ir.ui.view">
+        <field name="name">hos.notes.tree</field>
+        <field name="model">hos.notes</field>
+        <field name="arch" type="xml">
+            <tree string="Notes / Reminder">
+                <field name="current_time"/>
+                <field name="reminder"/>
+                <field name="reminder_time"/>
+                <field name="person_id"/>
+                <field name="message"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_notes_form" model="ir.ui.view">
+        <field name="name">hos.notes.form</field>
+        <field name="model">hos.notes</field>
+        <field name="arch" type="xml">
+            <form string="Notes / Reminder">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Notes / Reminder</h1>
+                    </div>
+
+                    <group>
+                        <field name="current_time"/>
+                        <field name="reminder"/>
+                        <field name="reminder_time"/>
+                        <field name="person_id"/>
+                        <field name="message"/>
+                        <field name="attachment_detail"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_notes" model="ir.actions.act_window">
+        <field name="name">Notes / Reminder</field>
+        <field name="res_model">hos.notes</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -13,7 +13,6 @@ class JournalItems(models.Model):
     _name = "journal.items"
     _rec_name = "name"
 
-    entry_id = fields.Many2one(comodel_name="journal.entries", string="Journal Entries")
     date = fields.Date(string="Date", default=CURRENT_DATE)
     name = fields.Char(string="Name", readonly=True)
     period_id = fields.Many2one(comodel_name="period.period",
@@ -32,7 +31,7 @@ class JournalItems(models.Model):
     credit = fields.Float(string="Credit", default=0)
     debit = fields.Float(string="Debit", default=0)
     reconcile_id = fields.Many2one(comodel_name="hos.reconcile", string="Reconcile")
-
+    entry_id = fields.Many2one(comodel_name="journal.entries", string="Journal Entries")
     company_id = fields.Many2one(comodel_name="res.company", string="Company",
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True)

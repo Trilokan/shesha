@@ -15,3 +15,6 @@ from . import payroll
 from . import purchase
 from . import pharmacy
 from . import invoice
+from . import hospital
+from . import patient
+from . import schedule

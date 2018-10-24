@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_patient_prescription_tree" model="ir.ui.view">
+        <field name="name">patient.prescription.tree</field>
+        <field name="model">patient.prescription</field>
+        <field name="arch" type="xml">
+            <tree string="Prescription">
+                <field name="date"/>
+                <field name="patient_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_patient_prescription_form" model="ir.ui.view">
+        <field name="name">patient.prescription.form</field>
+        <field name="model">patient.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Prescription">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Prescription</h1>
+                    </div>
+                    <div id="p_header">
+                        <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    </div>
+
+                    <group>
+                        <field name="date"/>
+                        <field name="patient_id"/>
+                        <field name="treatment_id"/>
+                        <field name="days"/>
+                    </group>
+                    <field name="medicine_detail">
+                        <tree editable="bottom">
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="morning"/>
+                            <field name="noon"/>
+                            <field name="night"/>
+                            <field name="prescription_type"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_patient_prescription" model="ir.actions.act_window">
+        <field name="name">Prescription</field>
+        <field name="res_model">patient.prescription</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
