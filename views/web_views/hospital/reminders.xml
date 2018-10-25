@@ -2,11 +2,11 @@
 <odoo>
 
     <!-- Tree -->
-    <record id="view_hos_notes_notes_tree" model="ir.ui.view">
-        <field name="name">hos.notes.notes.tree</field>
+    <record id="view_hos_notes_reminder_tree" model="ir.ui.view">
+        <field name="name">hos.notes.reminder.tree</field>
         <field name="model">hos.notes</field>
         <field name="arch" type="xml">
-            <tree string="Notes">
+            <tree string="Reminder">
                 <field name="date"/>
                 <field name="time"/>
                 <field name="person_id"/>
@@ -16,22 +16,23 @@
     </record>
 
     <!-- Form -->
-    <record id="view_hos_notes_notes_form" model="ir.ui.view">
-        <field name="name">hos.notes.notes.form</field>
+    <record id="view_hos_notes_reminder_form" model="ir.ui.view">
+        <field name="name">hos.notes.reminder.form</field>
         <field name="model">hos.notes</field>
         <field name="arch" type="xml">
-            <form string="Notes">
+            <form string="Reminder">
                 <sheet>
                     <div id="s_header">
-                        <h1>Notes</h1>
+                        <h1>Reminder</h1>
                     </div>
                     <group col="4">
                         <field name="date"/>
-                        <field name="person_id" invisible="1"/>
+                        <field name="time" widget="float_time" attrs="{'required': [('reminder', '=', True)], 'invisible': [('reminder', '=', False)]}"/>
                     </group>
                     <group>
                         <field name="message"/>
                         <field name="attachment_detail" widget="many2many_tags"/>
+                        <field name="person_id" invisible="1"/>
                         <field name="reminder" invisible="1"/>
                     </group>
                 </sheet>
@@ -40,27 +41,28 @@
     </record>
 
     <!-- Action -->
-    <record id="action_hos_notes_notes" model="ir.actions.act_window">
-        <field name="name">Notes</field>
+    <record id="action_hos_notes_reminder" model="ir.actions.act_window">
+        <field name="name">Reminder</field>
         <field name="res_model">hos.notes</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('reminder', '=', False)]</field>
-        <field name="view_id" ref="view_hos_notes_notes_tree"/>
+        <field name="domain">[('reminder', '=', True)]</field>
+        <field name="context">{'default_reminder': True}</field>
+        <field name="view_id" ref="view_hos_notes_reminder_tree"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="action_hos_notes_reminder_form">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_hos_notes_notes_form" />
-        <field name="act_window_id" ref="action_hos_notes_notes"/>
+        <field name="view_id" ref="view_hos_notes_reminder_form" />
+        <field name="act_window_id" ref="action_hos_notes_reminder"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="action_hos_notes_reminder_tree">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_hos_notes_notes_tree"/>
-        <field name="act_window_id" ref="action_hos_notes_notes"/>
+        <field name="view_id" ref="view_hos_notes_reminder_tree"/>
+        <field name="act_window_id" ref="action_hos_notes_reminder"/>
     </record>
 
 </odoo>

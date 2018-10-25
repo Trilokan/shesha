@@ -6,7 +6,7 @@
         <field name="name">hos.availability.tree</field>
         <field name="model">hos.availability</field>
         <field name="arch" type="xml">
-            <tree string="Doctor Availability" create="false" delete="false">
+            <tree string="Doctor Availability">
                 <field name="employee_id" string="Doctor"/>
                 <field name="from_time"/>
                 <field name="till_time"/>
@@ -20,7 +20,7 @@
         <field name="name">hos.availability.form</field>
         <field name="model">hos.availability</field>
         <field name="arch" type="xml">
-            <form string="Doctor Availability" create="false" delete="false">
+            <form string="Doctor Availability">
                 <sheet>
                     <div id="s_header">
                         <h1>Doctor Availability</h1>
@@ -33,6 +33,10 @@
                         <field name="from_time"/>
                         <field name="till_time"/>
                     </group>
+                    <footer>
+                        <button name="trigger_confirm" string="Confirm" type="object"/>
+                        <button name="trigger_cancel" string="Cancel" type="object"/>
+                    </footer>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>

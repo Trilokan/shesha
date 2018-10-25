@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_bed_shifting_tree" model="ir.ui.view">
+        <field name="name">bed.shifting.tree</field>
+        <field name="model">bed.shifting</field>
+        <field name="arch" type="xml">
+            <tree string="Patient Shifting">
+                <field name="date"/>
+                <field name="treatment_id"/>
+                <field name="source_id"/>
+                <field name="destination_id"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_bed_shifting_form" model="ir.ui.view">
+        <field name="name">bed.shifting.form</field>
+        <field name="model">bed.shifting</field>
+        <field name="arch" type="xml">
+            <form string="Patient Shifting">
+                <sheet>
+                    <div id="s_header">
+                        <h1>Patient Shifting</h1>
+                    </div>
+                    <div id="p_header">
+                        <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
+                    </div>
+                    <group col="4">
+                        <field name="treatment_id"/>
+                        <field name="date"/>
+                        <field name="source_id"/>
+                        <field name="destination_id"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_bed_shifting" model="ir.actions.act_window">
+        <field name="name">Patient Shifting</field>
+        <field name="res_model">bed.shifting</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

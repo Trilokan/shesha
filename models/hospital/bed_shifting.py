@@ -6,11 +6,12 @@ from datetime import datetime
 PROGRESS = [("draft", "Draft"), ("shifted", "Shifted")]
 
 CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
-CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
+CURRENT_TIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 class BedShifting(models.Model):
     _name = "bed.shifting"
+    _inherit = "mail.thread"
 
     treatment_id = fields.Many2one(comodel_name="hos.treatment", string="Patient", required=True)
     date = fields.Datetime(string="Date", required=True, default=CURRENT_TIME)

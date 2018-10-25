@@ -2,11 +2,11 @@
 <odoo>
 
     <!-- Tree -->
-    <record id="view_admission_discharge_admission_tree" model="ir.ui.view">
-        <field name="name">admission.discharge.admission.tree</field>
+    <record id="view_admission_discharge_discharge_tree" model="ir.ui.view">
+        <field name="name">admission.discharge.discharge.tree</field>
         <field name="model">admission.discharge</field>
         <field name="arch" type="xml">
-            <tree string="Admission">
+            <tree string="Discharge">
                 <field name="name"/>
                 <field name="date"/>
                 <field name="patient_id"/>
@@ -17,14 +17,14 @@
     </record>
 
     <!-- Form -->
-    <record id="view_admission_discharge_admission_form" model="ir.ui.view">
-        <field name="name">admission.discharge.form</field>
+    <record id="view_admission_discharge_discharge_form" model="ir.ui.view">
+        <field name="name">admission.discharge.discharge.form</field>
         <field name="model">admission.discharge</field>
         <field name="arch" type="xml">
-            <form string="Admission">
+            <form string="Discharge">
                 <sheet>
                     <div id="s_header">
-                        <h1>Admission</h1>
+                        <h1>Discharge</h1>
                     </div>
                     <div id="p_header">
                         <field name="discharge_progress" widget="statusbar" style="float: right;padding: 20px;"/>
@@ -79,8 +79,8 @@
     </record>
 
     <!-- Action Admission-->
-    <record id="action_admission_discharge_admission" model="ir.actions.act_window">
-        <field name="name">Admission</field>
+    <record id="action_admission_discharge_discharge" model="ir.actions.act_window">
+        <field name="name">Discharge</field>
         <field name="res_model">admission.discharge</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -88,18 +88,18 @@
         <field name="view_id" ref="view_hos_picking_material_receipt_tree"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_admission_discharge_admission_form">
+    <record model="ir.actions.act_window.view" id="action_admission_discharge_discharge_form">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_admission_discharge_admission_form" />
-        <field name="act_window_id" ref="action_admission_discharge_admission"/>
+        <field name="view_id" ref="view_admission_discharge_discharge_form" />
+        <field name="act_window_id" ref="action_admission_discharge_discharge"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_admission_discharge_admission_tree">
+    <record model="ir.actions.act_window.view" id="action_admission_discharge_discharge_tree">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_admission_discharge_admission_tree"/>
-        <field name="act_window_id" ref="action_admission_discharge_admission"/>
+        <field name="view_id" ref="view_admission_discharge_discharge_tree"/>
+        <field name="act_window_id" ref="action_admission_discharge_discharge"/>
     </record>
 
 

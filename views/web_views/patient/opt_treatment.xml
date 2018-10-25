@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_hos_treatment_opt_tree" model="ir.ui.view">
+        <field name="name">hos.treatment.opt.tree</field>
+        <field name="model">hos.treatment</field>
+        <field name="arch" type="xml">
+            <tree string="OPT Treatment">
+                <field name="name"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_hos_treatment_opt_form" model="ir.ui.view">
+        <field name="name">hos.treatment.opt.form</field>
+        <field name="model">hos.treatment</field>
+        <field name="arch" type="xml">
+            <form string="OPT Treatment">
+                <sheet>
+                    <div id="s_header">
+                        <h1>OPT Treatment</h1>
+                    </div>
+
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="patient_id"/>
+                        <field name="symptoms_detail"/>
+                        <field name="diagnosis_detail"/>
+                        <field name="prescription_suggestion_detail"/>
+                        <field name="prescription_detail"/>
+                        <field name="visit_detail"/>
+                        <field name="bed_shift_detail"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hos_treatment_opt" model="ir.actions.act_window">
+        <field name="name">OPT Treatment</field>
+        <field name="res_model">hos.treatment</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_hos_treatment_opt_tree"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_hos_treatment_opt_form">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hos_treatment_opt_form" />
+        <field name="act_window_id" ref="action_hos_treatment_opt"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_hos_treatment_opt_tree">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_hos_treatment_opt_tree"/>
+        <field name="act_window_id" ref="action_hos_treatment_opt"/>
+    </record>
+
+</odoo>

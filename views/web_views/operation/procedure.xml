@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_ot_procedure_tree" model="ir.ui.view">
+        <field name="name">ot.procedure.tree</field>
+        <field name="model">ot.procedure</field>
+        <field name="arch" type="xml">
+            <tree string="OT Procedure">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="procedure"/>
+                <field name="progress"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_ot_procedure_form" model="ir.ui.view">
+        <field name="name">ot.procedure.form</field>
+        <field name="model">ot.procedure</field>
+        <field name="arch" type="xml">
+            <form string="OT Procedure">
+                <sheet>
+                    <div id="s_header">
+                        <h1>OT Procedure</h1>
+                    </div>
+
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="procedure"/>
+                        <field name="progress"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_ot_procedure" model="ir.actions.act_window">
+        <field name="name">OT Procedure</field>
+        <field name="res_model">ot.procedure</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

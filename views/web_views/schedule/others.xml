@@ -2,11 +2,11 @@
 <odoo>
 
     <!-- Tree -->
-    <record id="view_hos_schedule_ot_tree" model="ir.ui.view">
-        <field name="name">hos.schedule.ot.tree</field>
+    <record id="view_hos_schedule_others_tree" model="ir.ui.view">
+        <field name="name">hos.schedule.others.tree</field>
         <field name="model">hos.schedule</field>
         <field name="arch" type="xml">
-            <tree string="OT">
+            <tree string="Others">
                 <field name="person_id"/>
                 <field name="patient_id"/>
                 <field name="schedule_time"/>
@@ -20,14 +20,14 @@
     </record>
 
     <!-- Form -->
-    <record id="view_hos_schedule_ot_form" model="ir.ui.view">
-        <field name="name">hos.schedule.ot.form</field>
+    <record id="view_hos_schedule_others_form" model="ir.ui.view">
+        <field name="name">hos.schedule.others.form</field>
         <field name="model">hos.schedule</field>
         <field name="arch" type="xml">
-            <form string="OT">
+            <form string="Others">
                 <sheet>
                     <div id="s_header">
-                        <h1>OT</h1>
+                        <h1>Others</h1>
                     </div>
                     <div id="p_header">
                         <field name="progress" widget="statusbar" style="float: right;padding: 20px;"/>
@@ -47,28 +47,28 @@
     </record>
 
     <!-- Action-->
-    <record id="action_hos_schedule_ot" model="ir.actions.act_window">
-        <field name="name">OT</field>
+    <record id="action_hos_schedule_others" model="ir.actions.act_window">
+        <field name="name">Others</field>
         <field name="res_model">hos.schedule</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('schedule_type', '=', 'ot')]</field>
-        <field name="context">{'default_schedule_type': 'ot'}</field>
-        <field name="view_id" ref="view_hos_schedule_ot_tree"/>
+        <field name="domain">[('schedule_type', '=', 'others')]</field>
+        <field name="context">{'default_schedule_type': 'others'}</field>
+        <field name="view_id" ref="view_hos_schedule_others_tree"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_hos_schedule_ot_form">
+    <record model="ir.actions.act_window.view" id="action_hos_schedule_others_form">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_hos_schedule_ot_form" />
-        <field name="act_window_id" ref="action_hos_schedule_ot"/>
+        <field name="view_id" ref="view_hos_schedule_others_form" />
+        <field name="act_window_id" ref="action_hos_schedule_others"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_hos_schedule_ot_tree">
+    <record model="ir.actions.act_window.view" id="action_hos_schedule_others_tree">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_hos_schedule_ot_tree"/>
-        <field name="act_window_id" ref="action_hos_schedule_ot"/>
+        <field name="view_id" ref="view_hos_schedule_others_tree"/>
+        <field name="act_window_id" ref="action_hos_schedule_others"/>
     </record>
 
 </odoo>

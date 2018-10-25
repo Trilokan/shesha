@@ -18,3 +18,4 @@ from . import invoice
 from . import hospital
 from . import patient
 from . import schedule
+from . import operation

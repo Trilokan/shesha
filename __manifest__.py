@@ -166,16 +166,28 @@
             'views/web_views/hospital/ambulance.xml',
             'views/web_views/hospital/ward.xml',
             'views/web_views/hospital/bed.xml',
+            'views/web_views/hospital/bed_shifting.xml',
             'views/web_views/hospital/notes.xml',
+            'views/web_views/hospital/reminders.xml',
             'views/web_views/hospital/notification.xml',
             'views/web_views/hospital/admission.xml',
             'views/web_views/hospital/discharge.xml',
             'views/web_views/hospital/doctor_availability.xml',
 
+            # Schedule
+            'views/web_views/schedule/opt.xml',
+            'views/web_views/schedule/ot.xml',
+            'views/web_views/schedule/others.xml',
+
+            # Operation
+            'views/web_views/operation/procedure.xml',
+
             # Patient
             'views/web_views/patient/symptoms.xml',
             'views/web_views/patient/diagnosis.xml',
             'views/web_views/patient/prescription.xml',
+            'views/web_views/patient/ipt_treatment.xml',
+            'views/web_views/patient/opt_treatment.xml',
 
         # Menu
         'menu/base_pack.xml',
@@ -190,6 +202,7 @@
         'menu/recruitment.xml',
         'menu/purchase.xml',
         # 'menu/pharmacy.xml',
+        'menu/hospital.xml',
         'menu/asserts.xml',
 
     ],

@@ -4,7 +4,7 @@ from odoo import fields, models, api, exceptions, _
 from datetime import datetime
 
 CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
-CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
+CURRENT_TIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 PROGRESS_INFO = [("draft", "Draft"), ("confirmed", "Confirmed"), ("cancel", "Cancel")]
 

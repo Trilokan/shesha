@@ -4,7 +4,7 @@ from odoo import models, fields, api, exceptions
 from datetime import datetime
 
 CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
-CURRENT_TIME = datetime.now().strftime("%d-%m-%Y %H:%M")
+CURRENT_TIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 JOURNEY_TYPE = [("admission", "Admission"), ("discharge", "Discharge"), ("hospital_transfer", "Hospital Transfer")]
 PROGRESS = [("draft", "Draft"), ("confirmed", "Confirmed"), ("done", "Done"), ("cancel", "Cancel")]
@@ -12,7 +12,7 @@ PROGRESS = [("draft", "Draft"), ("confirmed", "Confirmed"), ("done", "Done"), ("
 
 class Ambulance(models.Model):
     _name = "hos.ambulance"
-    _inherit = "hos.address"
+    _inherit = "mail.thread"
 
     name = fields.Char(sring="Name", readonly=True)
     date = fields.Date(string="Date", required=True, default=CURRENT_DATE)
@@ -23,11 +23,15 @@ class Ambulance(models.Model):
     journey_type = fields.Selection(selection=JOURNEY_TYPE, string="Journey Type", default="admission")
     from_time = fields.Datetime(string="From Time", default=CURRENT_TIME)
     till_time = fields.Datetime(string="Till Time", default=CURRENT_TIME)
+    from_location = fields.Text(string="From Location")
+    till_location = fields.Text(string="Till Location")
+    landmark = fields.Text(string="Landmark")
     duration = fields.Float(string="Duration", default=0)
     distance = fields.Float(string="Distance", default=0)
-    unit_price = fields.Float(string="Unit Price", default=0)
+    amount = fields.Float(string="Amount", default=0)
     invoice_id = fields.Many2one(comodel_name="hos.invoice", string="Invoice")
     comment = fields.Text(string="Comment")
+    writter = fields.Text(string="Writter", track_visibility='always')
 
     @api.multi
     def trigger_cancel(self):

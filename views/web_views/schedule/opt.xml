@@ -10,7 +10,7 @@
                 <field name="person_id"/>
                 <field name="patient_id"/>
                 <field name="schedule_time"/>
-                <field name="schedule_type_id"/>
+                <field name="schedule_type"/>
                 <field name="reason"/>
                 <field name="reference"/>
                 <field name="comment"/>
@@ -34,7 +34,7 @@
                     </div>
                     <group>
                         <field name="schedule_time"/>
-                        <field name="schedule_type_id"/>
+                        <field name="schedule_type"/>
                         <field name="person_id"/>
                         <field name="patient_id"/>
                         <field name="reason"/>
@@ -49,25 +49,26 @@
     <!-- Action-->
     <record id="action_hos_schedule_opt" model="ir.actions.act_window">
         <field name="name">OPT</field>
-        <field name="res_model">hos.picking</field>
+        <field name="res_model">hos.schedule</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('picking_category', '=', 'material_receipt')]</field>
-        <field name="view_id" ref="view_hos_picking_material_receipt_tree"/>
+        <field name="domain">[('schedule_type', '=', 'opt')]</field>
+        <field name="context">{'default_schedule_type': 'opt'}</field>
+        <field name="view_id" ref="view_hos_schedule_opt_tree"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_hos_picking_material_receipt_form">
+    <record model="ir.actions.act_window.view" id="action_hos_schedule_opt_form">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_hos_picking_material_receipt_form" />
-        <field name="act_window_id" ref="action_hos_picking_material_receipt"/>
+        <field name="view_id" ref="view_hos_schedule_opt_form" />
+        <field name="act_window_id" ref="action_hos_schedule_opt"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_hos_picking_material_receipt_tree">
+    <record model="ir.actions.act_window.view" id="action_hos_schedule_opt_tree">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_hos_picking_material_receipt_tree"/>
-        <field name="act_window_id" ref="action_hos_picking_material_receipt"/>
+        <field name="view_id" ref="view_hos_schedule_opt_tree"/>
+        <field name="act_window_id" ref="action_hos_schedule_opt"/>
     </record>
 
 </odoo>

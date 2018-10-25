@@ -1,108 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!--Contact-->
-    <menuitem id="hospital_hos_person_patient"
+    <!--Hospital-->
+    <menuitem id="hospital_admission_discharge_admission"
               name="Admission"
-              action="action_hos_person_patient"
+              action="action_admission_discharge_admission"
               parent="menu_hospital"
               sequence="10"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_admission_discharge_discharge"
               name="Discharge"
-              action="action_hos_person_patient"
+              action="action_admission_discharge_discharge"
               parent="menu_hospital"
               sequence="20"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_ambulance"
               name="Ambulance"
-              action="action_hos_person_patient"
+              action="action_hos_ambulance"
               parent="menu_hospital"
-              sequence="20"/>
+              sequence="70"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_availability_doctor"
               name="Doctor Availability"
-              action="action_hos_person_patient"
+              action="action_hos_availability_doctor"
               parent="menu_hospital"
-              sequence="20"/>
+              sequence="80"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_schedule_opt"
               name="OPT Appointment"
-              action="action_hos_person_patient"
+              action="action_hos_schedule_opt"
               parent="menu_hospital"
               sequence="20"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_schedule_ot"
               name="OT Appointment"
-              action="action_hos_person_patient"
+              action="action_hos_schedule_ot"
               parent="menu_hospital"
               sequence="20"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_schedule_others"
               name="Other Appointment"
-              action="action_hos_person_patient"
+              action="action_hos_schedule_others"
               parent="menu_hospital"
               sequence="20"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_ward"
               name="Ward"
-              action="action_hos_person_patient"
+              action="action_hos_ward"
               parent="menu_hospital"
-              sequence="20"/>
+              sequence="10"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_bed"
               name="Bed"
-              action="action_hos_person_patient"
+              action="action_hos_bed"
               parent="menu_hospital"
               sequence="20"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_bed_shifting"
               name="Bed Shifting"
-              action="action_hos_person_patient"
+              action="action_bed_shifting"
               parent="menu_hospital"
-              sequence="20"/>
+              sequence="30"/>
 
-    <menuitem id="hospital_hos_person_patient"
-              name="Bed Status"
-              action="action_hos_person_patient"
-              parent="menu_hospital"
-              sequence="20"/>
+    <!--<menuitem id="hospital_hos_person_patient"-->
+              <!--name="Bed Status"-->
+              <!--action="action_hos_person_patient"-->
+              <!--parent="menu_hospital"-->
+              <!--sequence="20"/>-->
 
-    <menuitem id="hospital_hos_person_patient"
-              name="Notes"
-              action="action_hos_person_patient"
-              parent="menu_hospital"
-              sequence="20"/>
-
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_notes_reminder"
               name="Reminder"
-              action="action_hos_person_patient"
+              action="action_hos_notes_reminder"
               parent="menu_hospital"
-              sequence="20"/>
+              sequence="40"/>
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_hos_notes_notes"
+              name="Notes"
+              action="action_hos_notes_notes"
+              parent="menu_hospital"
+              sequence="50"/>
+
+    <menuitem id="hospital_hos_notification"
               name="Notification"
-              action="action_hos_person_patient"
+              action="action_hos_notification"
               parent="menu_hospital"
-              sequence="20"/>
+              sequence="60"/>
 
-    <menuitem id="hospital_hos_person_patient"
-              name="Operation"
-              action="action_hos_person_patient"
-              parent="menu_hospital"
-              sequence="20"/>
+    <!--<menuitem id="hospital_hos_person_patient"-->
+              <!--name="Operation"-->
+              <!--action="action_hos_person_patient"-->
+              <!--parent="menu_hospital"-->
+              <!--sequence="20"/>-->
 
-    <menuitem id="hospital_hos_person_patient"
-              name="OT Booking"
-              action="action_hos_person_patient"
-              parent="menu_hospital"
-              sequence="20"/>
+    <!--<menuitem id="hospital_hos_person_patient"-->
+              <!--name="OT Booking"-->
+              <!--action="action_hos_person_patient"-->
+              <!--parent="menu_hospital"-->
+              <!--sequence="20"/>-->
 
-    <menuitem id="hospital_hos_person_patient"
+    <menuitem id="hospital_ot_procedure"
               name="OT Procedure"
-              action="action_hos_person_patient"
+              action="action_ot_procedure"
               parent="menu_hospital"
               sequence="20"/>
 
+    <menuitem id="hospital_hos_treatment_ipt"
+              name="IPT Treatment"
+              action="action_hos_treatment_ipt"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_hos_treatment_opt"
+              name="OPT Treatment"
+              action="action_hos_treatment_opt"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_patient_prescription"
+              name="Prescription"
+              action="action_patient_prescription"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_patient_diagnosis"
+              name="Diagnosis"
+              action="action_patient_diagnosis"
+              parent="menu_hospital"
+              sequence="20"/>
+
+    <menuitem id="hospital_patient_symptoms"
+              name="Symptoms"
+              action="action_patient_symptoms"
+              parent="menu_hospital"
+              sequence="20"/>
 
 </odoo>
